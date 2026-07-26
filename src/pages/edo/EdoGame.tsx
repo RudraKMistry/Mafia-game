@@ -421,6 +421,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                     </form>
                 </div>
             </div>
+        </div>
         </>
         )}
       </div>
