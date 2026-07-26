@@ -217,7 +217,7 @@ export default function Home() {
           }}
           className="px-8 py-4 bg-zinc-800 text-zinc-300 font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1"
         >
-          Ronin's Gambit
+          Yakuza
         </button>
       </div>
 

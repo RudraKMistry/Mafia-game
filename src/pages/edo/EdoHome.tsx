@@ -95,8 +95,8 @@ export default function EdoHome() {
               <div className="h-[1px] w-12 bg-red-800 hidden lg:block"></div>
            </div>
            
-           <h1 className="text-6xl sm:text-7xl lg:text-8xl text-white tracking-widest mb-6 font-bold uppercase drop-shadow-[0_0_15px_rgba(139,0,0,0.5)] leading-tight">
-             RONIN'S<br/>GAMBIT
+           <h1 className="text-6xl sm:text-7xl lg:text-8xl lg:text-[7rem] text-white tracking-[0.2em] mb-6 font-bold uppercase drop-shadow-[0_0_20px_rgba(139,0,0,0.8)] leading-tight">
+             YAKUZA
            </h1>
            
            <p className="font-serif text-gray-400 text-lg sm:text-xl leading-relaxed max-w-lg mb-8">
