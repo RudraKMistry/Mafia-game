@@ -247,6 +247,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         
         {/* Game Board */}
         {gameState !== 'dossier' && gameState !== 'transition' && (
+        <>
         <div className="flex-1 flex flex-col p-4 md:p-8 relative h-full animate-in fade-in duration-1000">
             
             {/* Header */}
@@ -420,7 +421,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                     </form>
                 </div>
             </div>
-        </div>
+        </>
         )}
       </div>
 
