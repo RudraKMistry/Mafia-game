@@ -71,7 +71,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
   const { state: gameState, players, notes, revealData, winner, transitionText, votes, nightActions } = room;
   const activePlayer = players.find((p: any) => p.id === playerId) || players[0];
   const isHost = players[0]?.id === playerId;
-  const isNight = gameState === 'night';
+  const isNight = gameState === 'night' || gameState === 'dossier' || gameState === 'game_over' || (gameState === 'transition' && room.nextState === 'night');
   const roleId = activePlayer?.role?.id;
 
   const handleStampAction = () => {
@@ -90,10 +90,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
   };
 
   const renderDossier = () => (
-    <div className="min-h-[100dvh] edo-bg-night flex items-center justify-center p-4 text-gray-200 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-      
-      <div className="bg-black/60 backdrop-blur-md border border-gray-800 shadow-2xl max-w-2xl w-full p-8 md:p-12 relative z-10 text-center">
+      <div className="bg-black/60 backdrop-blur-md border border-gray-800 shadow-2xl max-w-2xl w-full p-8 md:p-12 relative z-10 text-center mx-auto my-auto animate-in fade-in zoom-in-95 duration-1000">
         <div className="border-b border-gray-800 pb-6 mb-8 mt-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest mb-2 uppercase drop-shadow-md">The First Dawn</h1>
           <p className="font-serif text-gray-400 font-bold text-xs tracking-widest uppercase">Secret Role Assignment</p>
@@ -123,13 +120,10 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
           {isHost ? 'Embrace Destiny' : 'Awaiting Clan Leader...'}
         </button>
       </div>
-    </div>
   );
 
   const renderTransition = () => (
-    <div className="min-h-[100dvh] edo-bg-night flex flex-col items-center justify-center p-8 text-center text-gray-200 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-      <div className="relative z-10 max-w-3xl">
+      <div className="relative z-10 max-w-3xl mx-auto my-auto text-center animate-in fade-in zoom-in-95 duration-1000">
         <h1 className="text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase text-white mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
             {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
         </h1>
@@ -137,7 +131,6 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
             {transitionText}
         </p>
       </div>
-    </div>
   );
 
   const renderReveal = (rData: any, isPrivate: boolean) => (
@@ -194,8 +187,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
     </div>
   );
 
-  if (gameState === 'dossier') return renderDossier();
-  if (gameState === 'transition') return renderTransition();
+
 
   let actionLabel = "";
   let actionIcon: any = null;
@@ -249,8 +241,13 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
       <div className="flex-1 flex flex-col md:flex-row relative z-10 overflow-hidden">
         
+        {/* State Content */}
+        {gameState === 'dossier' && renderDossier()}
+        {gameState === 'transition' && renderTransition()}
+        
         {/* Game Board */}
-        <div className="flex-1 flex flex-col p-4 md:p-8 relative h-full">
+        {gameState !== 'dossier' && gameState !== 'transition' && (
+        <div className="flex-1 flex flex-col p-4 md:p-8 relative h-full animate-in fade-in duration-1000">
             
             {/* Header */}
             <div className={`text-center mb-8 pb-6 border-b border-gray-800 transition-colors duration-1000`}>
@@ -424,13 +421,14 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                 </div>
             </div>
         </div>
+        )}
       </div>
 
       {revealData && renderReveal(revealData, false)}
       {privateReveal && renderReveal(privateReveal, true)}
 
       {gameState === 'game_over' && (
-         <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+         <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 animate-in fade-in duration-1000">
             <h1 className="text-5xl md:text-7xl font-bold text-red-500 tracking-[0.2em] mb-4 uppercase text-center drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
                {winner?.team === 'MAFIA' ? 'Yakuza Victory' : winner?.team === 'TOWN' ? 'Heimin Victory' : 'Kitsune Victory'}
             </h1>

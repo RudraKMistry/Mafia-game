@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Search, Skull, Shield, CheckCircle, 
-  Settings, VenetianMask, Coffee, Clock,
+  Search, Skull, Shield, 
+  VenetianMask, Clock,
   Eye, Flame, Heart, FileSignature
 } from 'lucide-react';
 
@@ -15,7 +15,7 @@ export default function GameMobile({ gameStateData }: { gameStateData: any }) {
   const navigate = useNavigate();
   const { 
     room, playerId, privateReveal, setPrivateReveal, 
-    addNote, startGame, handleStampAction: doStampAction, advancePhase, continueReport, returnToLobby 
+    addNote, startGame, handleStampAction: doStampAction, continueReport, returnToLobby 
   } = gameStateData;
 
   const [selectedTarget, setSelectedTarget] = useState(null);
@@ -341,7 +341,7 @@ export default function GameMobile({ gameStateData }: { gameStateData: any }) {
 
                       {isVoting && !isDead && !room.settings.anonVoting && (
                         <div className="absolute -right-4 top-1/2 font-handwriting font-bold text-2xl text-red-800 rotate-12">
-                           {Object.values(votes).filter(vId => vId === p.id).map((_, i) => '|').join('')}
+                           {Object.values(votes).filter(vId => vId === p.id).map(() => '|').join('')}
                         </div>
                       )}
                     </button>

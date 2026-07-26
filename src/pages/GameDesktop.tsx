@@ -15,12 +15,11 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
   const navigate = useNavigate();
   const { 
     room, playerId, privateReveal, setPrivateReveal, 
-    addNote, startGame, handleStampAction: doStampAction, advancePhase, continueReport, returnToLobby
+    startGame, handleStampAction: doStampAction, continueReport, returnToLobby
   } = gameStateData;
 
-  const [selectedTarget, setSelectedTarget] = useState(null);
-  const [noteInput, setNoteInput] = useState('');
-  const notesEndRef = useRef(null);
+  const [selectedTarget, setSelectedTarget] = useState<string | number | null>(null);
+  const notesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (notesEndRef.current) {
@@ -347,7 +346,7 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
 
                       {isVoting && !isDead && !room.settings.anonVoting && (
                         <div className="absolute -right-4 top-1/2 font-handwriting font-bold text-2xl text-red-800 rotate-12">
-                           {Object.values(votes).filter(vId => vId === p.id).map((_, i) => '|').join('')}
+                           {Object.values(votes).filter(vId => vId === p.id).map(() => '|').join('')}
                         </div>
                       )}
                     </button>
