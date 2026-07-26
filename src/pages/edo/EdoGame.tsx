@@ -60,6 +60,12 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
     return () => clearInterval(interval);
   }, [room?.phaseEndTime]);
 
+  useEffect(() => {
+    if (room?.state === 'lobby') {
+      navigate(`/lobby/${room.id}`);
+    }
+  }, [room?.state, room?.id, navigate]);
+
   if (!room) return <div className="min-h-screen edo-bg-night flex items-center justify-center text-gray-200 font-serif">Awaiting connection...</div>;
 
   const { state: gameState, players, notes, revealData, winner, transitionText, votes, nightActions } = room;
@@ -426,9 +432,9 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
       {gameState === 'game_over' && (
          <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
             <h1 className="text-5xl md:text-7xl font-bold text-red-500 tracking-[0.2em] mb-4 uppercase text-center drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
-               {winner === 'mafia' ? 'Yakuza Victory' : winner === 'villager' ? 'Heimin Victory' : 'Kitsune Victory'}
+               {winner?.team === 'MAFIA' ? 'Yakuza Victory' : winner?.team === 'TOWN' ? 'Heimin Victory' : 'Kitsune Victory'}
             </h1>
-            <p className="text-gray-400 uppercase tracking-widest mb-10 text-sm">The conflict has ended.</p>
+            <p className="text-gray-400 uppercase tracking-widest mb-10 text-sm">{winner?.text || "The conflict has ended."}</p>
             <button onClick={returnToLobby} className="px-10 py-4 bg-transparent border-2 border-red-900 text-red-500 font-bold uppercase tracking-widest hover:bg-red-900/20 transition-all">
                Return to Clan Gathering
             </button>
