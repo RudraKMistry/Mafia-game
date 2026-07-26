@@ -185,7 +185,7 @@ export default function MobileHome() {
                     value={joinCode}
                     onChange={(e) => setJoinCode(e.target.value)}
                     maxLength={6}
-                    className="w-full bg-white/50 border-[3px] border-black p-2 font-typewriter-md text-xl uppercase outline-none focus:bg-white transition-colors"
+                    className="w-full bg-white/50 border-[3px] border-black p-2 font-typewriter-md text-xl uppercase outline-none focus:bg-white transition-colors text-black"
                     placeholder="e.g. XY9Z"
                     required
                   />
