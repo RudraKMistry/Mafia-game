@@ -7,6 +7,15 @@
     <title>app</title>
   </head>
   <body>
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        document.body.innerHTML += '<div style="color:red; background:white; position:absolute; top:0; left:0; z-index:9999; padding:20px; font-size:20px; font-family:monospace;"><b>Global Error:</b> ' + message + '<br>' + (error && error.stack ? error.stack.replace(/\n/g, '<br>') : '') + '</div>';
+        return false;
+      };
+      window.addEventListener("unhandledrejection", function(event) {
+        document.body.innerHTML += '<div style="color:red; background:white; position:absolute; top:0; left:0; z-index:9999; padding:20px; font-size:20px; font-family:monospace;"><b>Unhandled Promise:</b> ' + event.reason + '</div>';
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
