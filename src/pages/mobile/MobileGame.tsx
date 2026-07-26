@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FolderOpen, Skull, Eye, History, Check, Search, Shield, CheckCircle, VenetianMask, Clock, Flame, Heart, Fingerprint } from "lucide-react";
+import { FolderOpen, Skull, Eye, History, Check, Search, Shield, VenetianMask, Clock, Flame, Heart, Fingerprint } from "lucide-react";
 
 import MobileReveal from './MobileReveal';
 
@@ -9,13 +9,12 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
   
   const { 
     room, playerId, privateReveal, setPrivateReveal, 
-    addNote, startGame, handleStampAction: doStampAction, continueReport, returnToLobby, skipDiscussion 
+    startGame, handleStampAction: doStampAction, continueReport, returnToLobby, skipDiscussion 
   } = gameStateData;
 
   const [selectedTarget, setSelectedTarget] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'evidence' | 'log'>('evidence');
   const [timeLeftStr, setTimeLeftStr] = useState<string | null>(null);
-  const [noteInput, setNoteInput] = useState('');
   const notesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
