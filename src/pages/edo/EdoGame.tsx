@@ -90,7 +90,8 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
   };
 
   const renderDossier = () => (
-      <div className="bg-black/60 backdrop-blur-md border border-gray-800 shadow-2xl max-w-2xl w-full p-8 md:p-12 relative z-10 text-center mx-auto my-auto animate-in fade-in zoom-in-95 duration-1000">
+    <div className="flex-1 w-full flex items-center justify-center relative z-10 animate-in fade-in duration-1000 p-4">
+      <div className="bg-black/60 backdrop-blur-md border border-gray-800 shadow-2xl max-w-2xl w-full p-8 md:p-12 text-center animate-in zoom-in-95 duration-1000">
         <div className="border-b border-gray-800 pb-6 mb-8 mt-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest mb-2 uppercase drop-shadow-md">The First Dawn</h1>
           <p className="font-serif text-gray-400 font-bold text-xs tracking-widest uppercase">Secret Role Assignment</p>
@@ -120,18 +121,24 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
           {isHost ? 'Embrace Destiny' : 'Awaiting Clan Leader...'}
         </button>
       </div>
+    </div>
   );
 
-  const renderTransition = () => (
-      <div className="relative z-10 max-w-3xl mx-auto my-auto text-center animate-in fade-in zoom-in-95 duration-1000">
-        <h1 className="text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase text-white mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-            {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
-        </h1>
-        <p className="font-serif text-xl md:text-2xl text-gray-300 italic max-w-xl mx-auto leading-relaxed">
-            {transitionText}
-        </p>
+  const renderTransition = () => {
+    const isNightTransition = room.nextState === 'night';
+    return (
+      <div className="flex-1 w-full flex items-center justify-center relative z-10 animate-in fade-in duration-1000 p-4">
+        <div className="max-w-3xl text-center animate-in zoom-in-95 duration-1000">
+          <h1 className={`text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase mb-8 ${isNightTransition ? 'text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]' : 'text-[#8b0000] drop-shadow-md'}`}>
+              {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
+          </h1>
+          <p className={`font-serif text-xl md:text-2xl italic max-w-xl mx-auto leading-relaxed ${isNightTransition ? 'text-gray-300' : 'text-[#4e342e]'}`}>
+              {transitionText}
+          </p>
+        </div>
       </div>
-  );
+    );
+  };
 
   const renderReveal = (rData: any, isPrivate: boolean) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
