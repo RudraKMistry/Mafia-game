@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, UserPlus, X, Flame, Heart, Search, VenetianMask, Bot } from "lucide-react";
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function MobileHome() {
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
   const [modalMode, setModalMode] = useState<'host' | 'join' | 'bots' | null>(null);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('mafia_playerName') || '');
   const [joinCode, setJoinCode] = useState('');
-  const [showWipError, setShowWipError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -204,35 +205,19 @@ export default function MobileHome() {
 
       {/* UI Theme Switcher */}
       <div className="mt-2 flex flex-row gap-2 z-40 pb-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-        <button className="px-3 py-2 bg-[#8b0000] text-white font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:bg-red-950 transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 cursor-default">
+        <button 
+          onClick={() => setTheme('1930s')}
+          className={`px-3 py-2 font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 ${theme === '1930s' ? 'bg-[#8b0000] text-white cursor-default' : 'bg-[#1a0f0a] text-[#8e706b] hover:bg-black hover:text-white'}`}
+        >
           1930's Theme
         </button>
         <button 
-          onClick={() => setShowWipError(true)}
-          className="px-3 py-2 bg-[#1a0f0a] text-[#8e706b] font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1"
+          onClick={() => setTheme('modern')}
+          className={`px-3 py-2 font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 ${theme === 'modern' ? 'bg-[#8b0000] text-white cursor-default' : 'bg-[#1a0f0a] text-[#8e706b] hover:bg-black hover:text-white'}`}
         >
-          Work In Progress
+          Modern Theme
         </button>
       </div>
-
-      {showWipError && (
-        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-300">
-          <div className="m-paper-texture max-w-xs w-full p-4 shadow-[8px_8px_0px_rgba(0,0,0,1)] relative border-[3px] border-black -rotate-1">
-            <h2 className="font-headline-lg text-xl font-black text-center mb-4 uppercase border-b-[3px] border-black/20 pb-2 text-[#8b0000]">
-              ACCESS DENIED
-            </h2>
-            <p className="font-typewriter-md text-center text-sm mb-6 font-bold text-black bg-white/50 p-3 border-[2px] border-black/10 shadow-inner leading-relaxed">
-              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chaltu che.
-            </p>
-            <button 
-              onClick={() => setShowWipError(false)}
-              className="neo-brutalist-button w-full border-[3px] border-black bg-black text-white py-3 font-headline-lg font-black text-lg uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[3px_3px_0px_rgba(255,255,255,0.2)] active:shadow-[1px_1px_0px_rgba(255,255,255,0.2)] active:translate-y-1 active:translate-x-1"
-            >
-              UNDERSTOOD
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
