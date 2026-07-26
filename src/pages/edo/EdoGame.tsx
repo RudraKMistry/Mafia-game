@@ -228,7 +228,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
     : (gameState === 'day_voting' ? "The tribunal convenes. Cast your vote." : "The Emperor's peace holds. Discuss the traitors among you.");
 
   return (
-    <div className={`h-[100dvh] w-[100dvw] flex flex-col overflow-hidden edo-theme bg-[#0a0a0c] text-gray-200 relative`}>
+    <div className={`h-[100dvh] w-[100dvw] flex flex-col overflow-hidden edo-theme ${isNight ? 'bg-[#0a0a0c] text-gray-200' : 'bg-[#eaddd3] text-[#2c1b18]'} transition-colors duration-[2000ms] relative`}>
       
       {/* Background & Particles */}
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay z-0"></div>
@@ -248,23 +248,14 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
             
             {/* Header */}
             <div className={`text-center mb-8 pb-6 border-b border-gray-800 transition-colors duration-1000`}>
-                <h1 className={`text-4xl md:text-5xl font-bold tracking-[0.15em] uppercase ${isNight ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-white'}`}>{phaseTitle}</h1>
-                <p className="text-gray-400 text-sm md:text-base tracking-wider uppercase mt-3">{phaseSub}</p>
-                {timeLeftStr && <div className="text-2xl font-bold mt-3 font-serif text-white">{timeLeftStr}</div>}
+                <h1 className={`text-4xl md:text-5xl font-bold tracking-[0.15em] uppercase transition-colors duration-[2000ms] ${isNight ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-[#8b0000]'}`}>{phaseTitle}</h1>
+                <p className={`text-sm md:text-base tracking-wider uppercase mt-3 transition-colors duration-[2000ms] ${isNight ? 'text-gray-400' : 'text-[#4e342e]'}`}>{phaseSub}</p>
+                {timeLeftStr && <div className={`text-2xl font-bold mt-3 font-serif transition-colors duration-[2000ms] ${isNight ? 'text-white' : 'text-[#2c1b18]'}`}>{timeLeftStr}</div>}
             </div>
 
             <div className="flex-1 overflow-y-auto no-scrollbar pb-32 md:pb-0">
                 
-                {gameState === 'day_voting' && !activePlayer?.isDead && (
-                   <div className="flex justify-center w-full mb-8">
-                     <button 
-                       onClick={() => setSelectedTarget('skip')}
-                       className="px-8 py-3 bg-white/5 border border-gray-600 hover:border-white hover:bg-white/10 text-white font-bold uppercase tracking-widest text-sm transition-all"
-                     >
-                       Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
-                     </button>
-                   </div>
-                )}
+
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto" id="players-grid">
                     {players.map((p: any) => {
@@ -292,7 +283,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
                         return (
                             <div key={p.id} onClick={() => !isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting') && setSelectedTarget(p.id)} 
-                                 className={`relative aspect-[3/4] bg-[#111]/80 backdrop-blur-sm border p-4 flex flex-col items-center justify-center transition-all duration-300 ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
+                                 className={`relative aspect-[3/4] ${isNight ? 'bg-[#111]/80 border-gray-800 text-white' : 'bg-white/60 border-[#d4c5b3] text-[#2c1b18] shadow-md'} backdrop-blur-sm border p-4 flex flex-col items-center justify-center transition-all duration-300 ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
                                 
                                 <div className="absolute inset-0 z-10 pointer-events-none">{isDead && SVGS.slash}</div>
                                 
@@ -301,11 +292,11 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                                 )}
 
                                 <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-[#0a0a0c] border border-gray-700 flex items-center justify-center text-gray-400 mb-3 drop-shadow-md">
+                                    <div className={`w-12 h-12 md:w-16 md:h-16 border flex items-center justify-center mb-3 drop-shadow-md transition-colors duration-1000 ${isNight ? 'bg-[#0a0a0c] border-gray-700 text-gray-400' : 'bg-white border-[#d4c5b3] text-[#2c1b18]'}`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                                     </div>
                                     
-                                    <h3 className="font-bold text-base md:text-lg text-white tracking-widest uppercase truncate w-full text-center">
+                                    <h3 className={`font-bold text-base md:text-lg tracking-widest uppercase truncate w-full text-center transition-colors duration-1000 ${isNight ? 'text-white' : 'text-[#2c1b18]'}`}>
                                         {p.name}
                                     </h3>
                                     
@@ -326,6 +317,17 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                         );
                     })}
                 </div>
+
+                {gameState === 'day_voting' && !activePlayer?.isDead && (
+                   <div className="flex justify-center w-full mt-10">
+                     <button 
+                       onClick={() => setSelectedTarget('skip')}
+                       className={`px-8 py-3 border font-bold uppercase tracking-widest text-sm transition-all ${isNight ? 'bg-white/5 border-gray-600 hover:border-white hover:bg-white/10 text-white' : 'bg-black/5 border-[#2c1b18] hover:bg-black/10 text-[#2c1b18]'}`}
+                     >
+                       Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
+                     </button>
+                   </div>
+                )}
                 
                 {gameState === 'day_discussion' && !activePlayer?.isDead && (
                    <div className="flex justify-center w-full mt-10">
