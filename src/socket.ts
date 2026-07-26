@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-// Use the current hostname to connect to the backend on the same machine
-const SOCKET_URL = `http://${window.location.hostname}:3001`;
+// Use undefined in production so socket.io defaults to window.location.origin
+const SOCKET_URL = import.meta.env.PROD ? undefined : `http://${window.location.hostname}:3001`;
 
 export const socket = io(SOCKET_URL);
