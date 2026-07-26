@@ -101,7 +101,7 @@ export default function EdoMobileLobby() {
           </div>
           <div>
             <span className="font-bold px-2 py-1 text-xs bg-[#8b0000] text-white border border-[#1a1a1a] shadow-sm">
-              {players.length} / 12
+              {players.length}
             </span>
           </div>
         </div>
@@ -157,12 +157,14 @@ export default function EdoMobileLobby() {
                   </div>
                 ))}
                 
-                {/* Empty slots */}
-                {Array.from({ length: Math.max(0, 12 - players.length) }).map((_, i) => (
-                  <div key={`empty-${i}`} className="shoji-frame bg-[#eaddd3] rounded-sm h-28 relative flex items-center justify-center p-2 opacity-50 border-dashed border-[#5a403c] border-2">
-                     <span className="text-xs text-[#5a403c] uppercase tracking-widest font-bold">Empty</span>
+                {isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' && (
+                  <div 
+                    onClick={handleAddBot}
+                    className="shoji-frame bg-[#eaddd3] rounded-sm h-28 relative flex items-center justify-center p-2 opacity-50 border-dashed border-[#5a403c] border-2 cursor-pointer hover:opacity-100"
+                  >
+                     <span className="text-xs text-[#5a403c] uppercase tracking-widest font-bold">+ ADD AI SUBJECT</span>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}

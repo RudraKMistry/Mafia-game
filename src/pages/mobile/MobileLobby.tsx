@@ -64,7 +64,7 @@ export default function MobileLobby() {
             </div>
             <div>
               <span className="font-typewriter-md font-bold px-1.5 py-0.5 text-xs bg-[#fee2dd] border-2 border-black rotate-2 inline-block shadow-[1px_1px_0px_#000000]">
-                {players.length} / 12
+                {players.length}
               </span>
             </div>
           </div>
@@ -133,13 +133,13 @@ export default function MobileLobby() {
                     );
                   })}
 
-                  {players.length < 12 && (
+                  {isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' && (
                     <li 
-                      className={`border-2 border-dashed border-[#8e706b] p-2 flex items-center justify-center gap-1.5 bg-[#fff8f6]/50 mt-2 transition-colors ${isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' ? 'cursor-pointer hover:bg-[#fee2dd]' : ''}`} 
-                      onClick={isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' ? handleAddBot : undefined}
+                      className={`border-2 border-dashed border-[#8e706b] p-2 flex items-center justify-center gap-1.5 bg-[#fff8f6]/50 mt-2 transition-colors cursor-pointer hover:bg-[#fee2dd]`} 
+                      onClick={handleAddBot}
                     >
                       <UserPlus className="text-[#8e706b] w-4 h-4" />
-                      <span className="font-typewriter-md text-sm text-[#8e706b]">{isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' ? '+ ADD AI SUBJECT' : 'AWAITING SUBJECT...'}</span>
+                      <span className="font-typewriter-md text-sm text-[#8e706b]">+ ADD AI SUBJECT</span>
                     </li>
                   )}
                 </ul>
