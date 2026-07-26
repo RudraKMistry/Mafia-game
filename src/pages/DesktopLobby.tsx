@@ -194,7 +194,7 @@ export default function Lobby() {
           </div>
 
           {/* Suspects Paper */}
-          <div className="bg-[#f4ebd8] p-5 md:p-8 shadow-md border border-black/10 relative flex-1 flex flex-col rounded-sm" style={{ boxShadow: '2px 3px 10px rgba(0,0,0,0.2), inset 0 0 20px rgba(150, 120, 90, 0.05)' }}>
+          <div className="bg-[#f4ebd8] p-5 md:p-8 shadow-md border border-black/10 relative flex-1 flex flex-col rounded-sm max-h-[600px]" style={{ boxShadow: '2px 3px 10px rgba(0,0,0,0.2), inset 0 0 20px rgba(150, 120, 90, 0.05)' }}>
             <div className="absolute -top-3 left-8 text-zinc-500/80 rotate-12 drop-shadow-sm">
               <Paperclip size={32} />
             </div>
