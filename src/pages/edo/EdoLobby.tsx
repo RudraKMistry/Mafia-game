@@ -238,7 +238,7 @@ export default function EdoLobby() {
               
               {isBotMode && isHost && (
                  <button onClick={handleAddBot} className="w-full mt-4 border border-dashed border-gray-700 text-gray-400 font-bold text-xs uppercase tracking-widest py-3 hover:bg-white/5 hover:text-white hover:border-gray-500 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
-                    <UserPlus size={16} /> Recruit AI Shinobi
+                    <UserPlus size={16} /> Recruit AI Yakuza
                  </button>
               )}
             </div>
@@ -276,7 +276,7 @@ export default function EdoLobby() {
               <div className="flex flex-col gap-1 col-span-1 md:col-span-2 mb-4 bg-white/5 p-4 border border-gray-800">
                 <div className="text-red-500 font-bold uppercase tracking-widest text-[10px] border-b border-gray-800 pb-2 mb-2">Role Distribution</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
-                   <RoleCounter role="mafia" label="Shinobi" min={1} />
+                   <RoleCounter role="mafia" label="Yakuza" min={1} />
                    <div className="flex items-center justify-between py-2 border-b border-gray-800">
                       <span className="uppercase text-xs font-bold text-gray-300 tracking-widest">Heimin</span>
                       <div className="flex items-center gap-2 text-gray-200">
@@ -322,9 +322,9 @@ export default function EdoLobby() {
                 onChange={(e: any) => updateSetting('nightOrder', e.target.value)} 
                 disabled={!isHost}
                 options={[
-                  { value: 'doc-det-maf', label: 'Sohei → Samurai → Shinobi' },
-                  { value: 'maf-doc-det', label: 'Shinobi → Sohei → Samurai' },
-                  { value: 'det-doc-maf', label: 'Samurai → Sohei → Shinobi' }
+                  { value: 'doc-det-maf', label: 'Sohei → Samurai → Yakuza' },
+                  { value: 'maf-doc-det', label: 'Yakuza → Sohei → Samurai' },
+                  { value: 'det-doc-maf', label: 'Samurai → Sohei → Yakuza' }
                 ]} 
               />
               <CustomSelect 

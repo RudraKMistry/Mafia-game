@@ -36,7 +36,7 @@ export default function EdoHome() {
   const getModalDescription = () => {
     if (modalMode === 'host') return 'Enter your alias to establish a new clan.';
     if (modalMode === 'join') return 'Enter your alias and the 6-character scroll code.';
-    if (modalMode === 'bots') return 'Enter your alias to practice your skills against AI shinobi.';
+    if (modalMode === 'bots') return 'Enter your alias to practice your skills against AI yakuza.';
     return '';
   };
 
@@ -100,7 +100,7 @@ export default function EdoHome() {
            </h1>
            
            <p className="font-serif text-gray-400 text-lg sm:text-xl leading-relaxed max-w-lg mb-8">
-             Welcome to the digital edition of Mafia, reimagined in feudal Japan. Can the Villagers deduce who the Shinobi are before the blade falls?
+             Welcome to the digital edition of Mafia, reimagined in feudal Japan. Can the Villagers deduce who the Yakuza are before the blade falls?
            </p>
 
            <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
@@ -147,7 +147,7 @@ export default function EdoHome() {
                    <Flame className="w-5 h-5 -rotate-45" />
                  </div>
                  <div className="flex-1">
-                   <strong className="text-red-400 uppercase block text-lg mb-0.5 tracking-wider">Shinobi (Mafia)</strong>
+                   <strong className="text-red-400 uppercase block text-lg mb-0.5 tracking-wider">Yakuza (Mafia)</strong>
                    <span className="text-gray-400 text-sm">Eliminate the Heimin in the shadows.</span>
                  </div>
               </li>
@@ -157,7 +157,7 @@ export default function EdoHome() {
                  </div>
                  <div className="flex-1">
                    <strong className="text-gray-200 uppercase block text-lg mb-0.5 tracking-wider">Heimin (Villager)</strong>
-                   <span className="text-gray-400 text-sm">Find the Shinobi before it's too late.</span>
+                   <span className="text-gray-400 text-sm">Find the Yakuza before it's too late.</span>
                  </div>
               </li>
               <li className="flex items-center gap-4 group">

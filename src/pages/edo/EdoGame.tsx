@@ -96,7 +96,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
           <div className="bg-[#fdfbf7]/50 p-6 border-2 border-[#4e342e]/30 shadow-inner text-center">
             <h2 className="font-bold text-lg mb-2 opacity-60 text-[#4e342e]">YOUR KARMA</h2>
             <div className="text-4xl md:text-5xl font-black uppercase tracking-widest mb-4" style={{ color: activePlayer?.role?.ink || '#8b0000' }}>
-              {activePlayer?.role?.name === 'Mafia' ? 'Shinobi' : 
+              {activePlayer?.role?.name === 'Mafia' ? 'Yakuza' : 
                activePlayer?.role?.name === 'Villager' ? 'Heimin' :
                activePlayer?.role?.name === 'Doctor' ? 'Sohei' :
                activePlayer?.role?.name === 'Detective' ? 'Samurai' :
@@ -158,7 +158,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
            <h3 className="font-serif text-3xl font-bold text-[#2c1b18]">{rData.victim?.name || 'No One'}</h3>
            {rData.victim && rData.victim.role && (
                <div className="mt-2 text-[#8b0000] font-bold text-xl uppercase tracking-widest border border-[#8b0000] px-4 py-1">
-                   {rData.victim.role.name === 'Mafia' ? 'Shinobi' : 
+                   {rData.victim.role.name === 'Mafia' ? 'Yakuza' : 
                     rData.victim.role.name === 'Villager' ? 'Heimin' :
                     rData.victim.role.name === 'Doctor' ? 'Sohei' :
                     rData.victim.role.name === 'Detective' ? 'Samurai' :
@@ -280,7 +280,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                             else if (roleId === 'detective') cardStateClass = 'target-aura-investigate transform -translate-y-2';
                         }
 
-                        const pRoleName = p.role?.name === 'Mafia' ? 'Shinobi' : 
+                        const pRoleName = p.role?.name === 'Mafia' ? 'Yakuza' : 
                                           p.role?.name === 'Villager' ? 'Heimin' :
                                           p.role?.name === 'Doctor' ? 'Sohei' :
                                           p.role?.name === 'Detective' ? 'Samurai' :
@@ -426,7 +426,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
       {gameState === 'game_over' && (
          <div className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center p-4">
             <h1 className="text-5xl md:text-7xl font-bold text-[#8b0000] tracking-widest mb-4 uppercase text-center drop-shadow-[0_0_15px_rgba(139,0,0,0.8)]">
-               {winner === 'mafia' ? 'Shinobi Victory' : winner === 'villager' ? 'Heimin Victory' : 'Kitsune Victory'}
+               {winner === 'mafia' ? 'Yakuza Victory' : winner === 'villager' ? 'Heimin Victory' : 'Kitsune Victory'}
             </h1>
             <button onClick={returnToLobby} className="mt-8 px-8 py-4 bg-[#8b0000] text-[#ebdcb5] border-2 border-[#ebdcb5] font-serif uppercase font-bold tracking-widest hover:bg-red-900 transition-colors">
                Return to Village
