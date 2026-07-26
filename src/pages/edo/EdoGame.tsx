@@ -85,7 +85,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   const renderDossier = () => (
     <div className="min-h-[100dvh] edo-bg-day flex items-center justify-center p-4 text-[#2c1b18]">
-      <div className="makimono-paper shoji-frame max-w-2xl w-full p-6 md:p-12 relative animate-in zoom-in-95 duration-1000 shadow-2xl">
+      <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-2xl w-full p-6 md:p-12 relative animate-in zoom-in-95 duration-1000 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         
         <div className="border-b-[2px] border-[#4e342e] pb-6 mb-8 mt-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-[#8b0000] tracking-widest mb-2 uppercase">The First Dawn</h1>
@@ -146,7 +146,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   const renderReveal = (rData: any, isPrivate = false) => (
     <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="makimono-paper shoji-frame max-w-md w-full p-8 shadow-2xl relative">
+      <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-md w-full p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
         <h2 className="text-3xl font-bold text-center mb-6 uppercase border-b-2 border-[#8b0000] pb-4 text-[#8b0000] tracking-widest">
           {rData.title}
         </h2>

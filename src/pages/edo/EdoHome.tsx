@@ -63,7 +63,7 @@ export default function EdoHome() {
           ))}
       </div>
       
-      <div className="makimono-paper shoji-frame max-w-4xl w-full p-6 sm:p-12 md:p-16 relative animate-in zoom-in-95 duration-1000 flex flex-col items-center text-center my-4 z-10">
+      <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-4xl w-full p-6 sm:p-12 md:p-16 relative animate-in zoom-in-95 duration-1000 flex flex-col items-center text-center my-4 z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         
         <div className="border-b-[2px] border-[#4e342e] pb-6 mb-8 mt-4 w-full">
           <h1 className="text-5xl sm:text-7xl md:text-9xl text-[#8b0000] tracking-widest mb-2 sm:mb-4 font-bold drop-shadow-md uppercase">SHADOWS OF EDO</h1>
@@ -160,7 +160,7 @@ export default function EdoHome() {
 
       {modalMode && (
         <div className="fixed inset-0 z-50 bg-[#0f111a]/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="makimono-paper shoji-frame max-w-lg w-full p-8 sm:p-12 shadow-2xl relative">
+          <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-lg w-full p-8 sm:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
             <button className="absolute top-4 sm:top-6 right-4 sm:right-6 text-[#8b0000] hover:text-red-600 transition-colors duration-300" onClick={() => setModalMode(null)}>
               <X className="w-8 h-8 sm:w-10 sm:h-10" />
             </button>

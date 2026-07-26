@@ -174,8 +174,7 @@ export default function EdoLobby() {
         <span className="hidden sm:inline">Leave Village</span>
       </button>
 
-      {/* Main Container */}
-      <div className="max-w-7xl w-full makimono-paper shoji-frame flex flex-col xl:flex-row relative z-10 mt-16 xl:mt-0 p-4 shadow-2xl">
+      <div className="max-w-7xl w-full makimono-paper border-y-[16px] border-[#2c1b18] flex flex-col xl:flex-row relative z-10 mt-16 xl:mt-0 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
         
         {/* Error Message Toast */}
         {errorMsg && (
