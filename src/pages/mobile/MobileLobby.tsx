@@ -14,6 +14,11 @@ export default function MobileLobby() {
   if (!room) {
     return (
       <div className="bg-[#fff8f6] min-h-screen flex items-center justify-center m-desk-texture">
+        {errorMsg && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] bg-[#991B1B] text-white p-3 text-center font-typewriter-md font-bold text-xs uppercase border-2 border-black neo-brutalist-shadow animate-in fade-in slide-in-from-top-4">
+            {errorMsg}
+          </div>
+        )}
         <div className="animate-spin rounded-full h-10 w-10 border-b-4 border-black"></div>
       </div>
     );

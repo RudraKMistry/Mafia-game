@@ -15,6 +15,11 @@ export default function EdoMobileLobby() {
   if (!room) {
     return (
       <div className="edo-theme min-h-screen flex items-center justify-center bg-[#eaddd3]">
+        {errorMsg && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] bg-red-900 text-[#fdfbf7] p-4 text-center font-bold uppercase tracking-widest text-sm border-2 border-[#1a1a1a] shadow-lg animate-in fade-in slide-in-from-top-4">
+            {errorMsg}
+          </div>
+        )}
         <div className="animate-spin rounded-full h-10 w-10 border-b-4 border-[#8b0000]"></div>
       </div>
     );
