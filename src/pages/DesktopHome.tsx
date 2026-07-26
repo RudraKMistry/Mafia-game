@@ -225,7 +225,7 @@ export default function Home() {
               ACCESS DENIED
             </h2>
             <p className="font-typewriter text-center text-lg mb-8 font-bold text-black bg-white/50 p-4 border-2 border-black/10 shadow-inner leading-relaxed">
-              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chalu tu che.
+              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chaltu che.
             </p>
             <button 
               onClick={() => setShowWipError(false)}

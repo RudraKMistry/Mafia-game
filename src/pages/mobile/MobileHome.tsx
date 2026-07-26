@@ -222,7 +222,7 @@ export default function MobileHome() {
               ACCESS DENIED
             </h2>
             <p className="font-typewriter-md text-center text-sm mb-6 font-bold text-black bg-white/50 p-3 border-[2px] border-black/10 shadow-inner leading-relaxed">
-              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chalu tu che.
+              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chaltu che.
             </p>
             <button 
               onClick={() => setShowWipError(false)}
