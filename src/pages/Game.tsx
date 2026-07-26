@@ -4,6 +4,7 @@ import { useGameState } from '../hooks/useGameState';
 import GameDesktop from './GameDesktop';
 import MobileGame from './mobile/MobileGame';
 import EdoGame from './edo/EdoGame';
+import EdoMobileGame from './edo-mobile/EdoMobileGame';
 
 export default function Game() {
   const { id } = useParams();
@@ -13,6 +14,7 @@ export default function Game() {
   const theme = localStorage.getItem('mafia_theme') || '1930s';
 
   if (isMobile) {
+    if (theme === 'edo') return <EdoMobileGame gameStateData={gameStateData} />;
     return <MobileGame gameStateData={gameStateData} />;
   }
 

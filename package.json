@@ -18,7 +18,8 @@
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
     "socket.io": "^4.8.3",
-    "socket.io-client": "^4.8.3"
+    "socket.io-client": "^4.8.3",
+    "wanakana": "^5.3.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

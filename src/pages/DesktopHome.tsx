@@ -8,6 +8,7 @@ export default function Home() {
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('mafia_playerName') || '');
   const [joinCode, setJoinCode] = useState('');
   const [showWipError, setShowWipError] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -212,8 +213,16 @@ export default function Home() {
         </button>
         <button 
           onClick={() => {
-            localStorage.setItem('mafia_theme', 'edo');
-            window.location.reload();
+            const audio = new Audio('/sounds/slash.mp3');
+            audio.onloadedmetadata = () => {
+                audio.playbackRate = audio.duration / 2.5;
+                audio.play().catch(console.error);
+            };
+            setIsTransitioning(true);
+            setTimeout(() => {
+                localStorage.setItem('mafia_theme', 'edo');
+                window.location.reload();
+            }, 3500);
           }}
           className="px-8 py-4 bg-zinc-800 text-zinc-300 font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1"
         >
@@ -237,6 +246,12 @@ export default function Home() {
               UNDERSTOOD
             </button>
           </div>
+        </div>
+      )}
+
+      {isTransitioning && (
+        <div className="fixed inset-0 z-[200] animate-fade-black pointer-events-none overflow-hidden">
+            <div className="absolute top-0 left-0 w-[200vw] h-[4px] bg-red-600 shadow-[0_0_40px_20px_rgba(220,38,38,0.8)] animate-slash origin-top-left delay-500"></div>
         </div>
       )}
     </div>

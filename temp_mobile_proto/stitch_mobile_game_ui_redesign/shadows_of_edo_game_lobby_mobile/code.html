@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Shadows of Edo - Lobby</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&amp;family=Shojumaru&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fff8f3",
+                        "on-secondary-fixed": "#000767",
+                        "on-primary-fixed-variant": "#920703",
+                        "washi-paper": "#fdfbf7",
+                        "primary": "#610000",
+                        "tertiary-fixed": "#fcddc7",
+                        "secondary": "#4c56af",
+                        "lime-glow": "#ccff00",
+                        "on-surface": "#1f1b15",
+                        "on-tertiary-container": "#c5a996",
+                        "on-tertiary-fixed-variant": "#574333",
+                        "cinnamon": "#d2691e",
+                        "outline-variant": "#e3beb8",
+                        "tertiary": "#3a281a",
+                        "sea-green": "#2e8b57",
+                        "primary-fixed": "#ffdad4",
+                        "on-surface-variant": "#5a403c",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "day-bg-start": "#f4f1ea",
+                        "outline": "#8e706b",
+                        "surface-dim": "#e1d9cf",
+                        "inverse-surface": "#343029",
+                        "background": "#fff8f3",
+                        "on-background": "#1f1b15",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#eae1d7",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "tertiary-container": "#523e2f",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#27308a",
+                        "error": "#ba1a1a",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#dec1ad",
+                        "on-primary-container": "#ff907f",
+                        "surface-variant": "#eae1d7",
+                        "night-bg-end": "#050811",
+                        "surface-container-high": "#f0e7dd",
+                        "inverse-primary": "#ffb4a8",
+                        "day-bg-end": "#d4cbb8",
+                        "inverse-on-surface": "#f9efe5",
+                        "sakura-pink": "#ffb7c5",
+                        "secondary-fixed": "#e0e0ff",
+                        "surface-tint": "#b52619",
+                        "on-error": "#ffffff",
+                        "night-bg-start": "#1a243f",
+                        "surface-bright": "#fff8f3",
+                        "primary-container": "#8b0000",
+                        "on-primary-fixed": "#410000",
+                        "surface-container-low": "#fcf2e8",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "secondary-container": "#959efd",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f6ece2",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-fixed": "#28180b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "shoji-gap": "24px",
+                        "gutter-desktop": "40px",
+                        "touch-target": "48px",
+                        "scroll-padding": "32px",
+                        "gutter-mobile": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Shojumaru"],
+                        "body-md": ["Noto Serif JP"],
+                        "headline-md": ["Shojumaru"],
+                        "vertical-kanji": ["Shojumaru"],
+                        "display-lg": ["Shojumaru"],
+                        "chat-log": ["Noto Serif JP"],
+                        "display-lg-mobile": ["Shojumaru"],
+                        "body-lg": ["Noto Serif JP"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "3px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "vertical-kanji": ["20px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "4px", "fontWeight": "400" }],
+                        "chat-log": ["14px", { "lineHeight": "20px", "fontWeight": "300" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .texture-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        
+        .enso-bg {
+            background-image: radial-gradient(circle at center, rgba(139, 0, 0, 0.05) 0%, transparent 60%);
+        }
+
+        .sakura-petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(110vh) translateX(20vw) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .ink-mask {
+            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M5,50 Q20,30 50,50 T95,50 Q80,70 50,50 T5,50 Z"/></svg>');
+            mask-size: 100% 100%;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,50 Q25,20 50,50 T100,50 Q75,80 50,50 T0,50 Z"/></svg>');
+            -webkit-mask-size: 100% 100%;
+        }
+    </style>
+</head>
+<body class="bg-day-bg-start text-on-surface h-screen w-screen overflow-hidden flex flex-col relative font-body-md">
+<!-- Texture Overlay -->
+<div class="absolute inset-0 texture-overlay z-0"></div>
+<div class="absolute inset-0 enso-bg z-0"></div>
+<!-- Sakura Particle Container -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none" id="sakura-container"></div>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-center p-gutter-mobile relative z-10 w-full max-w-md mx-auto">
+<!-- Clan Crest -->
+<div class="relative w-40 h-40 mb-8 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-4 border-primary opacity-20 animate-ping"></div>
+<div class="absolute inset-0 rounded-full border-8 border-primary bg-washi-paper shadow-[0_10px_30px_rgba(97,0,0,0.3)] flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary" style="font-size: 80px; font-variation-settings: 'FILL' 1;">
+                    air
+                </span>
+</div>
+</div>
+<!-- Title & Subtitle -->
+<div class="text-center mb-10">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary mb-2 tracking-widest drop-shadow-md">
+                SHADOWS OF EDO
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">
+                Deceit blooms like the sakura.
+            </p>
+</div>
+<!-- Stats Board (Shoji Style) -->
+<div class="w-full bg-washi-paper border-8 border-tertiary shadow-[0_8px_16px_rgba(0,0,0,0.15)] mb-10 relative overflow-hidden p-6 rounded-sm">
+<div class="absolute inset-0 border-2 border-outline-variant m-1 pointer-events-none"></div>
+<div class="grid grid-cols-2 gap-y-6 gap-x-4">
+<!-- Stat Item -->
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-tertiary mb-1 opacity-70">group</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1">Citizens</span>
+<span class="font-headline-md text-headline-md text-primary">6</span>
+</div>
+<!-- Stat Item -->
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-tertiary mb-1 opacity-70">map</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1">Province</span>
+<span class="font-headline-md text-headline-md text-tertiary-container truncate w-full">Kyoto</span>
+</div>
+<!-- Stat Item -->
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-tertiary mb-1 opacity-70">visibility_off</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1">Shinobi</span>
+<span class="font-headline-md text-headline-md text-on-surface">Hidden</span>
+</div>
+<!-- Stat Item -->
+<div class="flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-tertiary mb-1 opacity-70">nature</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-1">Village</span>
+<span class="font-headline-md text-headline-md text-sea-green">Peaceful</span>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="w-full flex flex-col items-center gap-4 mt-auto">
+<button class="w-full h-16 bg-primary-container text-on-primary-container font-headline-md text-headline-md-mobile flex items-center justify-center shadow-[0_8px_20px_rgba(139,0,0,0.4)] transition-transform duration-200 active:scale-95 hover:opacity-90 rounded-sm border-b-4 border-primary">
+                ENTER THE COURTYARD
+            </button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md p-2">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+<span>Game Rules</span>
+</button>
+</div>
+</main>
+<script>
+        // Simple Sakura Particle System
+        const container = document.getElementById('sakura-container');
+        const petalCount = 15;
+
+        for (let i = 0; i < petalCount; i++) {
+            createPetal();
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('sakura-petal');
+            
+            // Random properties
+            const size = Math.random() * 8 + 6; // 6px to 14px
+            const left = Math.random() * 100; // 0% to 100%
+            const duration = Math.random() * 5 + 5; // 5s to 10s
+            const delay = Math.random() * 10; // 0s to 10s
+            
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size * 1.5}px`;
+            petal.style.left = `${left}vw`;
+            petal.style.animationDuration = `${duration}s`;
+            petal.style.animationDelay = `${delay}s`;
+            
+            container.appendChild(petal);
+        }
+    </script>
+</body></html>

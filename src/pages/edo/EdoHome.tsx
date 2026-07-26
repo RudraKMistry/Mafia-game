@@ -46,8 +46,11 @@ export default function EdoHome() {
   };
 
   return (
-    <div className="min-h-[100dvh] edo-bg-night edo-theme flex flex-col items-center justify-center p-4 sm:p-8 text-gray-200 animate-in fade-in duration-1000 relative overflow-hidden">
+    <div className="min-h-[100dvh] edo-bg-night edo-theme flex flex-col items-center justify-center p-4 sm:p-8 text-gray-200 relative overflow-hidden">
       
+      {/* Cinematic Black Fade Out Overlay */}
+      <div className="fixed inset-0 bg-black z-[999] pointer-events-none animate-fade-out-slow"></div>
+
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
       <div className="absolute -top-32 -right-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>

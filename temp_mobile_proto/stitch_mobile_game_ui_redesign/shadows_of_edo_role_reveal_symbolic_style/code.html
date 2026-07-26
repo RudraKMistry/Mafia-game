@@ -1,0 +1,237 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Role Reveal - Imperial Decree</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&amp;family=Shojumaru&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#c5a996",
+                        "day-bg-start": "#f4f1ea",
+                        "on-primary-fixed-variant": "#920703",
+                        "tertiary-container": "#523e2f",
+                        "surface-bright": "#fff8f3",
+                        "background": "#fff8f3",
+                        "surface-variant": "#eae1d7",
+                        "on-tertiary-fixed": "#28180b",
+                        "sea-green": "#2e8b57",
+                        "surface-container-low": "#fcf2e8",
+                        "on-error-container": "#93000a",
+                        "cinnamon": "#d2691e",
+                        "primary-container": "#8b0000",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f9efe5",
+                        "secondary-fixed": "#e0e0ff",
+                        "surface-container-high": "#f0e7dd",
+                        "secondary": "#4c56af",
+                        "surface-container-highest": "#eae1d7",
+                        "night-bg-end": "#050811",
+                        "surface": "#fff8f3",
+                        "outline-variant": "#e3beb8",
+                        "outline": "#8e706b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1f1b15",
+                        "on-tertiary-fixed-variant": "#574333",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#f6ece2",
+                        "tertiary-fixed-dim": "#dec1ad",
+                        "lime-glow": "#ccff00",
+                        "sakura-pink": "#ffb7c5",
+                        "on-surface-variant": "#5a403c",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#27308a",
+                        "washi-paper": "#fdfbf7",
+                        "tertiary": "#3a281a",
+                        "primary": "#610000",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-primary-fixed": "#410000",
+                        "inverse-primary": "#ffb4a8",
+                        "primary-fixed": "#ffdad4",
+                        "night-bg-start": "#1a243f",
+                        "inverse-surface": "#343029",
+                        "on-primary-container": "#ff907f",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "on-surface": "#1f1b15",
+                        "secondary-container": "#959efd",
+                        "tertiary-fixed": "#fcddc7",
+                        "day-bg-end": "#d4cbb8",
+                        "on-secondary-fixed": "#000767",
+                        "surface-dim": "#e1d9cf",
+                        "surface-tint": "#b52619"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "touch-target": "48px",
+                        "gutter-mobile": "16px",
+                        "gutter-desktop": "40px",
+                        "shoji-gap": "24px",
+                        "scroll-padding": "32px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Shojumaru"],
+                        "body-lg": ["Noto Serif JP"],
+                        "vertical-kanji": ["Shojumaru"],
+                        "display-lg-mobile": ["Shojumaru"],
+                        "headline-md": ["Shojumaru"],
+                        "display-lg": ["Shojumaru"],
+                        "chat-log": ["Noto Serif JP"],
+                        "body-md": ["Noto Serif JP"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "3px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "vertical-kanji": ["20px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "4px", "fontWeight": "400" }],
+                        "chat-log": ["14px", { "lineHeight": "20px", "fontWeight": "300" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .noise-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            mix-blend-mode: multiply;
+        }
+        .wood-texture {
+            background: linear-gradient(90deg, #2a1a10 0%, #3a281a 50%, #2a1a10 100%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .paper-gradient {
+            background: radial-gradient(circle at center, #fdfbf7 0%, #f4f1ea 80%, #d4cbb8 100%);
+        }
+        .slash-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 4px;
+            background: #ba1a1a;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            box-shadow: 0 0 10px #ba1a1a, 0 0 20px rgba(186,26,26,0.5);
+            animation: slashAnim 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        @keyframes slashAnim {
+            0% { width: 0; opacity: 1; }
+            100% { width: 120%; opacity: 0.8; }
+        }
+        .scroll-reveal {
+            animation: unroll 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            transform-origin: top center;
+        }
+        @keyframes unroll {
+            0% { transform: scaleY(0); opacity: 0; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-night-bg-start text-on-surface min-h-screen overflow-hidden font-body-md selection:bg-primary selection:text-on-primary relative">
+<!-- Blurred Game Board Background -->
+<div class="absolute inset-0 z-0 overflow-hidden blur-sm scale-105 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-br from-day-bg-start to-day-bg-end"></div>
+<div class="absolute inset-0 noise-bg"></div>
+<div class="grid grid-cols-2 gap-shoji-gap p-gutter-mobile opacity-30">
+<div class="bg-washi-paper h-48 border-8 border-tertiary rounded-lg shadow-lg"></div>
+<div class="bg-washi-paper h-48 border-8 border-tertiary rounded-lg shadow-lg"></div>
+<div class="bg-washi-paper h-48 border-8 border-tertiary rounded-lg shadow-lg"></div>
+<div class="bg-washi-paper h-48 border-8 border-tertiary rounded-lg shadow-lg"></div>
+</div>
+</div>
+<!-- Vignette & Lantern Glow -->
+<div class="absolute inset-0 z-10 bg-black/60 backdrop-blur-md"></div>
+<div class="absolute inset-0 z-10 pointer-events-none" style="background: radial-gradient(circle at 50% 40%, rgba(180, 20, 20, 0.15) 0%, transparent 60%);"></div>
+<!-- Overlay Container -->
+<main class="relative z-50 h-screen w-full flex flex-col items-center justify-center p-gutter-mobile overflow-y-auto">
+<!-- The Makimono Scroll (Vertical Unroll) -->
+<div class="relative w-full max-w-sm flex flex-col items-center scroll-reveal">
+<!-- Top Roller -->
+<div class="w-[110%] h-8 wood-texture rounded-full z-20 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] border-y border-on-tertiary-fixed-variant/30 flex items-center justify-between px-2">
+<div class="w-3 h-3 rounded-full bg-outline-variant/20 shadow-inner"></div>
+<div class="w-3 h-3 rounded-full bg-outline-variant/20 shadow-inner"></div>
+</div>
+<!-- Scroll Content Canvas -->
+<div class="w-full bg-washi-paper relative z-10 shadow-[0_20px_25px_-5px_rgba(0,0,0,0.5),0_8px_10px_-6px_rgba(0,0,0,0.5)] -my-2 pb-8 pt-10 px-6 paper-gradient min-h-[400px] flex flex-col items-center">
+<!-- Noise Texture Overlay on Paper -->
+<div class="absolute inset-0 noise-bg pointer-events-none rounded-none"></div>
+<!-- Header -->
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-tertiary text-center mb-6 tracking-widest relative z-10">
+                    IMPERIAL DECREE
+                    <span class="block w-24 h-1 bg-primary mx-auto mt-4 rounded-full opacity-80"></span>
+</h1>
+<!-- Eliminated Player Card (Shoji Style) -->
+<div class="relative w-48 h-64 border-8 border-tertiary bg-surface-container-low shadow-[0_10px_30px_rgba(0,0,0,0.4)] mb-8 flex-shrink-0 group">
+<div class="absolute inset-0 noise-bg z-10"></div>
+<!-- Portrait Image -->
+<img alt="A minimalist, high-contrast Japanese ink-brush symbol (sumi-e style) representing an exiled Ronin." class="w-full h-full object-cover filter sepia-[0.3] contrast-[1.2]" src="https://lh3.googleusercontent.com/aida/AP1WRLtX9SpFGEDlMsnlM5TX6OI6DDGXIDosWDPSVmpi_u7MT1DTz6aJ7CyinpDTI83z6iY3XmKGV97NVG4bizdrFkpMVQJMsIiKjRDZBAMsXFMf6Eom1Z1rJc-gyIRsPKmGwt3qxBhpmmA4tmo4cVD-pQZ1F2eczvd2fDZFR-ODH96nwrOusE6vThp3G38IcUhjdG5x3VAzG4XtL4_fanWd6zzeFN01CYHSIfc2MUKifFrml_apB1_G-pvthiag">
+<!-- Slashed Effect -->
+<div class="slash-effect z-20" style="animation-delay: 1s;"></div>
+<!-- Eliminated Kanji Stamp -->
+<div class="absolute inset-0 z-30 flex items-center justify-center opacity-0" style="animation: stampAnim 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;">
+<span class="font-vertical-kanji text-[64px] text-primary/90 border-4 border-primary/80 rounded-sm px-2 py-1 rotate-[-10deg] shadow-[0_0_15px_rgba(186,26,26,0.3)] bg-washi-paper/40 backdrop-blur-sm">追放</span>
+</div>
+<!-- Player Name Label -->
+<div class="absolute bottom-0 left-0 w-full bg-tertiary/90 text-washi-paper text-center py-2 z-20 font-label-caps text-label-caps">
+                        Musashi
+                    </div>
+</div>
+<!-- Revelation Text -->
+<div class="text-center relative z-10 px-4 space-y-4">
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">
+                        Sentenced to exile.
+                    </p>
+<p class="font-body-lg text-body-lg text-on-surface">
+                        Their true path was <br>
+<span class="font-headline-md text-headline-md text-secondary mt-2 inline-block relative">
+                            [DOCTOR]
+                            <span class="absolute -inset-2 bg-secondary/10 blur-sm rounded-lg -z-10"></span>
+</span>
+</p>
+</div>
+</div>
+<!-- Bottom Roller -->
+<div class="w-[110%] h-8 wood-texture rounded-full z-20 shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.5)] border-y border-on-tertiary-fixed-variant/30 flex items-center justify-between px-2">
+<div class="w-3 h-3 rounded-full bg-outline-variant/20 shadow-inner"></div>
+<div class="w-3 h-3 rounded-full bg-outline-variant/20 shadow-inner"></div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="mt-10 relative group h-touch-target px-12 flex items-center justify-center opacity-0 translate-y-4" style="animation: fadeUp 0.5s ease-out 2s forwards;">
+<!-- Ink Splatter Mask (Simulated with div shaping for now, ideally an SVG mask) -->
+<div class="absolute inset-0 bg-primary rounded-lg shadow-[0_5px_20px_rgba(139,0,0,0.4)] transition-transform duration-300 group-active:scale-95 group-hover:bg-primary-container border-2 border-primary-fixed-dim"></div>
+<span class="relative z-10 font-label-caps text-label-caps text-on-primary tracking-widest whitespace-nowrap">
+                ACKNOWLEDGE
+            </span>
+</button>
+</main>
+<style>
+        @keyframes stampAnim {
+            0% { transform: scale(3) rotate(-10deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body></html>

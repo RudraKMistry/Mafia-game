@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toKatakana } from 'wanakana';
 
-import './Edo.css';
+import '../edo/Edo.css';
 
 const SVGS = {
     shuriken: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>,
@@ -12,7 +12,7 @@ const SVGS = {
     slash: <><div className="ink-slash !bg-red-600"></div><div className="blood-splatter !bg-red-600" style={{top: '20%', left: '30%'}}></div><div className="blood-splatter !bg-red-600" style={{top: '60%', left: '50%', width: '20px', height: '20px'}}></div></>
 };
 
-export default function EdoGame({ gameStateData }: { gameStateData: any }) {
+export default function EdoMobileGame({ gameStateData }: { gameStateData: any }) {
   const navigate = useNavigate();
   const { 
     room, playerId, privateReveal, setPrivateReveal, 
@@ -79,6 +79,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
     doStampAction(selectedTarget);
     setSelectedTarget(null);
   };
+
 
 
   const renderDossier = () => (
@@ -329,50 +330,26 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                     })}
                 </div>
 
-                {gameState === 'day_voting' && !activePlayer?.isDead && (
-                   <div className="flex justify-center w-full mt-10">
-                     <button 
-                       onClick={() => setSelectedTarget('skip')}
-                       className={`px-8 py-3 border font-bold uppercase tracking-widest text-sm transition-all ${isNight ? 'bg-white/5 border-gray-600 hover:border-white hover:bg-white/10 text-white' : 'bg-black/5 border-[#2c1b18] hover:bg-black/10 text-[#2c1b18]'}`}
-                     >
-                       Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
-                     </button>
-                   </div>
-                )}
-                
-                {gameState === 'day_discussion' && !activePlayer?.isDead && (
-                   <div className="flex justify-center w-full mt-10">
-                     <button 
-                       disabled={room.skipDiscussionVotes?.includes(playerId)}
-                       onClick={skipDiscussion}
-                       className="px-6 py-2 bg-transparent border border-gray-600 text-gray-400 hover:text-white hover:border-gray-400 uppercase tracking-widest text-xs md:text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                     >
-                       {room.skipDiscussionVotes?.includes(playerId) ? 'Waiting...' : 'Skip Discussion'}
-                       {' '}
-                       ({room.skipDiscussionVotes?.length || 0}/{players.filter((p: any) => !p.isDead && !p.isBot).length})
-                     </button>
-                   </div>
-                )}
             </div>
         </div>
 
         {/* Action Modal (Square Box) */}
-        <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 aspect-square bg-[#0a0a0c]/95 backdrop-blur-xl border border-gray-700 text-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 flex flex-col items-center justify-center gap-6 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${selectedTarget ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+        <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-96 aspect-square bg-[#0a0a0c]/95 backdrop-blur-xl border border-gray-700 text-white p-6 md:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${selectedTarget ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
           
-          <div className={`w-24 h-24 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]' : actionColor === 'blue' ? 'text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : actionColor === 'red' ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-gray-300 drop-shadow-md'}`}>
+          <div className={`w-20 h-20 md:w-24 md:h-24 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]' : actionColor === 'blue' ? 'text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : actionColor === 'red' ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-gray-300 drop-shadow-md'}`}>
               {actionIcon}
           </div>
           
           <div className="flex flex-col text-center w-full">
-              <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest leading-none mb-3">{actionPrompt}</p>
-              <p className="text-2xl md:text-3xl font-bold uppercase tracking-widest truncate w-full leading-none text-white">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>p.id===selectedTarget)?.name}</p>
+              <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest leading-none mb-2 md:mb-3">{actionPrompt}</p>
+              <p className="text-xl md:text-3xl font-bold uppercase tracking-widest truncate w-full leading-none text-white">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>p.id===selectedTarget)?.name}</p>
           </div>
           
-          <div className="flex w-full mt-2 gap-4">
-              <button onClick={() => setSelectedTarget(null)} className="flex-1 py-3 border border-gray-700 hover:bg-white/5 text-gray-300 transition-colors uppercase tracking-widest text-xs md:text-sm font-bold">
+          <div className="flex w-full mt-2 gap-3 md:gap-4">
+              <button onClick={() => setSelectedTarget(null)} className="flex-1 py-2 md:py-3 border border-gray-700 hover:bg-white/5 text-gray-300 transition-colors uppercase tracking-widest text-xs md:text-sm font-bold">
                   Cancel
               </button>
-              <button onClick={handleStampAction} className={`flex-1 py-3 font-bold transition-all uppercase tracking-widest text-xs md:text-sm border ${actionColor === 'green' ? 'bg-green-900/40 border-green-500 text-green-400 hover:bg-green-900 hover:text-white' : actionColor === 'blue' ? 'bg-blue-900/40 border-blue-500 text-blue-400 hover:bg-blue-900 hover:text-white' : actionColor === 'red' ? 'bg-red-900/40 border-red-500 text-red-400 hover:bg-red-900 hover:text-white' : 'bg-gray-800 border-gray-400 text-white hover:bg-gray-700'}`}>
+              <button onClick={handleStampAction} className={`flex-1 py-2 md:py-3 font-bold transition-all uppercase tracking-widest text-xs md:text-sm border ${actionColor === 'green' ? 'bg-green-900/40 border-green-500 text-green-400 hover:bg-green-900 hover:text-white' : actionColor === 'blue' ? 'bg-blue-900/40 border-blue-500 text-blue-400 hover:bg-blue-900 hover:text-white' : actionColor === 'red' ? 'bg-red-900/40 border-red-500 text-red-400 hover:bg-red-900 hover:text-white' : 'bg-gray-800 border-gray-400 text-white hover:bg-gray-700'}`}>
                   {actionLabel}
               </button>
           </div>
@@ -381,9 +358,28 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         {/* Sidebar Chat Container */}
         <div className={`fixed md:relative bottom-0 right-0 w-full md:w-80 lg:w-96 h-[50vh] md:h-full transform ${isMobileScrollOpen ? 'translate-y-0' : 'translate-y-[calc(100%-3rem)]'} md:translate-y-0 transition-transform duration-500 z-40 flex flex-col bg-black/60 backdrop-blur-md md:border-l border-t md:border-t-0 border-gray-800 shadow-2xl`}>
             
-            <button onClick={() => setIsMobileScrollOpen(!isMobileScrollOpen)} className="md:hidden h-12 w-full flex items-center justify-center bg-[#111] border-b border-gray-800 text-gray-400 uppercase tracking-widest font-bold text-xs z-50">
-                <span>{isMobileScrollOpen ? '▼ Hide Chronicle ▼' : '▲ Village Chronicle ▲'}</span>
-            </button>
+            <div className="md:hidden h-12 w-full flex bg-[#111] border-b border-gray-800 z-50">
+                {gameState === 'day_discussion' && !activePlayer?.isDead && (
+                   <button 
+                     disabled={room.skipDiscussionVotes?.includes(playerId)}
+                     onClick={skipDiscussion}
+                     className="flex-1 flex items-center justify-center border-r border-gray-800 text-[#fdfbf7] bg-[#5a403c] uppercase tracking-widest font-bold text-[10px] disabled:opacity-50 disabled:bg-[#3e2723]"
+                   >
+                     {room.skipDiscussionVotes?.includes(playerId) ? 'Waiting...' : 'Skip Discussion'} ({room.skipDiscussionVotes?.length || 0}/{players.filter((p: any) => !p.isDead && !p.isBot).length})
+                   </button>
+                )}
+                {gameState === 'day_voting' && !activePlayer?.isDead && (
+                   <button 
+                     onClick={() => setSelectedTarget('skip')}
+                     className="flex-1 flex items-center justify-center border-r border-gray-800 text-[#fdfbf7] bg-[#5a403c] uppercase tracking-widest font-bold text-[10px]"
+                   >
+                     Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
+                   </button>
+                )}
+                <button onClick={() => setIsMobileScrollOpen(!isMobileScrollOpen)} className="flex-1 flex items-center justify-center text-gray-400 uppercase tracking-widest font-bold text-[10px]">
+                    <span>{isMobileScrollOpen ? '▼ Hide Chronicle ▼' : '▲ Village Chronicle ▲'}</span>
+                </button>
+            </div>
             
             <div className="flex-1 w-full flex flex-col overflow-hidden relative">
                 <div className="p-4 bg-[#111]/80 text-white text-center font-bold tracking-widest text-xs uppercase border-b border-gray-800 hidden md:block">

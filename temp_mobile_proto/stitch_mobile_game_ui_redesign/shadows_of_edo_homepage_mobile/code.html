@@ -1,0 +1,345 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Shadows of Edo - Shinobi Deception</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&amp;family=Shojumaru&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#fff8f3",
+                    "on-secondary-fixed": "#000767",
+                    "on-primary-fixed-variant": "#920703",
+                    "washi-paper": "#fdfbf7",
+                    "primary": "#610000",
+                    "tertiary-fixed": "#fcddc7",
+                    "secondary": "#4c56af",
+                    "lime-glow": "#ccff00",
+                    "on-surface": "#1f1b15",
+                    "on-tertiary-container": "#c5a996",
+                    "on-tertiary-fixed-variant": "#574333",
+                    "cinnamon": "#d2691e",
+                    "outline-variant": "#e3beb8",
+                    "tertiary": "#3a281a",
+                    "sea-green": "#2e8b57",
+                    "primary-fixed": "#ffdad4",
+                    "on-surface-variant": "#5a403c",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "day-bg-start": "#f4f1ea",
+                    "outline": "#8e706b",
+                    "surface-dim": "#e1d9cf",
+                    "inverse-surface": "#343029",
+                    "background": "#fff8f3",
+                    "on-background": "#1f1b15",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#eae1d7",
+                    "primary-fixed-dim": "#ffb4a8",
+                    "tertiary-container": "#523e2f",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#27308a",
+                    "error": "#ba1a1a",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#dec1ad",
+                    "on-primary-container": "#ff907f",
+                    "surface-variant": "#eae1d7",
+                    "night-bg-end": "#050811",
+                    "surface-container-high": "#f0e7dd",
+                    "inverse-primary": "#ffb4a8",
+                    "day-bg-end": "#d4cbb8",
+                    "inverse-on-surface": "#f9efe5",
+                    "sakura-pink": "#ffb7c5",
+                    "secondary-fixed": "#e0e0ff",
+                    "surface-tint": "#b52619",
+                    "on-error": "#ffffff",
+                    "night-bg-start": "#1a243f",
+                    "surface-bright": "#fff8f3",
+                    "primary-container": "#8b0000",
+                    "on-primary-fixed": "#410000",
+                    "surface-container-low": "#fcf2e8",
+                    "on-secondary-fixed-variant": "#343d96",
+                    "secondary-container": "#959efd",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f6ece2",
+                    "secondary-fixed-dim": "#bdc2ff",
+                    "on-tertiary-fixed": "#28180b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "shoji-gap": "24px",
+                    "gutter-desktop": "40px",
+                    "touch-target": "48px",
+                    "scroll-padding": "32px",
+                    "gutter-mobile": "16px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "Shojumaru"
+                    ],
+                    "body-md": [
+                            "Noto Serif JP"
+                    ],
+                    "headline-md": [
+                            "Shojumaru"
+                    ],
+                    "vertical-kanji": [
+                            "Shojumaru"
+                    ],
+                    "display-lg": [
+                            "Shojumaru"
+                    ],
+                    "chat-log": [
+                            "Noto Serif JP"
+                    ],
+                    "display-lg-mobile": [
+                            "Shojumaru"
+                    ],
+                    "body-lg": [
+                            "Noto Serif JP"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "3px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "2px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "vertical-kanji": [
+                            "20px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "4px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "chat-log": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "300"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "2px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.night-bg-end');
+            color: theme('colors.washi-paper');
+        }
+        
+        /* Lantern Glow Effect */
+        .lantern-glow {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.4) 0%, rgba(139, 0, 0, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Firefly Particles */
+        .firefly {
+            position: absolute;
+            background-color: theme('colors.lime-glow');
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px theme('colors.lime-glow');
+            opacity: 0;
+            animation: float 10s infinite ease-in-out;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+
+        /* Generate multiple fireflies with different starting positions and movements via inline JS later */
+
+        .wooden-plaque {
+            background: linear-gradient(135deg, theme('colors.tertiary') 0%, #2a1c11 100%);
+            border: 2px solid #1a1008;
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.8),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .wooden-plaque::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .wooden-plaque:active {
+            transform: scale(0.95) translateY(4px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.8);
+        }
+
+        .plaque-rope {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            border: 2px solid theme('colors.on-surface-variant');
+            border-bottom: none;
+            border-radius: 20px 20px 0 0;
+            z-index: -1;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-hidden bg-night-bg-end flex flex-col items-center justify-center font-body-md text-body-md">
+<!-- Background Atmospheric Image -->
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center bg-no-repeat w-full h-full opacity-40 mix-blend-overlay" data-alt="A dark, atmospheric Japanese Edo period night scene. Silhouette of traditional architecture against a deep indigo sky. Subtle moonlight catching on wooden structures. The scene is cinematic, moody, and highly detailed, perfect as a backdrop for a tense ninja/shinobi social deduction game. 4k resolution, digital art style." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCvS2qf2Ah_uBY9X3zvsRlZIiDAuZ7HcXRvxQnaU-CVO4yNq_PeRVrO-TezMlmdadW1EvcrJvfToMCbrc3v7938rU8Z4v4yVRvv8ysrKtoTxGeNv0EZoloHcgmuXKpBUOejWfA3vetWbSk0-GHeFvcfeM4aRVM06rIL2O2MKDFelx18xD8IXrzW84RtZNXLNO5UnFhXXTJBFR0nkgBbdDewKmxN9fmkLts7bdxMp-UPEnHkwDb3QfW-kw&quot;);"></div>
+</div>
+<!-- Red Lantern Glow Overlay -->
+<div class="lantern-glow"></div>
+<!-- Firefly Container (Populated by JS) -->
+<div class="absolute inset-0 z-10 pointer-events-none" id="fireflies"><div class="firefly" style="left: 27.6628vw; top: 60.9404vh; --tx: 76.50919274756527px; --ty: -82.75153138449537px; animation-duration: 13.3743s; animation-delay: 9.60989s;"></div><div class="firefly" style="left: 15.7808vw; top: 80.6061vh; --tx: 75.5243543384016px; --ty: -130.5445792039233px; animation-duration: 9.22369s; animation-delay: 5.52197s;"></div><div class="firefly" style="left: 9.72709vw; top: 61.3648vh; --tx: 28.478914440280214px; --ty: -58.080492196122854px; animation-duration: 13.2456s; animation-delay: 0.162646s;"></div><div class="firefly" style="left: 77.7677vw; top: 8.13599vh; --tx: -14.10468634249682px; --ty: -33.53680907645804px; animation-duration: 14.8257s; animation-delay: 9.37096s;"></div><div class="firefly" style="left: 11.6509vw; top: 94.8052vh; --tx: 98.3225272963245px; --ty: -22.282812517854893px; animation-duration: 9.67381s; animation-delay: 4.31528s;"></div><div class="firefly" style="left: 27.9323vw; top: 60.5271vh; --tx: -1.8796953656629256px; --ty: -153.51231774916292px; animation-duration: 8.44649s; animation-delay: 7.02821s;"></div><div class="firefly" style="left: 20.3021vw; top: 91.6587vh; --tx: -26.37337979342447px; --ty: -91.96374548439653px; animation-duration: 12.2142s; animation-delay: 2.52165s;"></div><div class="firefly" style="left: 48.0839vw; top: 85.3872vh; --tx: -35.9951602644218px; --ty: -26.8005344282559px; animation-duration: 7.29078s; animation-delay: 2.17606s;"></div><div class="firefly" style="left: 85.9591vw; top: 43.2133vh; --tx: -26.980943338251784px; --ty: -108.35661181216283px; animation-duration: 13.1489s; animation-delay: 6.82225s;"></div><div class="firefly" style="left: 85.5104vw; top: 32.3512vh; --tx: -68.8415482235516px; --ty: -41.87701801434698px; animation-duration: 13.2106s; animation-delay: 5.87334s;"></div><div class="firefly" style="left: 42.4872vw; top: 12.1889vh; --tx: -60.68523427495833px; --ty: -10.755893163301053px; animation-duration: 6.04734s; animation-delay: 0.47427s;"></div><div class="firefly" style="left: 98.7449vw; top: 41.358vh; --tx: -99.1296116373969px; --ty: -160.7723525433418px; animation-duration: 14.5598s; animation-delay: 8.1528s;"></div><div class="firefly" style="left: 94.0323vw; top: 61.7016vh; --tx: -50.988261936721834px; --ty: -192.58258111849446px; animation-duration: 9.43382s; animation-delay: 5.67587s;"></div><div class="firefly" style="left: 88.5714vw; top: 45.7111vh; --tx: 94.5940474101884px; --ty: -141.82092332654707px; animation-duration: 12.0051s; animation-delay: 5.08485s;"></div><div class="firefly" style="left: 18.2057vw; top: 96.6456vh; --tx: -40.453760683119874px; --ty: -160.40518611436306px; animation-duration: 5.73017s; animation-delay: 7.39521s;"></div><div class="firefly" style="left: 56.9385vw; top: 22.5725vh; --tx: 49.120744449560426px; --ty: -120.28971475806362px; animation-duration: 5.02167s; animation-delay: 9.26677s;"></div><div class="firefly" style="left: 45.276vw; top: 96.472vh; --tx: -94.2818034445083px; --ty: -51.66959145573615px; animation-duration: 6.66169s; animation-delay: 6.83309s;"></div><div class="firefly" style="left: 53.7506vw; top: 63.0025vh; --tx: 86.46206384794826px; --ty: -73.00393040815672px; animation-duration: 5.06228s; animation-delay: 0.978759s;"></div><div class="firefly" style="left: 23.7962vw; top: 79.8673vh; --tx: -75.27940007390441px; --ty: -189.9538865868154px; animation-duration: 5.22496s; animation-delay: 5.09732s;"></div><div class="firefly" style="left: 18.3477vw; top: 61.9747vh; --tx: -4.046087038292612px; --ty: -70.00054276273619px; animation-duration: 6.12427s; animation-delay: 8.97172s;"></div><div class="firefly" style="left: 25.8843vw; top: 90.9643vh; --tx: 70.01770842930182px; --ty: -13.556616855182057px; animation-duration: 9.0092s; animation-delay: 2.43487s;"></div><div class="firefly" style="left: 64.3238vw; top: 9.7627vh; --tx: -84.77366909682671px; --ty: -167.903323876091px; animation-duration: 14.6962s; animation-delay: 6.36645s;"></div><div class="firefly" style="left: 11.4642vw; top: 48.4512vh; --tx: 73.46679888023218px; --ty: -101.6671159064914px; animation-duration: 12.2617s; animation-delay: 0.813928s;"></div><div class="firefly" style="left: 74.1923vw; top: 52.6666vh; --tx: 50.22813256349781px; --ty: -99.49029118122874px; animation-duration: 6.68408s; animation-delay: 4.26685s;"></div><div class="firefly" style="left: 89.9406vw; top: 47.4791vh; --tx: 37.18805739088835px; --ty: -92.48221685320308px; animation-duration: 14.6977s; animation-delay: 8.13586s;"></div></div>
+<!-- Main Content Container -->
+<main class="relative z-20 flex flex-col items-center justify-center w-full max-w-sm px-gutter-mobile gap-8 pb-12 pt-20 h-full flex-grow">
+<!-- Game Title -->
+<header class="text-center mb-8 flex flex-col items-center">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-washi-paper text-glow tracking-widest leading-tight">
+                SHADOWS<br>
+<span class="text-primary-fixed-dim text-opacity-90 font-headline-md text-headline-md mt-2 block">OF EDO</span>
+</h1>
+</header>
+<!-- Navigation / Actions (Hanging Plaques) -->
+<nav class="flex flex-col gap-8 w-full max-w-[280px] mt-4 z-30">
+<!-- New Campaign -->
+<button class="wooden-plaque relative rounded-sm py-4 px-6 flex items-center justify-center group">
+<div class="plaque-rope"></div>
+<span class="font-headline-md text-headline-md-mobile text-washi-paper group-hover:text-primary-fixed-dim transition-colors">
+                    New Campaign
+                </span>
+</button><button class="wooden-plaque relative rounded-sm py-4 px-6 flex items-center justify-center group">
+<div class="plaque-rope"></div>
+<span class="font-headline-md text-headline-md-mobile text-washi-paper group-hover:text-primary-fixed-dim transition-colors">
+                    Join Game
+                </span>
+</button>
+<!-- Join Village -->
+
+<!-- Tome of Souls -->
+
+<!-- Settings -->
+
+</nav>
+</main>
+<!-- Footer -->
+<footer class="absolute bottom-6 w-full text-center z-20">
+<p class="font-body-md text-chat-log text-on-surface-variant opacity-70 tracking-widest uppercase">
+            A Shinobi Deception Game
+        </p>
+</footer>
+<!-- Interactive Elements Script -->
+<script>
+        // Generate Fireflies
+        const firefliesContainer = document.getElementById('fireflies');
+        const numFireflies = 25;
+
+        for (let i = 0; i < numFireflies; i++) {
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            
+            // Randomize starting position
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            
+            // Randomize movement distance and direction
+            const tx = (Math.random() - 0.5) * 200 + 'px';
+            const ty = (Math.random() - 0.5) * 200 - 100 + 'px'; // Tend upwards
+            
+            // Randomize animation duration and delay
+            const duration = 5 + Math.random() * 10 + 's';
+            const delay = Math.random() * 10 + 's';
+
+            firefly.style.left = startX + 'vw';
+            firefly.style.top = startY + 'vh';
+            firefly.style.setProperty('--tx', tx);
+            firefly.style.setProperty('--ty', ty);
+            firefly.style.animationDuration = duration;
+            firefly.style.animationDelay = delay;
+
+            firefliesContainer.appendChild(firefly);
+        }
+    </script>
+
+
+</body></html>

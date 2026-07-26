@@ -23,11 +23,20 @@
 }
 
 /* Dynamic Background Gradients */
+@keyframes shiftGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 .edo-bg-day {
-    background: radial-gradient(circle at top, var(--day-radial), var(--day-bg));
+    background: radial-gradient(circle at top left, var(--day-radial), var(--day-bg), #e0d0c0);
+    background-size: 200% 200%;
+    animation: shiftGradient 20s ease infinite;
 }
 .edo-bg-night {
-    background: radial-gradient(circle at center, var(--night-radial), var(--night-bg));
+    background: radial-gradient(circle at center, var(--night-radial), var(--night-bg), #05070a);
+    background-size: 200% 200%;
+    animation: shiftGradient 25s ease infinite alternate;
 }
 
 /* Shoji Screen Texture using CSS Gradients */
@@ -51,17 +60,45 @@
 }
 
 /* Target Auras */
+@keyframes pulseAuraDay {
+    0% { box-shadow: 0 0 0 4px #4a5568, 0 0 15px rgba(74, 85, 104, 0.3); }
+    50% { box-shadow: 0 0 0 4px #4a5568, 0 0 25px rgba(74, 85, 104, 0.7); }
+    100% { box-shadow: 0 0 0 4px #4a5568, 0 0 15px rgba(74, 85, 104, 0.3); }
+}
+@keyframes pulseAuraNight {
+    0% { box-shadow: 0 0 0 4px #9b2c2c, 0 0 20px rgba(155, 44, 44, 0.5); }
+    50% { box-shadow: 0 0 0 4px #e53e3e, 0 0 35px rgba(229, 62, 62, 0.9); }
+    100% { box-shadow: 0 0 0 4px #9b2c2c, 0 0 20px rgba(155, 44, 44, 0.5); }
+}
+@keyframes pulseAuraHeal {
+    0% { box-shadow: 0 0 0 4px #276749, 0 0 20px rgba(39, 103, 73, 0.5); }
+    50% { box-shadow: 0 0 0 4px #48bb78, 0 0 35px rgba(72, 187, 120, 0.9); }
+    100% { box-shadow: 0 0 0 4px #276749, 0 0 20px rgba(39, 103, 73, 0.5); }
+}
+@keyframes pulseAuraInvestigate {
+    0% { box-shadow: 0 0 0 4px #2b6cb0, 0 0 20px rgba(43, 108, 176, 0.5); }
+    50% { box-shadow: 0 0 0 4px #4299e1, 0 0 35px rgba(66, 153, 225, 0.9); }
+    100% { box-shadow: 0 0 0 4px #2b6cb0, 0 0 20px rgba(43, 108, 176, 0.5); }
+}
+
 .target-aura-day {
-    box-shadow: 0 0 0 4px #4a5568, 0 0 15px rgba(74, 85, 104, 0.5);
+    animation: pulseAuraDay 2s ease-in-out infinite;
+    transform: translateY(-4px) scale(1.02);
 }
 .target-aura-night {
-    box-shadow: 0 0 0 4px #9b2c2c, 0 0 20px rgba(155, 44, 44, 0.8);
+    animation: pulseAuraNight 2s ease-in-out infinite;
+    transform: translateY(-4px) scale(1.02);
+    border-color: #9b2c2c !important;
 }
 .target-aura-heal {
-    box-shadow: 0 0 0 4px #276749, 0 0 20px rgba(39, 103, 73, 0.8);
+    animation: pulseAuraHeal 2s ease-in-out infinite;
+    transform: translateY(-4px) scale(1.02);
+    border-color: #276749 !important;
 }
 .target-aura-investigate {
-    box-shadow: 0 0 0 4px #2b6cb0, 0 0 20px rgba(43, 108, 176, 0.8);
+    animation: pulseAuraInvestigate 2s ease-in-out infinite;
+    transform: translateY(-4px) scale(1.02);
+    border-color: #2b6cb0 !important;
 }
 
 /* Particle Animations */

@@ -1,0 +1,335 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Shadows of Edo - Main Game Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;700&amp;family=Shojumaru&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#c5a996",
+                        "day-bg-start": "#f4f1ea",
+                        "on-primary-fixed-variant": "#920703",
+                        "tertiary-container": "#523e2f",
+                        "surface-bright": "#fff8f3",
+                        "background": "#fff8f3",
+                        "surface-variant": "#eae1d7",
+                        "on-tertiary-fixed": "#28180b",
+                        "sea-green": "#2e8b57",
+                        "surface-container-low": "#fcf2e8",
+                        "on-error-container": "#93000a",
+                        "cinnamon": "#d2691e",
+                        "primary-container": "#8b0000",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f9efe5",
+                        "secondary-fixed": "#e0e0ff",
+                        "surface-container-high": "#f0e7dd",
+                        "secondary": "#4c56af",
+                        "surface-container-highest": "#eae1d7",
+                        "night-bg-end": "#050811",
+                        "surface": "#fff8f3",
+                        "outline-variant": "#e3beb8",
+                        "outline": "#8e706b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1f1b15",
+                        "on-tertiary-fixed-variant": "#574333",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#f6ece2",
+                        "tertiary-fixed-dim": "#dec1ad",
+                        "lime-glow": "#ccff00",
+                        "sakura-pink": "#ffb7c5",
+                        "on-surface-variant": "#5a403c",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#27308a",
+                        "washi-paper": "#fdfbf7",
+                        "tertiary": "#3a281a",
+                        "primary": "#610000",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-primary-fixed": "#410000",
+                        "inverse-primary": "#ffb4a8",
+                        "primary-fixed": "#ffdad4",
+                        "night-bg-start": "#1a243f",
+                        "inverse-surface": "#343029",
+                        "on-primary-container": "#ff907f",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "on-surface": "#1f1b15",
+                        "secondary-container": "#959efd",
+                        "tertiary-fixed": "#fcddc7",
+                        "day-bg-end": "#d4cbb8",
+                        "on-secondary-fixed": "#000767",
+                        "surface-dim": "#e1d9cf",
+                        "surface-tint": "#b52619"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "touch-target": "48px",
+                        "gutter-mobile": "16px",
+                        "gutter-desktop": "40px",
+                        "shoji-gap": "24px",
+                        "scroll-padding": "32px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Shojumaru"],
+                        "body-lg": ["Noto Serif JP"],
+                        "vertical-kanji": ["Shojumaru"],
+                        "display-lg-mobile": ["Shojumaru"],
+                        "headline-md": ["Shojumaru"],
+                        "display-lg": ["Shojumaru"],
+                        "chat-log": ["Noto Serif JP"],
+                        "body-md": ["Noto Serif JP"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "3px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "vertical-kanji": ["20px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "2px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "4px", "fontWeight": "400" }],
+                        "chat-log": ["14px", { "lineHeight": "20px", "fontWeight": "300" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .noise-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+        
+        /* Particle animation setup */
+        @keyframes fireflyFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate(calc(var(--tx) * 10px), calc(var(--ty) * -10px)) scale(0.5); opacity: 0; }
+        }
+
+        .particle {
+            position: absolute;
+            background: #ccff00; /* lime-glow */
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 8px 2px rgba(204, 255, 0, 0.4);
+            animation: fireflyFloat var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            width: var(--size);
+            height: var(--size);
+            left: var(--x);
+            top: var(--y);
+        }
+
+        /* Shoji Card Styles */
+        .shoji-frame {
+            background: linear-gradient(135deg, #28180b, #1f1b15);
+            padding: 8px;
+            position: relative;
+        }
+        
+        .shoji-paper {
+            background-color: #fdfbf7;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shoji-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(90deg, rgba(40,24,11,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(40,24,11,0.1) 1px, transparent 1px);
+            background-size: 50% 33.33%;
+            pointer-events: none;
+        }
+
+        .writing-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+
+        /* Ink Splatter effect */
+        .ink-splatter {
+            mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40,50 Q45,20 60,30 T80,50 Q75,80 60,70 T40,50' fill='black'/%3E%3C/svg%3E");
+            mask-size: cover;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40,50 Q45,20 60,30 T80,50 Q75,80 60,70 T40,50' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: cover;
+        }
+
+        .slash-mark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 4px;
+            background-color: #93000a; /* on-error-container */
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 10px rgba(147, 0, 10, 0.8);
+            z-index: 10;
+        }
+
+        /* Brush stroke border */
+        .brush-border {
+            border: solid 2px transparent;
+            border-image: linear-gradient(to right, transparent, #8b0000, transparent) 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-night-bg-start min-h-screen relative overflow-hidden noise-bg text-on-surface select-none">
+<!-- Particle System Container -->
+<div class="absolute inset-0 z-0 pointer-events-none" id="particle-container"><div class="particle" style="--size: 1.3890495542695072px; --x: 9.124543040431199vw; --y: 33.14421760178299vh; --duration: 6.488117747901448s; --delay: 0.26630109365551324s; --tx: -4.30138606048609; --ty: 3.5766170236356523;"></div><div class="particle" style="--size: 1.5688474640186345px; --x: 13.504755237078147vw; --y: 11.649148412551336vh; --duration: 6.948931492130402s; --delay: 2.4211114531802864s; --tx: 4.517204440006159; --ty: -0.20215960000350752;"></div><div class="particle" style="--size: 3.392281147077591px; --x: 58.143590320039586vw; --y: 76.95523985225648vh; --duration: 6.401153104025294s; --delay: 4.937000469147032s; --tx: -3.9096682951639297; --ty: 3.2265485376948155;"></div><div class="particle" style="--size: 1.538494757164091px; --x: 69.10294210179758vw; --y: 91.91363635633844vh; --duration: 4.344797392290725s; --delay: 0.1524177577598257s; --tx: 4.703504940382187; --ty: -1.2482303848798892;"></div><div class="particle" style="--size: 3.2135752377338473px; --x: 38.62988988313476vw; --y: 63.34983628231681vh; --duration: 5.090512553614939s; --delay: 1.5735606500693067s; --tx: -1.8879567617874493; --ty: 1.7996189982241872;"></div><div class="particle" style="--size: 3.0873656707501635px; --x: 7.4813063043326355vw; --y: 80.59431754702814vh; --duration: 3.761284843319432s; --delay: 0.19383179548518148s; --tx: 2.512837258107359; --ty: -0.8326977511706146;"></div><div class="particle" style="--size: 1.2641635010007715px; --x: 16.962684093084135vw; --y: 26.34242577007553vh; --duration: 4.67348438815325s; --delay: 1.602843101696108s; --tx: -4.779336502678623; --ty: -3.0743663297958745;"></div><div class="particle" style="--size: 1.6905591398982605px; --x: 63.310449910362046vw; --y: 84.42811615672791vh; --duration: 6.226598627098673s; --delay: 3.1558441700665396s; --tx: -4.082983107292768; --ty: 3.9491815023843;"></div><div class="particle" style="--size: 1.8157223655931252px; --x: 86.99012880514647vw; --y: 64.22215271752675vh; --duration: 5.487296535744111s; --delay: 2.944862397882365s; --tx: 3.731375225599357; --ty: -4.696635290754141;"></div><div class="particle" style="--size: 3.4392992181073554px; --x: 51.42084041329819vw; --y: 66.00482681963767vh; --duration: 6.529051788364185s; --delay: 4.52238282624831s; --tx: -4.9297178967302235; --ty: 2.386812884422256;"></div><div class="particle" style="--size: 1.9674634671607882px; --x: 84.93881359204212vw; --y: 33.056881064833895vh; --duration: 3.3436457952452274s; --delay: 4.647781163458475s; --tx: -1.2316486533364635; --ty: -1.5687295466662299;"></div><div class="particle" style="--size: 1.5383008412973231px; --x: 16.818921343552795vw; --y: 24.810507349237497vh; --duration: 3.8138401598106824s; --delay: 1.1086135187079744s; --tx: 3.0979605245379718; --ty: 0.009007089188710626;"></div><div class="particle" style="--size: 1.141744910200181px; --x: 75.78435995208525vw; --y: 19.90172338394465vh; --duration: 5.27015266197497s; --delay: 2.722050370616114s; --tx: 1.5648420984656441; --ty: 4.089882296735322;"></div><div class="particle" style="--size: 2.666409716827132px; --x: 58.579253818459776vw; --y: 45.510900940250544vh; --duration: 6.463625832743729s; --delay: 1.5022146294976613s; --tx: 2.1635320878986777; --ty: 4.882183516972743;"></div><div class="particle" style="--size: 3.714694765408413px; --x: 53.711022620457946vw; --y: 81.18577230034501vh; --duration: 4.537524110091065s; --delay: 3.1782003263798475s; --tx: 0.1378754722843878; --ty: 0.5681895700122086;"></div><div class="particle" style="--size: 2.8601731623238846px; --x: 11.368083593481904vw; --y: 58.75903755656543vh; --duration: 6.2665911955435725s; --delay: 2.683513262617703s; --tx: -0.37140501769584944; --ty: -4.10370243154834;"></div><div class="particle" style="--size: 3.3990179989025586px; --x: 35.38021759644619vw; --y: 9.17019221826404vh; --duration: 5.162580106873207s; --delay: 4.771484845853648s; --tx: 1.8806807819896654; --ty: 4.198236093571483;"></div><div class="particle" style="--size: 2.801064994464809px; --x: 99.24938187845935vw; --y: 63.249091788544895vh; --duration: 4.1441615567086s; --delay: 3.85941671701284s; --tx: 3.3854962212072657; --ty: -1.136137441268702;"></div><div class="particle" style="--size: 2.4614343268035235px; --x: 29.708011739715957vw; --y: 37.26788514957769vh; --duration: 5.704629939934639s; --delay: 2.6798810531541455s; --tx: 4.163567701295097; --ty: -3.226850974825217;"></div><div class="particle" style="--size: 3.8039780922270654px; --x: 44.026245537700305vw; --y: 48.52842366715448vh; --duration: 6.56681141070549s; --delay: 0.7260761303820951s; --tx: 4.370341047719326; --ty: -4.4034936395447595;"></div><div class="particle" style="--size: 3.704551567725932px; --x: 61.847742777212446vw; --y: 41.13931084653913vh; --duration: 4.434216809257611s; --delay: 2.2824404279202555s; --tx: -1.9377030116993588; --ty: -0.1089267045598763;"></div><div class="particle" style="--size: 1.8153639349662574px; --x: 15.890089303863064vw; --y: 69.65055759983578vh; --duration: 6.2976411002371115s; --delay: 1.853986011934106s; --tx: -3.406853497707316; --ty: -1.1463784056959625;"></div><div class="particle" style="--size: 3.661388937600403px; --x: 34.476228558232904vw; --y: 80.07721392085776vh; --duration: 3.5312060927460736s; --delay: 2.466240417278006s; --tx: -0.47831809466867825; --ty: -1.4317601912081512;"></div><div class="particle" style="--size: 2.90971839047351px; --x: 77.86720178200973vw; --y: 79.81234833075325vh; --duration: 4.350527075671836s; --delay: 2.805364226115553s; --tx: 2.9052139841108318; --ty: -1.1607594814974853;"></div><div class="particle" style="--size: 3.1495641885820094px; --x: 21.466792128506718vw; --y: 63.23473455258972vh; --duration: 5.33930977023938s; --delay: 4.779513874143296s; --tx: -3.5426832170102642; --ty: -4.113996248214205;"></div><div class="particle" style="--size: 3.1278793938540486px; --x: 28.92919321082189vw; --y: 56.06421912116338vh; --duration: 6.54514372665499s; --delay: 2.2921129291830566s; --tx: 3.6026802238913422; --ty: 2.7307959892025337;"></div><div class="particle" style="--size: 2.858899175871122px; --x: 36.69278448214413vw; --y: 89.90106971474219vh; --duration: 5.671294287894712s; --delay: 4.205431068613124s; --tx: -2.981716614489444; --ty: 2.6172335300804104;"></div><div class="particle" style="--size: 2.1319044246871957px; --x: 0.20189856678327622vw; --y: 45.77868644426735vh; --duration: 3.239744861092848s; --delay: 0.2207495656304903s; --tx: 0.6882840346164587; --ty: 4.60224826196217;"></div><div class="particle" style="--size: 3.638136104966298px; --x: 50.93881730624214vw; --y: 45.013758528706624vh; --duration: 5.5807747018707s; --delay: 2.1911757147230606s; --tx: 4.66432968149551; --ty: 1.4362003256636935;"></div><div class="particle" style="--size: 1.2046711503668686px; --x: 14.112991962822441vw; --y: 8.5757083170795vh; --duration: 4.98762880782912s; --delay: 4.198068829120608s; --tx: -3.9473596269428333; --ty: 0.20204203099255413;"></div><div class="particle" style="--size: 3.124542884339214px; --x: 57.77275560714642vw; --y: 42.14279238221261vh; --duration: 6.37728153674629s; --delay: 1.6694906740421396s; --tx: -0.330236553420431; --ty: 1.9701747906981004;"></div><div class="particle" style="--size: 3.1912070385706217px; --x: 68.71226510603898vw; --y: 11.747580507048205vh; --duration: 6.506781658248735s; --delay: 1.4219067371951466s; --tx: 1.854445200525695; --ty: -3.9029390714306302;"></div><div class="particle" style="--size: 1.0238095459301588px; --x: 44.31673201025499vw; --y: 73.64168404081617vh; --duration: 4.356574756372144s; --delay: 1.7072469984328147s; --tx: -0.30413194081189143; --ty: 4.003652726853;"></div><div class="particle" style="--size: 1.2254253954513898px; --x: 97.24102744457933vw; --y: 99.28732343456066vh; --duration: 4.652696933401069s; --delay: 0.13351898610739543s; --tx: -1.847059643417659; --ty: -0.1657555574106817;"></div><div class="particle" style="--size: 3.960891200151277px; --x: 40.628535378914364vw; --y: 79.97552719855952vh; --duration: 5.860919725390128s; --delay: 2.4890133789268916s; --tx: -2.4234720522800224; --ty: -2.3346626333020892;"></div><div class="particle" style="--size: 3.225283800499208px; --x: 1.6796382277960986vw; --y: 77.79573517080411vh; --duration: 5.232476802751027s; --delay: 0.08025560624912109s; --tx: -2.330548082438759; --ty: 1.8608589908499518;"></div><div class="particle" style="--size: 3.931477375555405px; --x: 61.48916873187913vw; --y: 49.19229092766963vh; --duration: 5.201373605415302s; --delay: 2.4063196846605788s; --tx: 3.6902077819348222; --ty: 3.919252232603659;"></div><div class="particle" style="--size: 2.862301061928967px; --x: 92.09863331142175vw; --y: 47.75289122038091vh; --duration: 3.9855356400741218s; --delay: 4.613971660885997s; --tx: 0.7513774291599373; --ty: -3.723275480437045;"></div><div class="particle" style="--size: 2.449581813315998px; --x: 20.36496374520621vw; --y: 25.009721889192495vh; --duration: 5.274334473005714s; --delay: 3.9356628819924184s; --tx: 2.9788017207309627; --ty: -3.627764912408332;"></div><div class="particle" style="--size: 1.9319320946328207px; --x: 45.0115603605503vw; --y: 22.56978606440959vh; --duration: 5.643122586507033s; --delay: 4.101571433094714s; --tx: 4.816090677430928; --ty: -3.1993884899364557;"></div></div>
+<!-- Background Vignette -->
+<div class="absolute inset-0 bg-radial from-transparent to-night-bg-end/80 z-0 pointer-events-none"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-gutter-mobile h-touch-target bg-day-bg-start dark:bg-night-bg-start text-primary dark:text-primary-fixed-dim border-b-4 border-tertiary shadow-md transition-transform duration-200 active:scale-95">
+<div class="flex items-center justify-center w-12 h-12">
+<span class="material-symbols-outlined hover:opacity-80 transition-colors" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+</div>
+<h1 class="text-headline-md-mobile font-headline-md text-primary dark:text-primary-fixed-dim text-center flex-1 relative">
+<span class="absolute inset-0 bg-primary/20 blur-md rounded-full pointer-events-none"></span>
+            THE SUN SETS...
+        </h1>
+<div class="flex items-center justify-center w-12 h-12 text-on-surface-variant hover:opacity-80 transition-colors cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</div>
+</header>
+<!-- Main Content Canvas (The Board) -->
+<main class="relative z-10 pt-[calc(var(--spacing-touch-target)+var(--spacing-gutter-mobile))] pb-32 px-gutter-mobile h-screen overflow-y-auto overflow-x-hidden scroll-smooth pt-32 flex flex-col justify-center">
+<!-- Ambient lantern glow -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="grid grid-cols-2 gap-shoji-gap max-w-sm mx-auto">
+<!-- Player 1 (Active Target) -->
+<div class="shoji-frame rounded-md shadow-[0_10px_20px_rgba(0,0,0,0.5)] transform scale-105 transition-all duration-300 ring-4 ring-primary-container z-20" role="button" tabindex="0">
+<div class="shoji-paper h-48 w-full flex flex-col items-center justify-center p-2 relative shadow-inner">
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="w-16 h-16 rounded-full border-2 border-tertiary mb-2 overflow-hidden bg-surface-variant flex items-center justify-center relative">
+<img class="w-full h-full object-cover" data-alt="A portrait illustration of an Edo period samurai with a stern expression, painted in a traditional Japanese ink wash style with deep sumi-e blacks and subtle earthy undertones, set against a stark washi paper background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6mcV29WGxuiJpNguuC5aZ2AHLkcSic-NRD-DzLwa-QBFu96A9psJqUDeq9jW3QylrOLN0FRpVOCK9mkPsC4zbrYr7uzmTbH3VSF4Yi5zEqnEtdBMzhfHSfkVb7HmSPxF8Sc_jB1bNqsc0Yigs_5B0z9Mnf6QoVWNhn_igaRByFm3GXew87HwXINK-NwgoHOzry1_aXNmozLie6GAB5brWOCum--gpg7xG6GmjWjsW_t1RtGRwAWLTQw">
+</div>
+<span class="font-vertical-kanji text-vertical-kanji text-on-background writing-vertical tracking-widest mt-2 font-bold">Katsumoto</span>
+</div>
+</div>
+<!-- Player 2 (Self) -->
+<div class="shoji-frame rounded-md shadow-[0_5px_15px_rgba(0,0,0,0.3)] opacity-90">
+<div class="shoji-paper h-48 w-full flex flex-col items-center justify-center p-2 relative">
+<div class="absolute top-0 right-0 bg-cinnamon text-on-primary font-label-caps text-label-caps px-2 py-1 rounded-bl-md shadow-md z-10">YOU</div>
+<div class="w-16 h-16 rounded-full border-2 border-tertiary mb-2 overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait illustration of a masked shinobi character, their face obscured by a dark indigo cowl, with piercing eyes, painted in a loose, expressive ink brush style indicative of the Edo period, on a textured parchment background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWUEhnIabbUTrqFFILM3rko8AbC-dPoWPZFd2rdQ5_7pQoU_B09FYSH5i0T7VD0TGBdJOTowFJFTyQcraZTXSbeWFaRhi5IURVMutXhhrwlJGbTGwzZ61vGgKk1dLPn2VkoIj4dXvZe0Xt2kh_oldrfwDsWrWDrvWiM7fFF30jT9ETRL1hNhplYVGHgYMT9Dxw9JYfc2g1MO1lwZPPPuTs3aHAgbDx_I2dEQAVliyAuDY9CF8JuQrSPg">
+</div>
+<span class="font-vertical-kanji text-vertical-kanji text-on-background writing-vertical tracking-widest mt-2">Hanzo</span>
+</div>
+</div>
+<!-- Player 3 (Eliminated) -->
+<div class="shoji-frame rounded-md shadow-[0_2px_10px_rgba(0,0,0,0.4)] opacity-60 grayscale-[0.8] relative">
+<div class="shoji-paper h-48 w-full flex flex-col items-center justify-center p-2 relative">
+<div class="w-16 h-16 rounded-full border-2 border-tertiary mb-2 overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait illustration of a wealthy Edo period merchant looking fearful, rendered in messy, dark sumi-e ink wash style on distressed washi paper, conveying a mood of impending doom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK0TDtv0LuJVtQSoXBi-vO_mgHAGc43kA7jaD06AD48Xv5HQPV0OYK7iNa8Z8RCpl2Otyi84uMhFyP4m8U5GTss_8LfLsSww1ccYEeq8GQ7kCCtXSPh5ogSDyAKp1hwZUjlWwTQpGJUI5pIk36WjvlybT0EujMXfx4xk1ArIlKXmE5GulC_uMvZ7-zRwLlgM6X4NaJjVO_BBybw94tyOuLkHZHRIzn5dV62tf6aVOG5-xfQKFYQHQ7hg">
+</div>
+<span class="font-vertical-kanji text-vertical-kanji text-on-background writing-vertical tracking-widest mt-2 line-through decoration-error decoration-2">Takeda</span>
+</div>
+<!-- Dead Effects -->
+<div class="absolute inset-0 bg-primary/20 pointer-events-none ink-splatter mix-blend-multiply"></div>
+<div class="slash-mark"></div>
+</div>
+<!-- Player 4 -->
+<div class="shoji-frame rounded-md shadow-[0_5px_15px_rgba(0,0,0,0.3)]">
+<div class="shoji-paper h-48 w-full flex flex-col items-center justify-center p-2 relative">
+<div class="w-16 h-16 rounded-full border-2 border-tertiary mb-2 overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait illustration of a serene geisha holding a fan, drawn in delicate ink outlines with subtle washes of gray and muted colors on a traditional Japanese paper texture, conveying elegance and mystery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgDHRA0LDuffeNeXgP_3ea_JKkBvalZIxL4-9N3ti5g4TrKYmwU_hrQC4Hpi_6hQ7fbTtiw8XG-Z2IUddxEuzd_sPfKzelipD5icOXiRtWZPHwrr4zKdzmXmemLkh_eU_f__CVQN4GsdRhKauMnKmkKKVGIhlys6toxxRFNWhGzRJLqrzawz48G94mxVj7fy1XesTuPXWW4YVtg7st7U07fJ7L_eqLaxw2GPjMtD_ZqCuh2Gu4UI30hQ">
+</div>
+<span class="font-vertical-kanji text-vertical-kanji text-on-background writing-vertical tracking-widest mt-2">Chiyo</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom HUD Elements -->
+<div class="fixed bottom-gutter-mobile left-gutter-mobile z-40 flex items-center gap-2 pointer-events-auto">
+<div class="w-14 h-14 rounded-full bg-secondary text-on-secondary shadow-lg flex items-center justify-center border-2 border-secondary-fixed-dim relative group cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+<!-- Tooltip/Label -->
+<div class="absolute -top-10 left-0 bg-surface-container-high text-on-surface font-label-caps text-label-caps px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity border border-outline pointer-events-none">SHINOBI</div>
+</div>
+</div>
+<div class="fixed bottom-gutter-mobile right-gutter-mobile z-40 pointer-events-auto">
+<div class="w-14 h-14 rounded-full bg-surface-container-high text-tertiary shadow-lg flex items-center justify-center border-2 border-tertiary cursor-pointer hover:bg-surface-variant transition-colors group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">history_edu</span>
+<div class="absolute top-1 right-1 w-3 h-3 bg-primary rounded-full animate-pulse"></div> <!-- Unread indicator -->
+</div>
+</div>
+<!-- Action Decision Overlay (Shown because Target is active) -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-gradient-to-t from-black via-night-bg-end/90 to-transparent pt-12 pb-6 px-gutter-mobile flex justify-center gap-4 animate-[slideUp_0.3s_ease-out]">
+<button class="px-6 py-3 font-label-caps text-label-caps bg-surface-container-high text-on-surface rounded-sm border-2 border-outline hover:bg-surface-variant transition-colors shadow-lg">
+            HESITATE
+        </button>
+<button class="px-8 py-3 font-label-caps text-label-caps bg-primary-container text-on-primary-container rounded-sm border-2 border-on-primary-fixed shadow-[0_0_15px_rgba(139,0,0,0.6)] hover:bg-primary transition-colors relative overflow-hidden group">
+<span class="relative z-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">swords</span>
+                STRIKE
+            </span>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
+</button>
+</div>
+<script>
+        // Simple Particle System generator
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('particle-container');
+            const numParticles = 20;
+
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Randomize properties
+                const size = Math.random() * 3 + 1 + 'px';
+                const x = Math.random() * 100 + 'vw';
+                const y = Math.random() * 100 + 'vh';
+                const duration = Math.random() * 4 + 3 + 's';
+                const delay = Math.random() * 5 + 's';
+                const tx = (Math.random() - 0.5) * 10;
+                const ty = (Math.random() - 0.5) * 10;
+
+                particle.style.setProperty('--size', size);
+                particle.style.setProperty('--x', x);
+                particle.style.setProperty('--y', y);
+                particle.style.setProperty('--duration', duration);
+                particle.style.setProperty('--delay', delay);
+                particle.style.setProperty('--tx', tx);
+                particle.style.setProperty('--ty', ty);
+
+                container.appendChild(particle);
+            }
+        });
+    </script>
+<style>
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+    </style>
+
+
+
+
+</body></html>
