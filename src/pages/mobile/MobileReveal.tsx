@@ -37,7 +37,7 @@ export default function MobileReveal({ room, returnToLobby }: { room: any, retur
           <h2 className="font-typewriter-md border-b-2 border-black pb-2 mb-4">SUBJECT DISPOSITIONS</h2>
           
           <div className="space-y-4">
-            {players.map((p: any, index: number) => {
+            {players.filter(Boolean).map((p: any, index: number) => {
               const isDead = p.isDead;
               const rotClass = index % 2 === 0 ? 'rotate-[1deg]' : 'rotate-[-1deg]';
               return (
@@ -85,3 +85,4 @@ export default function MobileReveal({ room, returnToLobby }: { room: any, retur
     </div>
   );
 }
+

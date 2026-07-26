@@ -84,7 +84,7 @@ export default function GameMobile({ gameStateData }: { gameStateData: any }) {
           <div className="bg-black/5 p-4 border border-black/10 rounded my-8">
             <h3 className="font-bold mb-3 uppercase border-b border-black/10 pb-2">Suspect Roster ({players.length})</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
-               {players.map(p => (
+               {players.filter(Boolean).map(p => (
                  <div key={p.id} className="flex justify-between items-center">
                    <span>{p.name} {p.id === playerId ? '(You)' : ''}</span>
                    <span className="text-zinc-500 text-xs">[{p.role?.name || '?'}]</span>
@@ -283,7 +283,7 @@ export default function GameMobile({ gameStateData }: { gameStateData: any }) {
              </div>
 
              <div className="flex flex-wrap justify-center gap-4 gap-y-12 md:gap-10 md:gap-y-16 max-w-5xl w-full relative z-20">
-                {players.map(p => {
+                {players.filter(Boolean).map(p => {
                   const isMe = p.id === playerId;
                   const isSelected = selectedTarget === p.id;
                   const isTargeted = (isNight && nightActions[playerId] === p.id) || (isVoting && votes[playerId] === p.id);

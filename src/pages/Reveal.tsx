@@ -34,7 +34,7 @@ export default function Reveal() {
       <div className="glass-card reveal-card">
         <h2>Final Roles</h2>
         <div className="reveal-grid">
-          {players.map(p => (
+          {players.filter(Boolean).map(p => (
             <div key={p.id} className={`reveal-item ${p.status === 'Dead' ? 'dead' : ''}`}>
               <div className="avatar">{p.name.charAt(0)}</div>
               <div className="player-details">
@@ -56,3 +56,4 @@ export default function Reveal() {
     </div>
   );
 }
+

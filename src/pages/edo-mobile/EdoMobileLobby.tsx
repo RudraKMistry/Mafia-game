@@ -140,7 +140,7 @@ export default function EdoMobileLobby() {
           {activeTab === 'suspects' && (
             <div className="animate-in fade-in duration-300">
               <div className="grid grid-cols-2 gap-4">
-                {players.map((p: any, idx: number) => (
+                {players.filter(Boolean).map((p: any, idx: number) => (
                   <div key={idx} className="shoji-frame shoji-paper rounded-sm h-28 relative flex flex-col items-center justify-center p-2">
                     {idx === 0 && (
                       <div className="absolute -top-3 -right-3 w-8 h-8 bg-[#8b0000] rounded-full flex items-center justify-center shadow-md border-2 border-[#fdfbf7] z-20">
@@ -309,3 +309,4 @@ export default function EdoMobileLobby() {
     </div>
   );
 }
+

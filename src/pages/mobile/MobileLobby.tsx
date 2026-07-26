@@ -104,7 +104,7 @@ export default function MobileLobby() {
                 </div>
 
                 <ul className="space-y-2">
-                  {players.map((p: any, index: number) => {
+                  {players.filter(Boolean).map((p: any, index: number) => {
                     const rotClass = index % 3 === 0 ? 'rotate-[-1deg]' : index % 2 === 0 ? 'rotate-[1deg]' : 'rotate-[-0.5deg]';
                     return (
                       <li key={p.id} className={`bg-white border-2 border-black neo-brutalist-shadow p-1.5 flex items-center gap-2 relative ${rotClass}`}>
@@ -323,3 +323,4 @@ export default function MobileLobby() {
     </div>
   );
 }
+

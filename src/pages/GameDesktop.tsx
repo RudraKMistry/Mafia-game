@@ -99,7 +99,7 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
           <div className="bg-black/5 p-4 border border-black/10 rounded my-8">
             <h3 className="font-bold mb-3 uppercase border-b border-black/10 pb-2">Suspect Roster ({players.length})</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
-               {players.map(p => (
+               {players.filter(Boolean).map(p => (
                  <div key={p.id} className="flex justify-between items-center border-b border-black/5 pb-1">
                    <span className={p.id === playerId ? 'font-bold' : ''}>{p.name} {p.id === playerId ? '(You)' : ''}</span>
                    <span className="text-zinc-500 text-xs font-bold" style={{ color: (p.id === playerId || (activePlayer?.role?.id === 'mafia' && p.role?.id === 'mafia')) ? p.role?.ink : '' }}>
@@ -288,7 +288,7 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
              <div className="w-full flex flex-col items-center flex-shrink-0 pt-8 pb-8">
 
                <div className="flex flex-wrap justify-center gap-4 gap-y-12 md:gap-10 md:gap-y-16 max-w-5xl w-full relative z-20 flex-shrink-0 mt-8">
-                {players.map(p => {
+                {players.filter(Boolean).map(p => {
                   const isMe = p.id === playerId;
                   const isSelected = selectedTarget === p.id;
                   const isTargeted = (isNight && nightActions[playerId] === p.id) || (isVoting && votes[playerId] === p.id);

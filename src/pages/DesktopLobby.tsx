@@ -202,7 +202,7 @@ export default function Lobby() {
                 </div>
               ) : (
                 <ul className="grid grid-cols-1 gap-3">
-                  {players.map((p) => (
+                  {players.filter(Boolean).map((p) => (
                     <li key={p.id} className="flex items-center gap-4 p-2 bg-white/40 border border-black/5 shadow-sm rounded-sm">
                       <div className="w-10 h-10 rounded-full border-[2px] border-black flex flex-shrink-0 items-center justify-center text-lg font-typewriter font-bold shadow-inner bg-white/70 text-black">
                         {p.name.charAt(0).toUpperCase()}
@@ -418,3 +418,4 @@ export default function Lobby() {
     </div>
   );
 }
+

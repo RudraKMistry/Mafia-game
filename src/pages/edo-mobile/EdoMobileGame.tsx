@@ -261,7 +261,7 @@ export default function EdoMobileGame({ gameStateData }: { gameStateData: any })
 
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto" id="players-grid">
-                    {players.map((p: any) => {
+                    {players.filter(Boolean).map((p: any) => {
                         const isMe = p.id === playerId;
                         const isDead = p.isDead;
                         const isTargeted = selectedTarget === p.id;

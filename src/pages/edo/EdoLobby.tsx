@@ -209,7 +209,7 @@ export default function EdoLobby() {
                 </div>
               ) : (
                 <ul className="grid grid-cols-1 gap-3">
-                  {players.map((p) => (
+                  {players.filter(Boolean).map((p) => (
                     <li key={p.id} className="flex items-center gap-4 p-3 bg-gray-900/50 border border-gray-800 shadow-sm transition-colors hover:border-gray-600">
                       <div className="w-10 h-10 flex flex-shrink-0 items-center justify-center text-lg font-serif font-bold bg-[#111] border border-gray-700 text-gray-300">
                         {p.name.charAt(0).toUpperCase()}
@@ -404,3 +404,4 @@ export default function EdoLobby() {
     </div>
   );
 }
+

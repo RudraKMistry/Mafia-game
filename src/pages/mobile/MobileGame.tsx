@@ -80,7 +80,7 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
           <div className="bg-[#fff8f6] p-2 border-[3px] border-black neo-brutalist-shadow my-8">
             <h3 className="font-bold mb-3 uppercase border-b-2 border-black pb-2">Suspect Roster ({players.length})</h3>
             <div className="grid grid-cols-1 gap-2 text-sm font-typewriter-md">
-               {players.map((p: any) => (
+               {players.filter(Boolean).map((p: any) => (
                  <div key={p.id} className="flex justify-between items-center">
                    <span className="font-bold">{p.name} {p.id === playerId ? '(You)' : ''}</span>
                    <span className="text-[10px] uppercase font-bold" style={{ color: (p.id === playerId || (activePlayer?.role?.id === 'mafia' && p.role?.id === 'mafia')) ? p.role?.ink : '#5a403c' }}>
@@ -407,3 +407,4 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
     </div>
   );
 }
+
