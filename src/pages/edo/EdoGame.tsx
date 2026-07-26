@@ -130,15 +130,6 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         <p className="font-serif text-xl md:text-2xl text-gray-300 italic max-w-xl mx-auto leading-relaxed">
             {transitionText}
         </p>
-        
-        {isHost && (
-            <button 
-                onClick={advancePhase}
-                className="mt-12 px-10 py-4 bg-transparent border-2 border-red-900 text-red-500 hover:bg-red-900/20 font-bold uppercase tracking-widest transition-all"
-            >
-                Continue
-            </button>
-        )}
       </div>
     </div>
   );
