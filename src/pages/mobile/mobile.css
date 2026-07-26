@@ -1,0 +1,85 @@
+/* Mobile-specific Tailwind Theme and Styles */
+@theme {
+  --color-folder-accent: #D97706;
+  --color-stamp-red: #991B1B;
+  --color-ink-blue: #1E3A8A;
+  --color-manila-paper: #E8D9C5;
+  --color-tape-yellow: #FACC15;
+  --color-mafia-role: #8B0000;
+  --color-doctor-role: #1E40AF;
+  --color-detective-role: #3F3F46;
+  --color-jester-role: #581C87;
+  --color-villager-role: #27272A;
+  
+  --font-typewriter-md: 'Courier Prime', monospace;
+  --font-handwritten-lg: 'Bricolage Grotesque', sans-serif;
+  --font-display-xl: 'Anybody', sans-serif;
+  --font-label-caps: 'Space Grotesk', sans-serif;
+  --font-body-standard: 'Space Grotesk', sans-serif;
+  --font-headline-lg: 'Anybody', sans-serif;
+  --font-typewriter-sm: 'Courier Prime', monospace;
+}
+
+/* Procedural / Tactile Noir Textures (Mobile) */
+.m-paper-texture {
+    background-color: #E8D9C5;
+    background-image: 
+        linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+}
+
+.m-desk-texture {
+    background-color: #3d2c2a;
+    background-image: radial-gradient(circle at center, #5a403c 0%, #261816 100%);
+}
+
+.stamp-effect {
+    border: 4px solid #991B1B;
+    color: #991B1B;
+    transform: rotate(-12deg);
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="black"/><circle cx="50" cy="50" r="40" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="black"/><circle cx="50" cy="50" r="40" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2"/></svg>');
+}
+
+.neo-brutalist-shadow {
+    box-shadow: 4px 4px 0px #000000;
+}
+
+.neo-brutalist-button:active {
+    transform: translate(4px, 4px) rotate(var(--rot, 0deg));
+    box-shadow: 0px 0px 0px #000000;
+}
+
+.tape-strip {
+    background: rgba(250, 204, 21, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    backdrop-filter: blur(2px);
+    transform: rotate(-2deg);
+}
+
+.typing-cursor::after {
+    content: '▋';
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.folder-tab {
+    clip-path: polygon(0% 100%, 0% 0%, 30% 0%, 35% 10%, 100% 10%, 100% 100%);
+}
+
+.night-mode {
+    filter: brightness(0.7) contrast(1.2) sepia(0.2) hue-rotate(200deg);
+}
+
+.blood-splatter {
+    background-image: radial-gradient(circle, rgba(139,0,0,0.8) 0%, rgba(139,0,0,0) 70%);
+    mix-blend-mode: multiply;
+}

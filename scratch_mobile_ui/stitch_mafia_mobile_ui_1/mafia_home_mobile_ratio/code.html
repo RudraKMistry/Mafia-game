@@ -1,0 +1,321 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Mafia - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&amp;family=Bricolage+Grotesque:wght@600&amp;family=Courier+Prime:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "folder-accent": "#D97706",
+                      "outline": "#8e706b",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#efd4d0",
+                      "primary-fixed-dim": "#ffb4a8",
+                      "tertiary-fixed": "#dfe0ff",
+                      "surface-container-highest": "#f8dcd8",
+                      "on-primary-fixed-variant": "#920703",
+                      "ink-blue": "#1E3A8A",
+                      "surface-container-high": "#fee2dd",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#47445d",
+                      "surface-tint": "#b52619",
+                      "on-secondary-container": "#63607a",
+                      "on-tertiary-fixed": "#000d60",
+                      "detective-role": "#3F3F46",
+                      "tape-yellow": "#FACC15",
+                      "secondary": "#5f5b75",
+                      "on-tertiary-container": "#9ea9ff",
+                      "tertiary-container": "#0025c8",
+                      "primary": "#610000",
+                      "on-background": "#261816",
+                      "on-tertiary-fixed-variant": "#0d2ccc",
+                      "doctor-role": "#1E40AF",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#f8dcd8",
+                      "jester-role": "#581C87",
+                      "on-primary-container": "#ff907f",
+                      "surface-container-low": "#fff0ee",
+                      "on-primary-fixed": "#410000",
+                      "primary-container": "#8b0000",
+                      "secondary-container": "#e2dcfb",
+                      "villager-role": "#27272A",
+                      "primary-fixed": "#ffdad4",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#1b192f",
+                      "mafia-role": "#8B0000",
+                      "background": "#fff8f6",
+                      "on-secondary": "#ffffff",
+                      "inverse-on-surface": "#ffedea",
+                      "inverse-surface": "#3d2c2a",
+                      "stamp-red": "#991B1B",
+                      "tertiary": "#00178d",
+                      "inverse-primary": "#ffb4a8",
+                      "manila-paper": "#E8D9C5",
+                      "secondary-fixed": "#e4dffe",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#5a403c",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed-dim": "#c8c3e1",
+                      "surface-bright": "#fff8f6",
+                      "on-surface": "#261816",
+                      "tertiary-fixed-dim": "#bcc3ff",
+                      "surface-container": "#ffe9e6",
+                      "outline-variant": "#e3beb8",
+                      "surface": "#fff8f6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stamp-offset": "-12deg",
+                      "gutter-mobile": "16px",
+                      "unit": "4px",
+                      "margin-dossier": "24px",
+                      "row-gap": "12px"
+              },
+              "fontFamily": {
+                      "typewriter-md": [
+                              "Courier Prime"
+                      ],
+                      "handwritten-lg": [
+                              "Bricolage Grotesque"
+                      ],
+                      "display-xl": [
+                              "Anybody"
+                      ],
+                      "label-caps": [
+                              "Space Grotesk"
+                      ],
+                      "body-standard": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Anybody"
+                      ],
+                      "typewriter-sm": [
+                              "Courier Prime"
+                      ]
+              },
+              "fontSize": {
+                      "typewriter-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "handwritten-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-standard": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "typewriter-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.2em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Procedural / Tactile Noir Textures */
+        .paper-texture {
+            background-color: #E8D9C5;
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+        }
+        
+        .desk-texture {
+            background-color: #3d2c2a;
+            background-image: radial-gradient(circle at center, #5a403c 0%, #261816 100%);
+        }
+
+        .stamp-effect {
+            border: 4px solid #991B1B;
+            color: #991B1B;
+            transform: rotate(-12deg);
+            opacity: 0.85;
+            mix-blend-mode: multiply;
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="black"/><circle cx="50" cy="50" r="40" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2"/></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="black"/><circle cx="50" cy="50" r="40" fill="none" stroke="black" stroke-width="2" stroke-dasharray="4 2"/></svg>');
+        }
+
+        .neo-brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .neo-brutalist-button:active {
+            transform: translate(4px, 4px) rotate(var(--rot, 0deg));
+            box-shadow: 0px 0px 0px #000000;
+        }
+        
+        .polaroid-shadow {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 6px 6px rgba(0,0,0,0.2), 4px 4px 0px #000000;
+        }
+        
+        .tape-corner {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 60px;
+            height: 20px;
+            background-color: rgba(250, 204, 21, 0.6);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .notebook-line {
+            border-bottom: 1px dashed #1E3A8A;
+        }
+        
+        /* Utility for slight random rotations */
+        .rot-1 { transform: rotate(1deg); }
+        .rot-neg-1 { transform: rotate(-1deg); }
+        .rot-2 { transform: rotate(2deg); }
+        .rot-neg-2 { transform: rotate(-2deg); }
+    </style>
+</head>
+<body class="desk-texture min-h-screen flex flex-col items-center justify-center p-gutter-mobile overflow-x-hidden selection:bg-stamp-red selection:text-white">
+<!-- Main Folder Container -->
+<main class="paper-texture w-full max-w-md rounded-DEFAULT border-4 border-black relative px-gutter-mobile flex flex-col shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] z-10 my-8 pb-4 pt-4 gap-3">
+<!-- Folder Tab (Faux) -->
+<div class="absolute -top-10 left-4 bg-manila-paper border-t-4 border-l-4 border-r-4 border-black px-4 py-2 rounded-t-lg z-[-1] flex items-center gap-2 neo-brutalist-shadow">
+<span class="material-symbols-outlined text-black" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-typewriter-md text-typewriter-md text-black">FILE: MAFIA-001</span>
+</div>
+<!-- Top Secret Stamp -->
+<div class="absolute top-6 right-4 stamp-effect p-2 rounded-DEFAULT rot-neg-12 pointer-events-none border-dashed z-20">
+<span class="font-display-xl text-display-xl text-stamp-red leading-none tracking-tighter uppercase block">TOP</span>
+<span class="font-display-xl text-display-xl text-stamp-red leading-none tracking-tighter uppercase block">SECRET</span>
+</div>
+<!-- Header Section -->
+<header class="flex flex-col items-start border-b-4 border-black pb-4 relative z-10">
+<h1 class="font-display-xl text-primary tracking-tighter uppercase drop-shadow-[2px_2px_0_#000] text-headline-lg">MAFIA</h1>
+<p class="font-typewriter-sm text-typewriter-sm text-on-surface-variant uppercase mt-1">A Game of Deception &amp; Deduction</p>
+</header>
+<!-- Primary Actions (Bento-ish Grid) -->
+<section class="grid grid-cols-1 z-10 mt-4 gap-2">
+<!-- Host Game Button -->
+<button class="neo-brutalist-button bg-stamp-red border-4 border-black text-white py-4 px-6 rounded-DEFAULT flex items-center justify-between transition-transform duration-75 [--rot:-1deg] rot-neg-1 w-full neo-brutalist-shadow group">
+<div class="flex flex-col items-start">
+<span class="font-label-caps text-label-caps text-surface-container-high opacity-80 mb-1">NEW PROTOCOL</span>
+<span class="font-headline-lg text-headline-lg uppercase">Host Game</span>
+</div>
+<span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">meeting_room</span>
+</button>
+<!-- Join Game Button -->
+<button class="neo-brutalist-button bg-manila-paper border-4 border-black text-on-surface py-4 px-6 rounded-DEFAULT flex items-center justify-between transition-transform duration-75 [--rot:1deg] rot-1 w-full neo-brutalist-shadow shadow-inner group mt-2">
+<div class="flex flex-col items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-80 mb-1">EXISTING PROTOCOL</span>
+<span class="font-headline-lg text-headline-lg uppercase">Join Game</span>
+</div>
+<span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform text-outline" style="font-variation-settings: 'FILL' 1;">login</span>
+</button>
+</section>
+<!-- Known Associates (Roles Overview) -->
+<section class="relative z-10 border-4 border-black bg-surface-container-low rounded-DEFAULT neo-brutalist-shadow rot-neg-1 mt-4 p-2">
+<div class="tape-corner"></div>
+<h2 class="font-typewriter-md text-typewriter-md text-black border-b-2 border-black pb-2 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+                KNOWN ASSOCIATES
+            </h2>
+<ul class="flex flex-col gap-0 font-body-standard text-body-standard text-on-surface">
+<li class="flex items-center gap-3 notebook-line">
+<div class="w-6 h-6 rounded-full bg-mafia-role border-2 border-black flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">sports_kabaddi</span>
+</div>
+<span class="font-bold flex-shrink-0">Mafia</span>
+<span class="text-on-surface-variant truncate text-sm">Eliminate the town</span>
+</li>
+<li class="flex items-center gap-3 notebook-line">
+<div class="w-6 h-6 rounded-full bg-villager-role border-2 border-black flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<span class="font-bold flex-shrink-0">Villager</span>
+<span class="text-on-surface-variant truncate text-sm">Survive and vote</span>
+</li>
+<li class="flex items-center gap-3 notebook-line">
+<div class="w-6 h-6 rounded-full bg-doctor-role border-2 border-black flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<span class="font-bold flex-shrink-0">Doctor</span>
+<span class="text-on-surface-variant truncate text-sm">Protect the innocent</span>
+</li>
+<li class="flex items-center gap-3 notebook-line">
+<div class="w-6 h-6 rounded-full bg-detective-role border-2 border-black flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">search</span>
+</div>
+<span class="font-bold flex-shrink-0">Detective</span>
+<span class="text-on-surface-variant truncate text-sm">Investigate suspects</span>
+</li>
+<li class="flex items-center gap-3 border-b-0">
+<div class="w-6 h-6 rounded-full bg-jester-role border-2 border-black flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings: 'FILL' 1;">masks</span>
+</div>
+<span class="font-bold flex-shrink-0">Jester</span>
+<span class="text-on-surface-variant truncate text-sm">Get voted out</span>
+</li>
+</ul>
+</section>
+<!-- Polaroid Deco -->
+<div class="absolute -bottom-6 -right-4 w-24 h-28 bg-white border-4 border-black p-2 pb-6 flex flex-col rot-12 polaroid-shadow z-20 pointer-events-none">
+<div class="w-full h-full bg-surface-container-highest border-2 border-black flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover sepia-[.3] contrast-125 grayscale" data-alt="A gritty, black and white polaroid photo of a shadowy figure in a fedora standing under a streetlamp. High contrast noir style, 1950s aesthetic, grainy texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJz1l9FKkuwfvZXlyKe8POUQx7zXGtjfl2YRcWz9l6Gw9HvQcfgunXy5IdcPr87aA7I9pS-hlsUMUH8bHemiyNCD5Xtuouto0-Gzdrav568Phmaq0Tm9MawxDFuEN8IV8oD74LzQLJd1rK78Wdm_D3JD3eYoZJTEENRxJ56sYN5s0M5YeRcMjt61sHoFWN1E2xhyhYCodat9XyXl4sH4khDZyX-88S6ZHdevy8DMCDHk2mOzv1B0It">
+</div>
+<span class="font-handwritten-lg text-[12px] text-black mt-1 text-center leading-none">Suspect #1?</span>
+</div>
+</main>
+</body></html>

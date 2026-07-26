@@ -1,0 +1,313 @@
+<!DOCTYPE html><html class="dark" lang="en" style="width: 390px; height: 884px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Mafia Game - Active Investigation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&amp;family=Bricolage+Grotesque:wght@600&amp;family=Courier+Prime:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "folder-accent": "#D97706",
+                        "outline": "#8e706b",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#efd4d0",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "tertiary-fixed": "#dfe0ff",
+                        "surface-container-highest": "#f8dcd8",
+                        "on-primary-fixed-variant": "#920703",
+                        "ink-blue": "#1E3A8A",
+                        "surface-container-high": "#fee2dd",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#47445d",
+                        "surface-tint": "#b52619",
+                        "on-secondary-container": "#63607a",
+                        "on-tertiary-fixed": "#000d60",
+                        "detective-role": "#3F3F46",
+                        "tape-yellow": "#FACC15",
+                        "secondary": "#5f5b75",
+                        "on-tertiary-container": "#9ea9ff",
+                        "tertiary-container": "#0025c8",
+                        "primary": "#610000",
+                        "on-background": "#261816",
+                        "on-tertiary-fixed-variant": "#0d2ccc",
+                        "doctor-role": "#1E40AF",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#f8dcd8",
+                        "jester-role": "#581C87",
+                        "on-primary-container": "#ff907f",
+                        "surface-container-low": "#fff0ee",
+                        "on-primary-fixed": "#410000",
+                        "primary-container": "#8b0000",
+                        "secondary-container": "#e2dcfb",
+                        "villager-role": "#27272A",
+                        "primary-fixed": "#ffdad4",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#1b192f",
+                        "mafia-role": "#8B0000",
+                        "background": "#fff8f6",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#ffedea",
+                        "inverse-surface": "#3d2c2a",
+                        "stamp-red": "#991B1B",
+                        "tertiary": "#00178d",
+                        "inverse-primary": "#ffb4a8",
+                        "manila-paper": "#E8D9C5",
+                        "secondary-fixed": "#e4dffe",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#5a403c",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#c8c3e1",
+                        "surface-bright": "#fff8f6",
+                        "on-surface": "#261816",
+                        "tertiary-fixed-dim": "#bcc3ff",
+                        "surface-container": "#ffe9e6",
+                        "outline-variant": "#e3beb8",
+                        "surface": "#fff8f6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stamp-offset": "-12deg",
+                        "gutter-mobile": "16px",
+                        "unit": "4px",
+                        "margin-dossier": "24px",
+                        "row-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "typewriter-md": ["Courier Prime"],
+                        "handwritten-lg": ["Bricolage Grotesque"],
+                        "display-xl": ["Anybody"],
+                        "label-caps": ["Space Grotesk"],
+                        "body-standard": ["Space Grotesk"],
+                        "headline-lg": ["Anybody"],
+                        "typewriter-sm": ["Courier Prime"]
+                    },
+                    "fontSize": {
+                        "typewriter-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "handwritten-lg": ["24px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display-xl": ["48px", { "lineHeight": "48px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+                        "label-caps": ["11px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-standard": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "36px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+                        "typewriter-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "400" }]
+                    },
+                    "backgroundImage": {
+                        'paper-texture': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.08%22/%3E%3C/svg%3E')",
+                        'wood-desk': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22wood%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.01 0.1%22 numOctaves=%223%22 result=%22noise%22/%3E%3CfeColorMatrix type=%22matrix%22 values=%221 0 0 0 0.15 0 1 0 0 0.08 0 0 1 0 0.04 0 0 0 1 0%22 in=%22noise%22 result=%22coloredNoise%22/%3E%3CfeComposite operator=%22in%22 in=%22coloredNoise%22 in2=%22SourceGraphic%22 result=%22composite%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23261816%22 filter=%22url(%23wood)%22/%3E%3C/svg%3E')"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .detective-log-bg {
+            background-image: 
+                linear-gradient(to bottom, transparent 23px, #1E3A8A 24px),
+                linear-gradient(to right, transparent 23px, rgba(153,27,27,0.2) 24px, transparent 25px);
+            background-size: 100% 24px, 100% 100%;
+        }
+
+        .suspect-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+        
+        .action-panel-enter {
+            transform: translateY(100%);
+            animation: slideUp 0.3s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-manila-paper dark:bg-detective-role bg-paper-texture text-on-surface h-screen overflow-hidden flex flex-col font-body-standard relative selection:bg-stamp-red selection:text-white">
+<!-- Sticky Identity Card (Tape effect) -->
+<div class="absolute top-4 right-4 z-40 rotate-[3deg] shadow-[4px_4px_0px_#000000] transition-transform hover:rotate-0">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-4 bg-tape-yellow opacity-80 shadow-sm z-10"></div>
+<div class="bg-manila-paper p-3 border-2 border-black relative">
+<p class="font-typewriter-sm text-typewriter-sm text-on-surface-variant mb-1">ID / ROLE</p>
+<p class="font-handwritten-lg text-handwritten-lg text-doctor-role">DOCTOR</p>
+<div class="absolute -bottom-2 -right-2 border-2 border-doctor-role rounded-full w-8 h-8 flex items-center justify-center bg-transparent opacity-80 rotate-[-15deg]">
+<span class="material-symbols-outlined text-doctor-role" style="font-size: 16px;">healing</span>
+</div>
+</div>
+</div>
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-manila-paper dark:bg-inverse-surface border-b-4 border-black dark:border-outline shadow-[0_4px_0_0_rgba(0,0,0,1)] z-30">
+<div class="flex justify-between items-center px-margin-dossier py-unit w-full max-w-md mx-auto h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: &quot;FILL&quot; 1;">folder_open</span>
+<h1 class="font-display-xl text-display-xl text-primary dark:text-primary-fixed uppercase tracking-tighter" style="font-size: 24px; line-height: 24px;">CASE #4921-B</h1>
+</div>
+<div class="font-typewriter-md text-typewriter-md text-primary dark:text-primary-fixed">
+                ROOM: XYZA
+            </div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto py-margin-dossier pb-32 relative px-2">
+<div class="max-w-md mx-auto space-y-8">
+<!-- Section Header -->
+<div class="border-b-4 border-black pb-2 mb-4 flex justify-between items-end">
+<h2 class="font-headline-lg text-headline-lg text-white">SUSPECTS</h2>
+<span class="font-typewriter-sm text-typewriter-sm text-outline">NIGHT 2</span>
+</div>
+<!-- Suspect Grid -->
+<div class="grid grid-cols-2 gap-2">
+<!-- Suspect 1 (Self) -->
+<button class="suspect-card bg-manila-paper bg-paper-texture border-4 border-black shadow-[4px_4px_0px_#000000] rotate-[-1deg] transition-all text-left relative overflow-hidden group p-1" onclick="toggleActionPanel('Det. Miller')">
+<div class="aspect-square bg-surface-dim border-2 border-black mb-2 relative overflow-hidden">
+<div class="w-full h-full flex items-center justify-center bg-surface-bright mix-blend-multiply opacity-80"><span class="material-symbols-outlined text-black" style="font-size: 80px;">fingerprint</span></div>
+<div class="absolute inset-0 bg-doctor-role mix-blend-color opacity-20"></div>
+<div class="absolute top-1 left-1 bg-black text-white px-1 font-typewriter-sm text-[10px]">#01</div>
+</div>
+<div class="font-handwritten-lg text-handwritten-lg text-black truncate">Det. Miller</div>
+<div class="font-typewriter-sm text-typewriter-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-doctor-role"></span> YOU
+                    </div>
+<!-- Status Stamp -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-stamp-red text-stamp-red font-display-xl text-2xl px-2 py-1 rotate-[-25deg] opacity-0 group-hover:opacity-80 pointer-events-none transition-opacity">
+                        SELECT
+                    </div>
+</button>
+<!-- Suspect 2 -->
+<button class="suspect-card bg-surface-bright bg-paper-texture border-4 border-black shadow-[4px_4px_0px_#000000] rotate-[2deg] transition-all text-left relative overflow-hidden group p-1" onclick="toggleActionPanel('V. Russo')">
+<div class="aspect-square bg-surface-dim border-2 border-black mb-2 relative overflow-hidden">
+<div class="w-full h-full flex items-center justify-center bg-surface-bright mix-blend-multiply opacity-80"><span class="material-symbols-outlined text-black" style="font-size: 80px;">fingerprint</span></div>
+<div class="absolute top-1 left-1 bg-black text-white px-1 font-typewriter-sm text-[10px]">#02</div>
+</div>
+<div class="font-handwritten-lg text-handwritten-lg text-black truncate">V. Russo</div>
+<div class="font-typewriter-sm text-typewriter-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> ALIVE
+                    </div>
+</button>
+<!-- Suspect 3 (Dead) -->
+<button class="suspect-card bg-surface-container-highest bg-paper-texture border-4 border-black shadow-[4px_4px_0px_#000000] rotate-[-2deg] transition-all text-left relative overflow-hidden opacity-70 cursor-not-allowed p-1">
+<div class="aspect-square bg-surface-dim border-2 border-black mb-2 relative overflow-hidden">
+<div class="w-full h-full flex items-center justify-center bg-surface-bright mix-blend-multiply opacity-40"><span class="material-symbols-outlined text-black" style="font-size: 80px;">fingerprint</span></div>
+<div class="absolute inset-0 bg-red-900 mix-blend-color opacity-30"></div>
+<div class="absolute top-1 left-1 bg-black text-white px-1 font-typewriter-sm text-[10px]">#03</div>
+<!-- Deceased Stamp -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-stamp-red text-stamp-red font-display-xl text-xl px-2 py-1 rotate-[15deg] opacity-90 pointer-events-none">
+                            DECEASED
+                        </div>
+</div>
+<div class="font-handwritten-lg text-handwritten-lg text-black truncate line-through decoration-stamp-red decoration-2">S. Carter</div>
+<div class="font-typewriter-sm text-typewriter-sm text-stamp-red flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">skull</span> ELIMINATED
+                    </div>
+</button>
+<!-- Suspect 4 -->
+<button class="suspect-card bg-manila-paper bg-paper-texture border-4 border-black shadow-[4px_4px_0px_#000000] rotate-[1deg] transition-all text-left relative overflow-hidden group p-1" onclick="toggleActionPanel('J. Doe')">
+<div class="aspect-square bg-surface-dim border-2 border-black mb-2 relative overflow-hidden">
+<div class="w-full h-full flex items-center justify-center bg-surface-bright mix-blend-multiply opacity-80"><span class="material-symbols-outlined text-black" style="font-size: 80px;">fingerprint</span></div>
+<div class="absolute top-1 left-1 bg-black text-white px-1 font-typewriter-sm text-[10px]">#04</div>
+</div>
+<div class="font-handwritten-lg text-handwritten-lg text-black truncate">J. Doe</div>
+<div class="font-typewriter-sm text-typewriter-sm text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> ALIVE
+                    </div>
+</button>
+</div>
+<!-- Detective's Log Sneak Peek -->
+<div class="mt-8 bg-surface-bright border-4 border-black shadow-[4px_4px_0px_#000000] rotate-[-1deg] relative p-4 detective-log-bg min-h-[150px]">
+<div class="absolute -top-3 left-4 bg-manila-paper border-2 border-black px-2 py-1 transform -rotate-2">
+<span class="font-typewriter-md text-typewriter-md text-black">DETECTIVE'S LOG</span>
+</div>
+<div class="pt-4 pl-4 space-y-2">
+<div class="font-handwritten-lg text-[18px] leading-[24px] text-ink-blue">
+<span class="text-stamp-red">N1:</span> Investigated S. Carter. Found nothing suspicious.
+                    </div>
+<div class="font-handwritten-lg text-[18px] leading-[24px] text-ink-blue">
+<span class="text-stamp-red">D1:</span> V. Russo was acting strange during voting...
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-20 bg-manila-paper border-t-4 border-black shadow-[0_-4px_10px_rgba(0,0,0,0.3)]">
+<div class="flex justify-around items-center px-4 pb-6 pt-2 max-w-md mx-auto">
+
+<a class="flex flex-col items-center justify-center bg-stamp-red text-white p-2 rotate-[-2deg] shadow-[2px_2px_0px_#000000] active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">visibility</span>
+<span class="font-label-caps text-label-caps">EVIDENCE</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface p-2 hover:bg-surface-container-high active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">history_edu</span>
+<span class="font-label-caps text-label-caps">LOG</span>
+</a>
+
+</div>
+</nav>
+<!-- Official Action Panel (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex-col justify-end" id="actionPanel">
+<div class="bg-manila-paper w-full max-w-md mx-auto border-t-8 border-black p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.8)] action-panel-enter">
+<div class="flex justify-between items-start mb-6 border-b-4 border-black pb-4">
+<div>
+<p class="font-typewriter-sm text-typewriter-sm text-primary mb-1">OFFICIAL ACTION REQUIRED</p>
+<h3 class="font-display-xl text-[32px] leading-tight text-black uppercase" id="targetName">TARGET NAME</h3>
+</div>
+<div class="w-12 h-12 bg-surface-dim border-2 border-black flex items-center justify-center rotate-[5deg]">
+<span class="material-symbols-outlined text-black" style="font-size: 28px;">healing</span>
+</div>
+</div>
+<div class="bg-surface-dim border-2 border-black shadow-inner p-4 mb-6 font-typewriter-md text-typewriter-md text-on-surface-variant">
+                Select action for tonight's phase. As the <span class="text-doctor-role font-bold">DOCTOR</span>, your intervention will protect this suspect from elimination.
+            </div>
+<div class="flex gap-4">
+<button class="flex-1 bg-surface-container-high border-4 border-black p-3 font-typewriter-md text-typewriter-md text-black shadow-[4px_4px_0px_#000000] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all text-center" onclick="toggleActionPanel()">
+                    CANCEL
+                </button>
+<button class="flex-1 bg-doctor-role border-4 border-black p-3 font-typewriter-md text-typewriter-md text-white shadow-[4px_4px_0px_#000000] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all flex items-center justify-center gap-2" onclick="submitAction()">
+<span class="material-symbols-outlined">local_hospital</span>
+                    PROTECT
+                </button>
+</div>
+</div>
+</div>
+<script>
+        function toggleActionPanel(name) {
+            const panel = document.getElementById('actionPanel');
+            if (name) {
+                document.getElementById('targetName').innerText = name;
+                panel.classList.remove('hidden');
+                panel.classList.add('flex');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('flex');
+            }
+        }
+
+        function submitAction() {
+            // Visual feedback before closing
+            const btn = event.currentTarget;
+            btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> STAMPED';
+            btn.classList.replace('bg-doctor-role', 'bg-stamp-red');
+            
+            setTimeout(() => {
+                toggleActionPanel();
+                // Reset button for next time
+                btn.innerHTML = '<span class="material-symbols-outlined">local_hospital</span> PROTECT';
+                btn.classList.replace('bg-stamp-red', 'bg-doctor-role');
+            }, 800);
+        }
+    </script>
+
+
+</body></html>

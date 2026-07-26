@@ -1,0 +1,102 @@
+.reveal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.reveal-header {
+  margin-bottom: 3rem;
+}
+
+.winner-icon {
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+.winner-icon.town { color: var(--secondary-color); }
+.winner-icon.mafia { color: var(--primary-color); }
+.winner-icon.jester { color: var(--accent-color); }
+
+.winner-title {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.winner-title.town { color: var(--secondary-color); }
+.winner-title.mafia { color: var(--primary-color); }
+.winner-title.jester { color: var(--accent-color); }
+
+.reveal-card {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+}
+
+.reveal-card h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.reveal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.reveal-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+}
+
+.reveal-item.dead {
+  opacity: 0.5;
+  filter: grayscale(80%);
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.player-details .name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.player-details .role {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.player-details .role.mafia { color: var(--primary-color); }
+.player-details .role.villager { color: var(--text-main); }
+.player-details .role.doctor { color: var(--success-color); }
+.player-details .role.detective { color: var(--secondary-color); }
+.player-details .role.jester { color: var(--accent-color); }
+
+.status {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.reveal-footer {
+  margin-top: 3rem;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}

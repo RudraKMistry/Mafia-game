@@ -1,0 +1,153 @@
+.game-wrapper {
+  min-height: 100vh;
+  transition: background-color 1s ease;
+}
+
+.game-wrapper.night-phase {
+  background: #07051a; /* Very dark */
+}
+
+.game-wrapper.day-phase {
+  background: var(--bg-gradient); /* Normal dark */
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+}
+
+.phase-indicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-night { color: #8c9eff; }
+.icon-day { color: #ffd700; }
+.icon-success { color: var(--success-color); }
+
+.timer {
+  font-family: monospace;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.role-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.1);
+}
+.role-badge.doctor { color: var(--success-color); border: 1px solid var(--success-color); }
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-panel, .discussion-panel {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.action-icon {
+  margin-bottom: 1rem;
+}
+
+.action-panel h2, .discussion-panel h2 {
+  margin-bottom: 0.5rem;
+}
+
+.action-panel p, .discussion-panel p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.player-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.player-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--success-color);
+  transform: translateY(-2px);
+}
+
+.voting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.vote-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.vote-row.dead {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.vote-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.game-footer {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,316 @@
+<!DOCTYPE html><html class="dark" lang="en" style="width: 390px; height: 884px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Mafia - Game Reveal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&amp;family=Bricolage+Grotesque:wght@600&amp;family=Courier+Prime:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "folder-accent": "#D97706",
+                      "outline": "#8e706b",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#efd4d0",
+                      "primary-fixed-dim": "#ffb4a8",
+                      "tertiary-fixed": "#dfe0ff",
+                      "surface-container-highest": "#f8dcd8",
+                      "on-primary-fixed-variant": "#920703",
+                      "ink-blue": "#1E3A8A",
+                      "surface-container-high": "#fee2dd",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#47445d",
+                      "surface-tint": "#b52619",
+                      "on-secondary-container": "#63607a",
+                      "on-tertiary-fixed": "#000d60",
+                      "detective-role": "#3F3F46",
+                      "tape-yellow": "#FACC15",
+                      "secondary": "#5f5b75",
+                      "on-tertiary-container": "#9ea9ff",
+                      "tertiary-container": "#0025c8",
+                      "primary": "#610000",
+                      "on-background": "#261816",
+                      "on-tertiary-fixed-variant": "#0d2ccc",
+                      "doctor-role": "#1E40AF",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#f8dcd8",
+                      "jester-role": "#581C87",
+                      "on-primary-container": "#ff907f",
+                      "surface-container-low": "#fff0ee",
+                      "on-primary-fixed": "#410000",
+                      "primary-container": "#8b0000",
+                      "secondary-container": "#e2dcfb",
+                      "villager-role": "#27272A",
+                      "primary-fixed": "#ffdad4",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#1b192f",
+                      "mafia-role": "#8B0000",
+                      "background": "#fff8f6",
+                      "on-secondary": "#ffffff",
+                      "inverse-on-surface": "#ffedea",
+                      "inverse-surface": "#3d2c2a",
+                      "stamp-red": "#991B1B",
+                      "tertiary": "#00178d",
+                      "inverse-primary": "#ffb4a8",
+                      "manila-paper": "#E8D9C5",
+                      "secondary-fixed": "#e4dffe",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#5a403c",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed-dim": "#c8c3e1",
+                      "surface-bright": "#fff8f6",
+                      "on-surface": "#261816",
+                      "tertiary-fixed-dim": "#bcc3ff",
+                      "surface-container": "#ffe9e6",
+                      "outline-variant": "#e3beb8",
+                      "surface": "#fff8f6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stamp-offset": "-12deg",
+                      "gutter-mobile": "16px",
+                      "unit": "4px",
+                      "margin-dossier": "24px",
+                      "row-gap": "12px"
+              },
+              "fontFamily": {
+                      "typewriter-md": [
+                              "Courier Prime"
+                      ],
+                      "handwritten-lg": [
+                              "Bricolage Grotesque"
+                      ],
+                      "display-xl": [
+                              "Anybody"
+                      ],
+                      "label-caps": [
+                              "Space Grotesk"
+                      ],
+                      "body-standard": [
+                              "Space Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Anybody"
+                      ],
+                      "typewriter-sm": [
+                              "Courier Prime"
+                      ]
+              },
+              "fontSize": {
+                      "typewriter-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "handwritten-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "12px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-standard": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "typewriter-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.2em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .paper-texture {
+            background-color: #E8D9C5;
+            background-image: 
+                radial-gradient(#c4b29c 1px, transparent 1px),
+                radial-gradient(#c4b29c 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        
+        .hard-shadow {
+            box-shadow: 4px 4px 0px #000000;
+        }
+        
+        .stamp-overlay {
+            border: 4px solid #991B1B;
+            color: #991B1B;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+            opacity: 0.8;
+            transform: rotate(-12deg);
+            display: inline-block;
+        }
+
+        .dead-filter {
+            filter: grayscale(100%) contrast(120%) opacity(0.8);
+        }
+        
+        .taped-note::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 60px;
+            height: 20px;
+            background-color: rgba(250, 204, 21, 0.7);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        body {
+            /* Desk background */
+            background-color: #2c2524;
+            background-image: linear-gradient(45deg, #1f1a19 25%, transparent 25%, transparent 75%, #1f1a19 75%, #1f1a19), linear-gradient(45deg, #1f1a19 25%, transparent 25%, transparent 75%, #1f1a19 75%, #1f1a19);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+    </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center py-margin-dossier px-gutter-mobile overflow-x-hidden">
+<!-- The Manila Folder Canvas -->
+<main class="w-full max-w-md paper-texture border-4 border-black shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] relative flex flex-col rotate-[0.5deg] pb-20">
+<!-- Folder Tab -->
+<div class="absolute -top-10 right-4 bg-manila-paper border-4 border-b-0 border-black px-4 py-2 rounded-t-lg z-0">
+<span class="font-typewriter-md text-typewriter-md text-on-surface">CASE CLOSED</span>
+</div>
+<!-- Header Section -->
+<header class="w-full border-b-4 border-black p-margin-dossier flex flex-col items-center justify-center relative z-10 bg-manila-paper">
+<div class="flex items-center gap-2 mb-2 justify-center">
+<span class="material-symbols-outlined text-4xl text-on-surface" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<span class="font-display-xl text-display-xl text-on-surface tracking-tighter uppercase">WINNER</span>
+</div>
+<div class="mt-4 relative">
+<div class="font-handwritten-lg text-handwritten-lg text-ink-blue text-center bg-white px-6 py-4 border-2 border-black hard-shadow rotate-[-2deg]">
+                    The Town Survived!
+                </div>
+<div class="absolute -top-4 -right-6 stamp-overlay font-typewriter-md text-typewriter-md bg-transparent">
+                    SURVIVED
+                </div>
+</div>
+</header>
+<!-- Final Roles List -->
+<section class="p-margin-dossier flex-1">
+<h2 class="font-typewriter-md text-typewriter-md border-b-2 border-black pb-2 mb-4">SUBJECT DISPOSITIONS</h2>
+<div class="space-y-4">
+<!-- Alive Player -->
+<article class="bg-surface-container-highest border-2 border-black p-3 flex items-center gap-4 hard-shadow rotate-[1deg] relative overflow-hidden">
+<div class="w-16 h-16 bg-white border-2 border-black flex-shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-4xl text-black">fingerprint</span></div>
+<div class="flex-1">
+<h3 class="font-handwritten-lg text-handwritten-lg text-on-surface">Player One</h3>
+<p class="font-typewriter-sm text-typewriter-sm text-on-surface-variant mt-1">ROLE: CITIZEN</p>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="material-symbols-outlined text-green-700" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-caps text-label-caps text-green-700 mt-1">ALIVE</span>
+</div>
+</article>
+<!-- Dead Player (Mafia) -->
+<article class="bg-surface-container-highest border-2 border-black p-3 flex items-center gap-4 hard-shadow rotate-[-1.5deg] relative overflow-hidden dead-filter">
+<div class="w-16 h-16 bg-white border-2 border-black flex-shrink-0 flex items-center justify-center relative"><span class="material-symbols-outlined text-4xl text-black">fingerprint</span><div class="absolute inset-0 bg-red-900/30"></div><span class="material-symbols-outlined absolute text-4xl text-red-600 drop-shadow-md">close</span></div>
+<div class="flex-1">
+<h3 class="font-handwritten-lg text-handwritten-lg text-on-surface line-through">Player Two</h3>
+<p class="font-typewriter-sm text-typewriter-sm text-on-surface-variant mt-1">ROLE: MAFIA</p>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="material-symbols-outlined text-stamp-red" style="font-variation-settings: 'FILL' 1;">skull</span>
+<span class="font-label-caps text-label-caps text-stamp-red mt-1">DECEASED</span>
+</div>
+<div class="absolute top-1 right-1/2 translate-x-1/2 opacity-70">
+<span class="text-stamp-red font-typewriter-sm text-typewriter-sm font-bold border-2 border-stamp-red px-1 rotate-[15deg] inline-block">GUILTY</span>
+</div>
+</article>
+<!-- Dead Player (Citizen) -->
+<article class="bg-surface-container-highest border-2 border-black p-3 flex items-center gap-4 hard-shadow rotate-[0.5deg] relative overflow-hidden dead-filter">
+<div class="w-16 h-16 bg-white border-2 border-black flex-shrink-0 flex items-center justify-center relative"><span class="material-symbols-outlined text-4xl text-black">fingerprint</span><span class="material-symbols-outlined absolute text-4xl text-black drop-shadow-md">close</span></div>
+<div class="flex-1">
+<h3 class="font-handwritten-lg text-handwritten-lg text-on-surface line-through">Player Three</h3>
+<p class="font-typewriter-sm text-typewriter-sm text-on-surface-variant mt-1">ROLE: DOCTOR</p>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="material-symbols-outlined text-black" style="font-variation-settings: 'FILL' 1;">skull</span>
+<span class="font-label-caps text-label-caps text-on-surface mt-1">DECEASED</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Sticky Bottom Action -->
+<div class="absolute bottom-[-16px] left-0 w-full flex justify-center z-50 px-gutter-mobile">
+<button class="bg-stamp-red text-white border-4 border-black px-8 py-4 font-typewriter-md text-typewriter-md uppercase hard-shadow active:translate-y-1 active:translate-x-1 active:shadow-none transition-all rotate-[-1deg] flex items-center gap-2 hover:bg-red-800 w-full">
+<span class="material-symbols-outlined">home</span>
+                RETURN TO DESK
+            </button>
+</div>
+</main>
+<script>
+        // Simple script to handle button press effect if needed beyond CSS
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translate(4px, 4px) rotate(-1deg)';
+                this.style.boxShadow = 'none';
+            });
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'rotate(-1deg)';
+                this.style.boxShadow = '4px 4px 0px #000000';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotate(-1deg)';
+                this.style.boxShadow = '4px 4px 0px #000000';
+            });
+        });
+    </script>
+<div aria-hidden="true" data-snapdom-sandbox="true" id="snapdom-sandbox" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div>
+
+</body></html>
