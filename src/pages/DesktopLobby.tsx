@@ -29,7 +29,15 @@ export default function Lobby() {
     }
     
     const theme = localStorage.getItem('mafia_theme') || '1930s';
-    socket.emit('join_room', { roomId: id, playerName, isBotMode, theme });
+    const playerIdFromStorage = localStorage.getItem('mafia_playerId');
+    
+    let deviceId = localStorage.getItem('mafia_deviceId');
+    if (!deviceId) {
+        deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('mafia_deviceId', deviceId);
+    }
+    
+    socket.emit('join_room', { roomId: id, playerName, isBotMode, theme, playerId: playerIdFromStorage, deviceId });
 
     const onPlayerId = (id: number) => {
       setPlayerId(id);
@@ -52,12 +60,22 @@ export default function Lobby() {
       }
     };
 
+    const onError = (msg: string) => {
+        setErrorMsg(msg);
+        if (msg.includes('IDENTITY THEFT') || msg.includes('already registered')) {
+            localStorage.removeItem('mafia_playerName');
+            setTimeout(() => navigate('/'), 3000);
+        }
+    };
+
     socket.on('player_id', onPlayerId);
     socket.on('room_update', onRoomUpdate);
+    socket.on('error', onError);
 
     return () => {
       socket.off('player_id', onPlayerId);
       socket.off('room_update', onRoomUpdate);
+      socket.off('error', onError);
     };
   }, [id, navigate, isBotMode]);
 

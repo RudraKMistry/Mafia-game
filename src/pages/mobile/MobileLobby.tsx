@@ -8,7 +8,7 @@ export default function MobileLobby() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
-  const { room, playerId } = useGameState(id);
+  const { room, playerId, errorMsg } = useGameState(id);
   const [activeTab, setActiveTab] = useState<'suspects'|'params'>('suspects');
 
   if (!room) {
@@ -69,6 +69,12 @@ export default function MobileLobby() {
             </div>
           </div>
         </header>
+
+        {errorMsg && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] bg-[#991B1B] text-white p-3 text-center font-typewriter-md font-bold text-xs uppercase border-2 border-black neo-brutalist-shadow animate-in fade-in slide-in-from-top-4">
+            {errorMsg}
+          </div>
+        )}
 
         <main className="w-full bg-[#E8D9C5] m-paper-texture shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] min-h-[60vh] relative px-3 py-4 pb-40">
           {isHost && (

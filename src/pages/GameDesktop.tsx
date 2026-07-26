@@ -61,8 +61,8 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
   if (!room) return <div className="min-h-screen desk-day flex-center text-white">Loading...</div>;
 
   const { state: gameState, players, notes, revealData, winner, transitionText, votes, nightActions } = room;
-  const activePlayer = players.find((p: any) => p.id === playerId) || players[0];
-  const isHost = players[0]?.id === playerId;
+  const activePlayer = players.find((p: any) => String(p.id) === String(playerId)) || players[0];
+  const isHost = players.length > 0 && String(players[0].id) === String(playerId);
 
   const { skipDiscussion } = gameStateData;
 

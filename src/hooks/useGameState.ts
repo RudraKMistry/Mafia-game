@@ -10,12 +10,21 @@ export function useGameState(roomId: string | undefined) {
   
   // Local UI state (private reveals specific to this client)
   const [privateReveal, setPrivateReveal] = useState<any>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     if (!roomId) return;
     const playerName = localStorage.getItem('mafia_playerName') || 'Anon';
     const theme = localStorage.getItem('mafia_theme') || '1930s';
-    socket.emit('join_room', { roomId, playerName, theme });
+    const playerIdFromStorage = localStorage.getItem('mafia_playerId');
+    
+    let deviceId = localStorage.getItem('mafia_deviceId');
+    if (!deviceId) {
+        deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('mafia_deviceId', deviceId);
+    }
+    
+    socket.emit('join_room', { roomId, playerName, theme, playerId: playerIdFromStorage, deviceId });
     
     const onPlayerId = (id: number) => {
       setPlayerId(id);
@@ -36,14 +45,26 @@ export function useGameState(roomId: string | undefined) {
         setPrivateReveal(data);
     };
 
+    const onError = (msg: string) => {
+        setErrorMsg(msg);
+        if (msg.includes('IDENTITY THEFT') || msg.includes('already registered')) {
+            localStorage.removeItem('mafia_playerName');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 3000);
+        }
+    };
+
     socket.on('player_id', onPlayerId);
     socket.on('room_update', onRoomUpdate);
     socket.on('private_reveal', onPrivateReveal);
+    socket.on('error', onError);
 
     return () => {
       socket.off('player_id', onPlayerId);
       socket.off('room_update', onRoomUpdate);
       socket.off('private_reveal', onPrivateReveal);
+      socket.off('error', onError);
     };
   }, [roomId]);
 
@@ -80,6 +101,7 @@ export function useGameState(roomId: string | undefined) {
     playerId,
     privateReveal,
     setPrivateReveal,
+    errorMsg,
     addNote,
     startGame,
     handleStampAction,

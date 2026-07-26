@@ -104,12 +104,18 @@ function checkAutoAdvance(io, room) {
         if (allVoted || aliveHumans.length === 0) {
             advancePhase(io, room);
         }
+    } else if (room.state === 'day_discussion') {
+        const aliveHumans = room.players.filter(p => !p.isDead && !p.isBot);
+        if (aliveHumans.length === 0) {
+            console.log(`[${room.id}] Discussion auto-advance: No humans left, skipping to voting.`);
+            triggerTransition(io, room, "THE DELIBERATION ENDS.\nTIME TO VOTE.", "day_voting", 1000);
+        }
     }
 }
 
 function checkWinCondition(room) {
     if (room.winner) return; // already decided
-    const aliveMafia = room.players.filter(p => p.role.id === 'mafia' && !p.isDead).length;
+    const aliveMafia = room.players.filter(p => p.role?.id === 'mafia' && !p.isDead).length;
     const totalAlive = room.players.filter(p => !p.isDead).length;
     const nonMafia = totalAlive - aliveMafia;
     
@@ -128,8 +134,8 @@ function simulateBotActions(room) {
             if (!bot.role) return;
             let validTargets = room.players.filter(p => !p.isDead);
             
-            if (bot.role.id === 'mafia') {
-                validTargets = validTargets.filter(p => p.role.id !== 'mafia');
+            if (bot.role?.id === 'mafia') {
+                validTargets = validTargets.filter(p => p.role?.id !== 'mafia');
             }
             
             if (validTargets.length > 0 && !room.nightActions[bot.id]) {
@@ -157,8 +163,8 @@ function advancePhase(io, room) {
   simulateBotActions(room);
   
   if (room.state === 'night') {
-      const mafiaIds = room.players.filter(p => p.role.id === 'mafia' && !p.isDead).map(p => p.id);
-      const doctorIds = room.players.filter(p => p.role.id === 'doctor' && !p.isDead).map(p => p.id);
+      const mafiaIds = room.players.filter(p => p.role?.id === 'mafia' && !p.isDead).map(p => p.id);
+      const doctorIds = room.players.filter(p => p.role?.id === 'doctor' && !p.isDead).map(p => p.id);
       
       let killedId = null;
       for (const mid of mafiaIds) {
@@ -224,7 +230,7 @@ function advancePhase(io, room) {
       victim.isDead = true;
       addNote(room, `The precinct locked up ${victim.name}.`, true);
       
-      if (victim.role.id === 'jester') {
+      if (victim.role?.id === 'jester') {
           room.winner = { team: 'JESTER', text: "The Con Artist fooled everyone. Absolute chaos." };
           if (room.settings.jesterWin === 'end') {
               room.state = 'game_over';
@@ -259,7 +265,7 @@ export const setupGameLogic = (io) => {
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
 
-    socket.on('join_room', ({ roomId, playerName, isBotMode, theme }) => {
+    socket.on('join_room', ({ roomId, playerName, isBotMode, theme, playerId, deviceId }) => {
       socket.join(roomId);
       if (!rooms[roomId]) {
         rooms[roomId] = createRoom(roomId, theme || '1930s');
@@ -271,15 +277,25 @@ export const setupGameLogic = (io) => {
       // If player already in room by name, reconnect them
       let existingPlayer = room.players.find(p => p.name === playerName);
       if (existingPlayer) {
-         existingPlayer.socketId = socket.id;
-         socket.emit('player_id', existingPlayer.id);
+          if (deviceId && existingPlayer.deviceId === deviceId) {
+              existingPlayer.socketId = socket.id;
+              socket.emit('player_id', existingPlayer.id);
+          } else {
+              socket.emit('error', 'IDENTITY THEFT DETECTED: This alias is already registered in the active roster. Choose another.');
+              return;
+          }
       } else {
+         if (room.state !== 'lobby') {
+             socket.emit('error', 'Game has already started.');
+             return;
+         }
          const playerId = room.players.length + 1;
          const rot = Math.floor(Math.random() * 12) - 6;
          const newPlayer = {
            id: playerId,
            name: playerName || `Player ${playerId}`,
            socketId: socket.id,
+           deviceId: deviceId || 'unknown',
            isDead: false,
            isReady: false,
            rot,
@@ -386,10 +402,10 @@ export const setupGameLogic = (io) => {
         const player = room.players.find(p => p.id === playerId);
         const target = room.players.find(p => p.id === targetId);
         
-        if (player.role.id === 'detective') {
-          const isMafia = target.role.id === 'mafia';
+        if (player.role?.id === 'detective') {
+          const isMafia = target.role?.id === 'mafia';
           let text = `${target.name} is ${isMafia ? 'GUILTY (Mafia)' : 'CLEARED (Not Mafia)'}`;
-          if (room.settings.detectiveSees === 'exact') text = `${target.name} is ${target.role.name}`;
+          if (room.settings.detectiveSees === 'exact') text = `${target.name} is ${target.role?.name}`;
           
           socket.emit('private_reveal', {
             type: 'investigation',

@@ -69,8 +69,8 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
   if (!room) return <div className="min-h-screen edo-bg-night flex items-center justify-center text-gray-200 font-serif">Awaiting connection...</div>;
 
   const { state: gameState, players, notes, revealData, winner, transitionText, votes, nightActions } = room;
-  const activePlayer = players.find((p: any) => p.id === playerId) || players[0];
-  const isHost = players[0]?.id === playerId;
+  const activePlayer = players.find((p: any) => String(p.id) === String(playerId)) || players[0];
+  const isHost = players.length > 0 && String(players[0].id) === String(playerId);
   const isNight = gameState === 'night' || gameState === 'dossier' || gameState === 'game_over' || (gameState === 'transition' && room.nextState === 'night');
   const roleId = activePlayer?.role?.id;
 

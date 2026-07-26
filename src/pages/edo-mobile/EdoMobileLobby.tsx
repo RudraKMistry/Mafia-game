@@ -9,7 +9,7 @@ export default function EdoMobileLobby() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   
-  const { room, playerId } = useGameState(id);
+  const { room, playerId, errorMsg } = useGameState(id);
   const [activeTab, setActiveTab] = useState<'suspects'|'params'>('suspects');
 
   if (!room) {
@@ -54,6 +54,12 @@ export default function EdoMobileLobby() {
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay z-0"></div>
       <div className="absolute -top-32 -right-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+      {errorMsg && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] bg-red-900 text-[#fdfbf7] p-4 text-center font-bold uppercase tracking-widest text-sm border-2 border-[#1a1a1a] shadow-lg animate-in fade-in slide-in-from-top-4">
+          {errorMsg}
+        </div>
+      )}
 
       <div id="particles" className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           {[...Array(15)].map((_, i) => (
