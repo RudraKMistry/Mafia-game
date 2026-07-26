@@ -48,7 +48,7 @@ export function useGameState(roomId: string | undefined) {
     socket.emit('open_case', { roomId });
   };
 
-  const handleStampAction = (targetId: number) => {
+  const handleStampAction = (targetId: number | string) => {
     socket.emit('action', { roomId, playerId, targetId });
   };
 

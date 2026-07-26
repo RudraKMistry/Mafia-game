@@ -201,6 +201,18 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
                    </div>
                 )}
 
+                {/* Skip Vote Button */}
+                {gameState === 'day_voting' && !activePlayer?.isDead && (
+                   <div className="flex justify-center w-full mb-4">
+                     <button 
+                       onClick={() => setSelectedTarget('skip')}
+                       className="w-full font-typewriter-md py-3 bg-[#E8D9C5] border-[3px] border-black text-[#991B1B] font-bold shadow-[4px_4px_0px_#000000] active:translate-y-1 active:translate-x-1 active:shadow-none uppercase flex items-center justify-center gap-2"
+                     >
+                       Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
+                     </button>
+                   </div>
+                )}
+
                 {/* Suspect Grid */}
                 <div className="grid grid-cols-2 gap-2">
                   {players.map((p: any, index: number) => {
@@ -337,7 +349,7 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
                  <div>
                    <p className="font-typewriter-sm text-[#991B1B] font-bold mb-1 tracking-widest">OFFICIAL ACTION REQUIRED</p>
                    <h3 className="font-display-xl text-xl leading-tight text-black uppercase">
-                      {players.find((p: any) => p.id === selectedTarget)?.name || 'UNKNOWN'}
+                      {selectedTarget === 'skip' ? 'SKIP VOTE' : (players.find((p: any) => p.id === selectedTarget)?.name || 'UNKNOWN')}
                    </h3>
                  </div>
                  <div className="w-5 h-5 bg-[#fff8f6] border-2 border-black flex items-center justify-center rotate-[5deg]">
@@ -353,7 +365,7 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
                  {gameState === 'night' ? (
                    <>Select action for tonight's phase. As the <span style={{ color: getActionColor() }} className="font-black uppercase">{activePlayer?.role?.name}</span>, this will affect the target.</>
                  ) : (
-                   <>Cast your vote to eliminate this suspect. Majority vote rules.</>
+                   <>{selectedTarget === 'skip' ? 'Choose to abstain from voting. If the majority skips, no one will be eliminated.' : 'Cast your vote to eliminate this suspect. Majority vote rules.'}</>
                  )}
                </div>
                

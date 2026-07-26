@@ -228,7 +228,7 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
       else if (activePlayer.role.id === 'doctor') actionLabel = "Save";
       else if (activePlayer.role.id === 'detective') actionLabel = "Reveal Role";
     } else if (gameState === 'day_voting') {
-      actionLabel = "Vote";
+      actionLabel = selectedTarget === 'skip' ? "Skip" : "Vote";
     }
 
     return (
@@ -369,6 +369,17 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
                      {room.skipDiscussionVotes?.includes(playerId) ? 'Waiting...' : 'Skip Discussion'}
                      {' '}
                      ({room.skipDiscussionVotes?.length || 0}/{players.filter((p: any) => !p.isDead && !p.isBot).length})
+                   </button>
+                 </div>
+              )}
+
+              {gameState === 'day_voting' && !activePlayer?.isDead && (
+                 <div className="flex justify-center w-full absolute bottom-0 left-1/2 -translate-x-1/2">
+                   <button 
+                     onClick={() => setSelectedTarget('skip')}
+                     className="px-6 py-2 bg-[#8b0000] text-white font-typewriter uppercase tracking-widest text-sm md:text-base shadow-[4px_4px_0px_rgba(0,0,0,0.5)] hover:bg-red-950 border-2 border-black transition-colors active:translate-y-1 active:translate-x-1 active:shadow-[1px_1px_0px_rgba(0,0,0,0.5)] flex items-center justify-center gap-2"
+                   >
+                     Skip Vote {room.votes && Object.values(room.votes).filter(v => v === 'skip').length > 0 && !room.settings.anonVoting && `(${Object.values(room.votes).filter(v => v === 'skip').length})`}
                    </button>
                  </div>
               )}

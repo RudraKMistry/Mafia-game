@@ -207,7 +207,7 @@ function advancePhase(io, room) {
     let lynchedId = null;
     let maxVotes = 0;
     for (const [targetId, count] of Object.entries(voteCounts)) {
-      if (count > maxVotes) { maxVotes = count; lynchedId = parseInt(targetId); }
+      if (count > maxVotes) { maxVotes = count; lynchedId = targetId === 'skip' ? 'skip' : parseInt(targetId); }
     }
 
     const tied = Object.values(voteCounts).filter(c => c === maxVotes).length > 1;
@@ -215,7 +215,10 @@ function advancePhase(io, room) {
         lynchedId = null;
     }
 
-    if (lynchedId) {
+    if (lynchedId === 'skip') {
+      addNote(room, "The precinct chose to skip voting. No one was arrested.", true);
+      triggerTransition(io, room, "NIGHT FALLS...", "night");
+    } else if (lynchedId) {
       const victim = room.players.find(p => p.id === lynchedId);
       victim.isDead = true;
       addNote(room, `The precinct locked up ${victim.name}.`, true);
