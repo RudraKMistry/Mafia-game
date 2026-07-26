@@ -250,7 +250,7 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
                         <div className={`font-handwritten-lg text-black truncate text-xl leading-none pt-1 ${isDead ? 'line-through decoration-[#991B1B] decoration-2' : ''}`}>
                           {p.name}
                         </div>
-                        {(isSelf || isMafiaColleague || isDead || gameState === 'game_over') && p.role && (
+                        {(isSelf || isMafiaColleague || (isDead && room.settings?.revealOnDeath) || gameState === 'game_over') && p.role && (
                           <div className="font-typewriter-sm text-[10px] font-bold mt-1" style={{ color: p.role.ink }}>
                             ({p.role.name})
                           </div>

@@ -327,7 +327,7 @@ export default function GameDesktop({ gameStateData }: { gameStateData: any }) {
                         {p.name}
                       </div>
                       
-                      {(isMe || p.isDead || (activePlayer?.role.id === 'mafia' && p.role?.id === 'mafia') || gameState === 'game_over') && p.role && (
+                      {(isMe || (p.isDead && room.settings?.revealOnDeath) || (activePlayer?.role.id === 'mafia' && p.role?.id === 'mafia') || gameState === 'game_over') && p.role && (
                         <div className="text-xs font-typewriter tracking-wider" style={{ color: p.role.ink }}>
                            [{p.role.name}]
                         </div>
