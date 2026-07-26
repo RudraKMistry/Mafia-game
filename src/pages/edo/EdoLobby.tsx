@@ -368,18 +368,7 @@ export default function EdoLobby() {
             </div>
           </div>
 
-          {isHost ? (
-            <button 
-              onClick={handleStartGame}
-              disabled={players.length < 4 || totalSpecifiedRoles > players.length || !allReady}
-              className="w-full bg-red-900/80 border border-red-500 text-white py-4 font-bold text-xl uppercase tracking-widest hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80 flex items-center justify-center gap-3"
-            >
-              <Play size={24} />
-              {players.length < 4 ? `Need ${4 - players.length} more` : 
-               !allReady ? "Waiting for members" :
-               totalSpecifiedRoles > players.length ? "Too many roles" : "Begin Tale"}
-            </button>
-          ) : (
+          <div className="flex flex-col sm:flex-row gap-4 w-full mt-4">
             <button 
               onClick={handleToggleReady}
               className={`w-full py-4 border font-bold text-xl uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${
@@ -391,7 +380,24 @@ export default function EdoLobby() {
               <CheckSquare size={24} />
               {currentPlayer?.isReady ? "Ready to Serve" : "Declare Ready"}
             </button>
-          )}
+
+            {isHost ? (
+              <button 
+                onClick={handleStartGame}
+                disabled={players.length < 4 || totalSpecifiedRoles > players.length || !allReady}
+                className="w-full bg-red-900/80 border border-red-500 text-white py-4 font-bold text-xl uppercase tracking-widest hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80 flex items-center justify-center gap-3"
+              >
+                <Play size={24} />
+                {players.length < 4 ? `Need ${4 - players.length} more` : 
+                 !allReady ? "Waiting for members" :
+                 totalSpecifiedRoles > players.length ? "Too many roles" : "Begin Tale"}
+              </button>
+            ) : (
+              <div className="w-full bg-white/5 border border-gray-800 text-gray-500 py-4 font-bold text-sm uppercase tracking-widest flex items-center justify-center">
+                Awaiting Clan Leader...
+              </div>
+            )}
+          </div>
 
         </div>
       </div>
