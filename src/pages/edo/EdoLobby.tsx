@@ -197,7 +197,7 @@ export default function EdoLobby() {
         )}
 
         {/* ================= LEFT FLAP (PLAYERS) ================= */}
-        <div className="flex-1 p-6 lg:p-10 relative flex flex-col bg-black/40 backdrop-blur-md border border-gray-800 shadow-2xl min-h-[500px] max-h-[600px]">
+        <div className="flex-1 p-6 lg:p-10 relative flex flex-col bg-black/40 backdrop-blur-md border border-gray-800 shadow-2xl min-h-[500px] lg:h-[700px]">
           
           <div className="border-b border-gray-800 pb-4 mb-6">
             <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest mb-1 drop-shadow-sm uppercase">Clan Gathering</h1>
@@ -254,7 +254,7 @@ export default function EdoLobby() {
         </div>
         
         {/* ================= RIGHT FLAP (SETTINGS) ================= */}
-        <div className="flex-1 p-6 lg:p-10 relative flex flex-col bg-black/40 backdrop-blur-md border border-gray-800 shadow-2xl min-h-[500px]">
+        <div className="flex-1 p-6 lg:p-10 relative flex flex-col bg-black/40 backdrop-blur-md border border-gray-800 shadow-2xl min-h-[500px] lg:h-[700px]">
           
           <div className="absolute top-6 right-6 lg:top-8 lg:right-8 z-30">
             <div className="bg-[#111] p-3 border border-gray-700 flex flex-col items-center">
