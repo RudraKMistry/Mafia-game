@@ -28,7 +28,8 @@ export default function Lobby() {
         localStorage.setItem('mafia_playerName', playerName);
     }
     
-    socket.emit('join_room', { roomId: id, playerName, isBotMode });
+    const theme = localStorage.getItem('mafia_theme') || '1930s';
+    socket.emit('join_room', { roomId: id, playerName, isBotMode, theme });
 
     const onPlayerId = (id: number) => {
       setPlayerId(id);
@@ -38,6 +39,13 @@ export default function Lobby() {
     const onRoomUpdate = (room: any) => {
       setPlayers(room.players);
       setSettings(room.settings);
+      
+      // Sync theme from host — if the room has a different theme, adopt it
+      if (room.theme && room.theme !== (localStorage.getItem('mafia_theme') || '1930s')) {
+        localStorage.setItem('mafia_theme', room.theme);
+        window.location.reload();
+        return;
+      }
       
       if (room.state !== 'lobby') {
          navigate(`/game/${id}`);

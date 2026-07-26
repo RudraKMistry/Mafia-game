@@ -16,8 +16,9 @@ function parseTimeStr(timeStr) {
     return 60000;
 }
 
-const createRoom = (roomId) => ({
+const createRoom = (roomId, theme = '1930s') => ({
   id: roomId,
+  theme,
   state: 'lobby',
   players: [],
   settings: {
@@ -258,10 +259,10 @@ export const setupGameLogic = (io) => {
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
 
-    socket.on('join_room', ({ roomId, playerName, isBotMode }) => {
+    socket.on('join_room', ({ roomId, playerName, isBotMode, theme }) => {
       socket.join(roomId);
       if (!rooms[roomId]) {
-        rooms[roomId] = createRoom(roomId);
+        rooms[roomId] = createRoom(roomId, theme || '1930s');
         if (isBotMode) rooms[roomId].isBotMode = true;
       }
       

@@ -14,7 +14,8 @@ export function useGameState(roomId: string | undefined) {
   useEffect(() => {
     if (!roomId) return;
     const playerName = localStorage.getItem('mafia_playerName') || 'Anon';
-    socket.emit('join_room', { roomId, playerName });
+    const theme = localStorage.getItem('mafia_theme') || '1930s';
+    socket.emit('join_room', { roomId, playerName, theme });
     
     const onPlayerId = (id: number) => {
       setPlayerId(id);
@@ -22,6 +23,12 @@ export function useGameState(roomId: string | undefined) {
     };
 
     const onRoomUpdate = (data: any) => {
+      // Sync theme from host — if joiner has a different theme, adopt host's
+      if (data.theme && data.theme !== (localStorage.getItem('mafia_theme') || '1930s')) {
+        localStorage.setItem('mafia_theme', data.theme);
+        window.location.reload();
+        return;
+      }
       setRoom(data);
     };
     
