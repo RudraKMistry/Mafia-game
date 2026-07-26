@@ -301,7 +301,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
                         return (
                             <div key={p.id} onClick={() => !isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting') && setSelectedTarget(p.id)} 
-                                 className={`relative bg-[#111]/80 backdrop-blur-sm border p-4 flex flex-col items-center justify-center transition-all duration-300 ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
+                                 className={`relative aspect-[3/4] bg-[#111]/80 backdrop-blur-sm border p-4 flex flex-col items-center justify-center transition-all duration-300 ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
                                 
                                 <div className="absolute inset-0 z-10 pointer-events-none">{isDead && SVGS.slash}</div>
                                 
@@ -353,21 +353,21 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         </div>
 
         {/* Action Bar (Floating) */}
-        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-auto min-w-[300px] bg-[#111]/90 backdrop-blur-md border border-gray-700 text-white p-4 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-50 flex flex-col sm:flex-row justify-between items-center gap-4 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${selectedTarget ? 'translate-y-0 scale-100' : 'translate-y-24 scale-95 opacity-0 pointer-events-none'}`}>
+        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-2xl bg-[#111]/90 backdrop-blur-md border border-gray-700 text-white p-4 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-50 flex flex-col sm:flex-row justify-between items-center gap-6 rounded-lg transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${selectedTarget ? 'translate-y-0 scale-100' : 'translate-y-24 scale-95 opacity-0 pointer-events-none'}`}>
           <div className="flex items-center space-x-4 w-full sm:w-auto">
-              <div className={`w-10 h-10 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500' : actionColor === 'blue' ? 'text-blue-500' : actionColor === 'red' ? 'text-red-500' : 'text-gray-300'}`}>
+              <div className={`w-12 h-12 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500' : actionColor === 'blue' ? 'text-blue-500' : actionColor === 'red' ? 'text-red-500' : 'text-gray-300'}`}>
                   {actionIcon}
               </div>
               <div className="flex flex-col flex-1 sm:flex-initial">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-widest leading-none mb-1">{actionPrompt}</p>
-                  <p className="text-lg font-bold uppercase tracking-widest truncate max-w-[150px] leading-none text-white">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>p.id===selectedTarget)?.name}</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-widest leading-none mb-1.5">{actionPrompt}</p>
+                  <p className="text-xl font-bold uppercase tracking-widest truncate max-w-[200px] leading-none text-white">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>p.id===selectedTarget)?.name}</p>
               </div>
           </div>
-          <div className="flex space-x-3 w-full sm:w-auto">
-              <button onClick={() => setSelectedTarget(null)} className="flex-1 sm:flex-initial px-4 py-2 border border-gray-700 hover:bg-white/5 text-gray-300 transition-colors uppercase tracking-widest text-xs font-bold">
+          <div className="flex space-x-3 w-full sm:w-auto justify-end">
+              <button onClick={() => setSelectedTarget(null)} className="px-6 py-3 border border-gray-700 hover:bg-white/5 text-gray-300 transition-colors uppercase tracking-widest text-sm font-bold">
                   Cancel
               </button>
-              <button onClick={handleStampAction} className={`flex-1 sm:flex-initial px-6 py-2 font-bold transition-all uppercase tracking-widest text-xs border ${actionColor === 'green' ? 'bg-green-900/40 border-green-500 text-green-400 hover:bg-green-900' : actionColor === 'blue' ? 'bg-blue-900/40 border-blue-500 text-blue-400 hover:bg-blue-900' : actionColor === 'red' ? 'bg-red-900/40 border-red-500 text-red-400 hover:bg-red-900' : 'bg-gray-800 border-gray-400 text-white hover:bg-gray-700'}`}>
+              <button onClick={handleStampAction} className={`px-8 py-3 font-bold transition-all uppercase tracking-widest text-sm border ${actionColor === 'green' ? 'bg-green-900/40 border-green-500 text-green-400 hover:bg-green-900 hover:text-white' : actionColor === 'blue' ? 'bg-blue-900/40 border-blue-500 text-blue-400 hover:bg-blue-900 hover:text-white' : actionColor === 'red' ? 'bg-red-900/40 border-red-500 text-red-400 hover:bg-red-900 hover:text-white' : 'bg-gray-800 border-gray-400 text-white hover:bg-gray-700'}`}>
                   {actionLabel}
               </button>
           </div>

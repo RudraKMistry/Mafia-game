@@ -14,13 +14,11 @@
 .edo-theme {
     font-family: 'Noto Serif JP', serif;
     overflow: hidden;
-    background-color: var(--day-bg);
     transition: background-color 2s ease;
     user-select: none;
 }
 
 .edo-theme.night-mode {
-    background-color: var(--night-bg);
     color: #e5e7eb;
 }
 
