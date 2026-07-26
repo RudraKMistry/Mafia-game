@@ -125,7 +125,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
       <div className="relative z-10 max-w-3xl">
         <h1 className="text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase text-white mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-            {room.day % 2 === 0 ? 'Night Falls' : 'Dawn Breaks'}
+            {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
         </h1>
         <p className="font-serif text-xl md:text-2xl text-gray-300 italic max-w-xl mx-auto leading-relaxed">
             {transitionText}
