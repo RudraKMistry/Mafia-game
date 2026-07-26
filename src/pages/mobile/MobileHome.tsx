@@ -7,6 +7,7 @@ export default function MobileHome() {
   const [modalMode, setModalMode] = useState<'host' | 'join' | 'bots' | null>(null);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('mafia_playerName') || '');
   const [joinCode, setJoinCode] = useState('');
+  const [showWipError, setShowWipError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,9 +41,9 @@ export default function MobileHome() {
   };
 
   return (
-    <div className="m-desk-texture min-h-[100dvh] w-full flex flex-col items-center justify-center py-4 px-3 overflow-x-hidden text-white">
+    <div className="m-desk-texture min-h-[100dvh] w-full flex flex-col items-center justify-center py-4 px-3 overflow-x-hidden text-white animate-in fade-in duration-700">
       {/* Main Folder Container */}
-      <main className="m-paper-texture w-full max-w-md rounded border-[3px] border-black relative px-3 flex flex-col shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] z-10 my-8 pb-4 pt-4 gap-2">
+      <main className="m-paper-texture w-full max-w-md rounded border-[3px] border-black relative px-3 flex flex-col shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] z-10 my-8 pb-4 pt-4 gap-2 animate-in slide-in-from-bottom-8 duration-700">
         {/* Folder Tab */}
         <div className="absolute -top-10 left-4 bg-manila-paper border-t-4 border-l-2 border-r-4 border-black px-3 py-2 rounded-t-lg z-[-1] flex items-center gap-2 neo-brutalist-shadow">
           <Search className="w-5 h-5 text-black" />
@@ -149,7 +150,7 @@ export default function MobileHome() {
 
       {/* Modal */}
       {modalMode && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-2 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-2 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-300">
           <div className="m-paper-texture max-w-sm w-full p-2 border-[3px] border-black relative rotate-1 neo-brutalist-shadow">
             <button 
               onClick={() => setModalMode(null)}
@@ -197,6 +198,38 @@ export default function MobileHome() {
                 Proceed
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* UI Theme Switcher */}
+      <div className="mt-2 flex flex-row gap-2 z-40 pb-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
+        <button className="px-3 py-2 bg-[#8b0000] text-white font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:bg-red-950 transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 cursor-default">
+          1930's Theme
+        </button>
+        <button 
+          onClick={() => setShowWipError(true)}
+          className="px-3 py-2 bg-[#1a0f0a] text-[#8e706b] font-headline-lg font-black text-xs uppercase tracking-widest border-[3px] border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all active:shadow-[1px_1px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1"
+        >
+          Work In Progress
+        </button>
+      </div>
+
+      {showWipError && (
+        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-300">
+          <div className="m-paper-texture max-w-xs w-full p-4 shadow-[8px_8px_0px_rgba(0,0,0,1)] relative border-[3px] border-black -rotate-1">
+            <h2 className="font-headline-lg text-xl font-black text-center mb-4 uppercase border-b-[3px] border-black/20 pb-2 text-[#8b0000]">
+              ACCESS DENIED
+            </h2>
+            <p className="font-typewriter-md text-center text-sm mb-6 font-bold text-black bg-white/50 p-3 border-[2px] border-black/10 shadow-inner leading-relaxed">
+              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chalu tu che.
+            </p>
+            <button 
+              onClick={() => setShowWipError(false)}
+              className="neo-brutalist-button w-full border-[3px] border-black bg-black text-white py-3 font-headline-lg font-black text-lg uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[3px_3px_0px_rgba(255,255,255,0.2)] active:shadow-[1px_1px_0px_rgba(255,255,255,0.2)] active:translate-y-1 active:translate-x-1"
+            >
+              UNDERSTOOD
+            </button>
           </div>
         </div>
       )}

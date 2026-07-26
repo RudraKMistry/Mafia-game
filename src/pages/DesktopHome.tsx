@@ -41,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-[100dvh] desk-day flex flex-col items-center justify-center p-3 sm:p-6 selection:bg-black selection:text-white">
+    <div className="min-h-[100dvh] desk-day flex flex-col items-center justify-center p-3 sm:p-6 selection:bg-black selection:text-white animate-in fade-in duration-1000">
       
       <div className="manila-folder max-w-4xl w-full p-6 sm:p-12 md:p-16 relative animate-in zoom-in-95 duration-1000 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)] flex flex-col items-center text-center my-4">
         
