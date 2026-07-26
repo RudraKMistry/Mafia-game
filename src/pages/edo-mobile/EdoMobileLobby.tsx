@@ -152,7 +152,7 @@ export default function EdoMobileLobby() {
             <div className="animate-in fade-in duration-300">
               <div className="grid grid-cols-2 gap-4">
                 {players.filter(Boolean).map((p: any, idx: number) => (
-                  <div key={idx} className="shoji-frame shoji-paper rounded-sm h-28 relative flex flex-col items-center justify-center p-2">
+                  <div key={idx} className="shoji-card shoji-frame shoji-paper rounded-sm h-28 relative flex flex-col items-center justify-center p-2">
                     {idx === 0 && (
                       <div className="absolute -top-3 -right-3 w-8 h-8 bg-[#8b0000] rounded-full flex items-center justify-center shadow-md border-2 border-[#fdfbf7] z-20">
                         <Settings className="text-[#fdfbf7] w-4 h-4" />
@@ -310,7 +310,7 @@ export default function EdoMobileLobby() {
             <button 
               onClick={handleStartGame}
               disabled={!allReady || players.length < 3}
-              className="w-full py-4 px-2 bg-red-900/80 border border-red-500 text-white font-bold text-sm uppercase tracking-[0.1em] flex items-center justify-center gap-2 hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80"
+              className="w-full py-4 px-2 bg-red-900/80 border border-red-500 text-white font-bold text-sm uppercase tracking-[0.1em] flex items-center justify-center gap-2 hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80 animate-pulse"
             >
               <Play className="w-5 h-5" />
               {players.length < 3 ? 'Need more players' : !allReady ? 'Waiting for villagers' : 'Begin Ritual'}

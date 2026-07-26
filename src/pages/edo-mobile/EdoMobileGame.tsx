@@ -121,7 +121,8 @@ export default function EdoMobileGame({ gameStateData }: { gameStateData: any })
     const isNightTransition = room.nextState === 'night';
     return (
       <div className="flex-1 w-full flex items-center justify-center relative z-10 animate-in fade-in duration-1000 p-4">
-        <div className="max-w-3xl text-center animate-in zoom-in-95 duration-1000">
+        <div className="katana-overlay"><div className="katana-blade"></div></div>
+        <div className="max-w-3xl text-center animate-in zoom-in-95 duration-1000 delay-500">
           <h1 className={`text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase mb-8 ${isNightTransition ? 'text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]' : 'text-[#8b0000] drop-shadow-md'}`}>
               {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
           </h1>
@@ -134,8 +135,9 @@ export default function EdoMobileGame({ gameStateData }: { gameStateData: any })
   };
 
     const renderReveal = (rData: any, isPrivate: boolean) => (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl transition-all duration-1000">
-        <div className="bg-[#111]/90 backdrop-blur-2xl border border-gray-700 max-w-md w-full p-8 text-center shadow-[0_30px_60px_rgba(0,0,0,0.8)] animate-in zoom-in-90 duration-500 rounded-sm">
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl transition-all duration-1000 ${!isPrivate ? 'violent-shake' : ''}`}>
+        {!isPrivate && <div className="absolute inset-0 ink-reveal bg-red-900/40 pointer-events-none mix-blend-color-burn"></div>}
+        <div className="bg-[#111]/90 backdrop-blur-2xl border border-gray-700 max-w-md w-full p-8 text-center shadow-[0_30px_60px_rgba(0,0,0,0.8)] animate-in zoom-in-90 duration-500 rounded-sm relative z-10">
         
         <h2 className="text-xl font-bold text-red-500 tracking-widest uppercase mb-6 pb-4 border-b border-gray-800">
             {isPrivate ? 'Investigation Results' : 'A Body is Found'}
@@ -286,7 +288,7 @@ export default function EdoMobileGame({ gameStateData }: { gameStateData: any })
 
                         return (
                             <div key={p.id} onClick={() => !isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting') && setSelectedTarget(p.id)} 
-                                 className={`relative aspect-[3/4] ${isNight ? 'bg-[#111]/40 border-gray-700/50 text-white shadow-[0_8px_30px_rgba(0,0,0,0.5)]' : 'bg-white/30 border-white/50 text-[#2c1b18] shadow-[0_8px_30px_rgba(0,0,0,0.1)]'} backdrop-blur-md border p-4 flex flex-col items-center justify-center transition-all duration-500 ease-out group ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
+                                 className={`relative aspect-[3/4] shoji-card shoji-frame shoji-paper flex flex-col items-center justify-center transition-all duration-500 ease-out group ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
                                 
                                 <div className="absolute inset-0 z-10 pointer-events-none">{isDead && SVGS.slash}</div>
                                 
@@ -319,10 +321,13 @@ export default function EdoMobileGame({ gameStateData }: { gameStateData: any })
                                     )}
 
                                     {gameState === 'day_voting' && !room.settings.anonVoting && Object.values(votes).filter(v => v === p.id).length > 0 && (
-                                        <div className="absolute top-2 left-2 flex items-center gap-1 bg-white/10 px-1.5 py-0.5 border border-white/20 text-white text-[10px] font-bold">
+                                        <div className="absolute top-2 left-2 flex items-center gap-1 bg-white/10 px-1.5 py-0.5 border border-white/20 text-white text-[10px] font-bold z-30">
                                             <span className="w-3 h-3 text-white">{SVGS.shuriken}</span>
                                             <span>{Object.values(votes).filter(v => v === p.id).length}</span>
                                         </div>
+                                    )}
+                                    {gameState === 'day_voting' && votes[playerId] === p.id && (
+                                        <div className="hanko-stamp">VOTED</div>
                                     )}
                                 </div>
                             </div>
