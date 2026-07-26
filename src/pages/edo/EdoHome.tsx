@@ -35,7 +35,7 @@ export default function EdoHome() {
 
   const getModalDescription = () => {
     if (modalMode === 'host') return 'Enter your alias to establish a new clan.';
-    if (modalMode === 'join') return 'Enter your alias and the 6-character room code from the host.';
+    if (modalMode === 'join') return 'Enter your alias and the 6-character scroll code.';
     if (modalMode === 'bots') return 'Enter your alias to practice your skills against AI shinobi.';
     return '';
   };
@@ -46,137 +46,171 @@ export default function EdoHome() {
   };
 
   return (
-    <div className="min-h-[100dvh] edo-bg-day edo-theme flex flex-col items-center justify-center p-3 sm:p-6 text-[#2c1b18] animate-in fade-in duration-1000 relative">
+    <div className="min-h-[100dvh] edo-bg-night edo-theme flex flex-col items-center justify-center p-4 sm:p-8 text-gray-200 animate-in fade-in duration-1000 relative overflow-hidden">
+      
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
       <div id="particles" className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(25)].map((_, i) => (
              <div 
                 key={i} 
-                className="particle sakura" 
+                className="particle firefly" 
                 style={{
-                  width: `${Math.random() * 10 + 8}px`,
-                  height: `${Math.random() * 10 + 8}px`,
-                  left: `${Math.random() * 120 - 10}vw`,
+                  width: `${Math.random() * 4 + 2}px`,
+                  height: `${Math.random() * 4 + 2}px`,
+                  left: `${Math.random() * 100}vw`,
+                  top: `${Math.random() * 100}vh`,
                   animationDuration: `${Math.random() * 5 + 5}s`,
                   animationDelay: `${Math.random() * -10}s`
                 }}
              />
           ))}
+          {[...Array(15)].map((_, i) => (
+             <div 
+                key={`sakura-${i}`} 
+                className="particle sakura" 
+                style={{
+                  width: `${Math.random() * 8 + 6}px`,
+                  height: `${Math.random() * 8 + 6}px`,
+                  left: `${Math.random() * 120 - 10}vw`,
+                  animationDuration: `${Math.random() * 6 + 6}s`,
+                  animationDelay: `${Math.random() * -10}s`,
+                  backgroundColor: '#8b0000',
+                  opacity: 0.6
+                }}
+             />
+          ))}
       </div>
       
-      <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-4xl w-full p-6 sm:p-12 md:p-16 relative animate-in zoom-in-95 duration-1000 flex flex-col items-center text-center my-4 z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div className="max-w-5xl w-full relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center">
         
-        <div className="border-b-[2px] border-[#4e342e] pb-6 mb-8 mt-4 w-full">
-          <h1 className="text-5xl sm:text-7xl md:text-9xl text-[#8b0000] tracking-widest mb-2 sm:mb-4 font-bold drop-shadow-md uppercase">SHADOWS OF EDO</h1>
-          <p className="font-serif text-[#2c1b18] font-bold text-xs sm:text-sm md:text-lg tracking-widest sm:tracking-[0.2em] md:tracking-[0.4em] uppercase break-words px-2">A Game of Deception & Deduction</p>
+        {/* Left Column: Title and Intro */}
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
+           <div className="flex items-center gap-4 mb-2 opacity-80">
+              <div className="h-[1px] w-12 bg-red-800"></div>
+              <p className="font-serif text-red-500 font-bold tracking-[0.3em] uppercase text-sm">A Game of Deception & Deduction</p>
+              <div className="h-[1px] w-12 bg-red-800 hidden lg:block"></div>
+           </div>
+           
+           <h1 className="text-6xl sm:text-7xl lg:text-8xl text-white tracking-widest mb-6 font-bold uppercase drop-shadow-[0_0_15px_rgba(139,0,0,0.5)] leading-tight">
+             RONIN'S<br/>GAMBIT
+           </h1>
+           
+           <p className="font-serif text-gray-400 text-lg sm:text-xl leading-relaxed max-w-lg mb-8">
+             Welcome to the digital edition of Mafia, reimagined in feudal Japan. Can the Villagers deduce who the Shinobi are before the blade falls?
+           </p>
+
+           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+             <button 
+               onClick={() => setModalMode('host')}
+               className="flex-1 border border-red-900/50 bg-red-900/20 backdrop-blur-sm text-white py-4 px-6 font-bold text-lg uppercase tracking-widest hover:bg-red-800 hover:border-red-500 transition-all shadow-[0_0_20px_rgba(139,0,0,0.2)] hover:shadow-[0_0_30px_rgba(139,0,0,0.4)] flex items-center justify-center gap-3 group"
+             >
+               <Users className="w-5 h-5 text-red-500 group-hover:text-white transition-colors" />
+               Host Game
+             </button>
+             
+             <button 
+               onClick={() => setModalMode('join')}
+               className="flex-1 border border-gray-700/50 bg-gray-900/40 backdrop-blur-sm text-gray-300 py-4 px-6 font-bold text-lg uppercase tracking-widest hover:bg-gray-800 hover:text-white hover:border-gray-500 transition-all flex items-center justify-center gap-3 group"
+             >
+               <UserPlus className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
+               Join Game
+             </button>
+           </div>
+           <div className="mt-4 w-full max-w-lg flex justify-center lg:justify-start">
+             <button 
+               onClick={() => setModalMode('bots')}
+               className="border border-gray-800/50 bg-black/40 backdrop-blur-sm text-gray-500 py-3 px-6 font-bold text-sm uppercase tracking-widest hover:text-gray-300 transition-all flex items-center justify-center gap-2 group w-full sm:w-auto"
+             >
+               <Bot className="w-4 h-4" />
+               Practice vs AI
+             </button>
+           </div>
         </div>
 
-        <div className="space-y-8 font-serif text-[#3e2723] font-medium text-base sm:text-lg md:text-xl leading-relaxed w-full">
-          <p className="px-2 sm:px-8 md:px-12">
-            Welcome to the digital edition of Mafia, reimagined in feudal Japan. Can the Villagers deduce who the Shinobi are before it's too late?
-          </p>
+        {/* Right Column: Roles Showcase */}
+        <div className="flex-1 w-full max-w-lg lg:max-w-md bg-black/40 backdrop-blur-md border border-gray-800 p-6 sm:p-8 shadow-2xl relative">
+            <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-red-800"></div>
+            <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-red-800"></div>
 
-          <div className="shoji-paper p-5 sm:p-8 md:p-12 border-2 border-[#4e342e] shadow-inner my-8 w-full text-left rounded-sm relative">
-            
-            <h3 className="font-bold text-lg sm:text-2xl mb-4 sm:mb-6 uppercase border-b-[2px] border-[#4e342e] pb-3 sm:pb-4 text-[#8b0000] flex items-center gap-2 sm:gap-3 tracking-widest">
+            <h3 className="font-bold text-xl mb-6 uppercase border-b border-gray-800 pb-4 text-gray-200 flex items-center gap-3 tracking-widest">
+              <span className="w-2 h-2 bg-red-600 rotate-45"></span>
               Known Roles
             </h3>
             
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-sm sm:text-base md:text-lg mt-6">
-              <li className="flex items-center gap-4 sm:gap-5">
-                 <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 border-[2px] border-[#8b0000] text-[#8b0000] rounded-full flex items-center justify-center shadow-md bg-white/40">
-                   <Flame className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ul className="flex flex-col gap-5">
+              <li className="flex items-center gap-4 group">
+                 <div className="w-12 h-12 shrink-0 border border-red-900 text-red-500 flex items-center justify-center bg-red-900/10 group-hover:bg-red-900/30 transition-colors rotate-45">
+                   <Flame className="w-5 h-5 -rotate-45" />
                  </div>
                  <div className="flex-1">
-                   <strong className="text-[#8b0000] uppercase block text-lg sm:text-xl mb-0.5 sm:mb-1">Shinobi (Mafia)</strong>
-                   <span className="text-[#3e2723]">Eliminate the Heimin.</span>
+                   <strong className="text-red-400 uppercase block text-lg mb-0.5 tracking-wider">Shinobi (Mafia)</strong>
+                   <span className="text-gray-400 text-sm">Eliminate the Heimin in the shadows.</span>
                  </div>
               </li>
-              <li className="flex items-center gap-4 sm:gap-5">
-                 <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 border-[2px] border-[#4e342e] text-[#4e342e] rounded-full flex items-center justify-center shadow-md bg-white/40">
-                   <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
+              <li className="flex items-center gap-4 group">
+                 <div className="w-12 h-12 shrink-0 border border-gray-600 text-gray-400 flex items-center justify-center bg-gray-800/30 group-hover:bg-gray-700/50 transition-colors rotate-45">
+                   <Eye className="w-5 h-5 -rotate-45" />
                  </div>
                  <div className="flex-1">
-                   <strong className="text-[#4e342e] uppercase block text-lg sm:text-xl mb-0.5 sm:mb-1">Heimin (Villager)</strong>
-                   <span className="text-[#3e2723]">Find the Shinobi.</span>
+                   <strong className="text-gray-200 uppercase block text-lg mb-0.5 tracking-wider">Heimin (Villager)</strong>
+                   <span className="text-gray-400 text-sm">Find the Shinobi before it's too late.</span>
                  </div>
               </li>
-              <li className="flex items-center gap-4 sm:gap-5">
-                 <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 border-[2px] border-[#276749] text-[#276749] rounded-full flex items-center justify-center shadow-md bg-white/40">
-                   <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+              <li className="flex items-center gap-4 group">
+                 <div className="w-12 h-12 shrink-0 border border-green-900 text-green-500 flex items-center justify-center bg-green-900/10 group-hover:bg-green-900/30 transition-colors rotate-45">
+                   <Heart className="w-5 h-5 -rotate-45" />
                  </div>
                  <div className="flex-1">
-                   <strong className="text-[#276749] uppercase block text-lg sm:text-xl mb-0.5 sm:mb-1">Sohei (Doctor)</strong>
-                   <span className="text-[#3e2723]">Save a player each night.</span>
+                   <strong className="text-green-400 uppercase block text-lg mb-0.5 tracking-wider">Sohei (Doctor)</strong>
+                   <span className="text-gray-400 text-sm">Offer spiritual protection each night.</span>
                  </div>
               </li>
-              <li className="flex items-center gap-4 sm:gap-5">
-                 <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 border-[2px] border-[#2b6cb0] text-[#2b6cb0] rounded-full flex items-center justify-center shadow-md bg-white/40">
-                   <Search className="w-5 h-5 sm:w-6 sm:h-6" />
+              <li className="flex items-center gap-4 group">
+                 <div className="w-12 h-12 shrink-0 border border-blue-900 text-blue-500 flex items-center justify-center bg-blue-900/10 group-hover:bg-blue-900/30 transition-colors rotate-45">
+                   <Search className="w-5 h-5 -rotate-45" />
                  </div>
                  <div className="flex-1">
-                   <strong className="text-[#2b6cb0] uppercase block text-lg sm:text-xl mb-0.5 sm:mb-1">Samurai (Detective)</strong>
-                   <span className="text-[#3e2723]">Investigate alignments.</span>
+                   <strong className="text-blue-400 uppercase block text-lg mb-0.5 tracking-wider">Samurai (Detective)</strong>
+                   <span className="text-gray-400 text-sm">Investigate the alignment of players.</span>
                  </div>
               </li>
-              <li className="flex items-center gap-4 sm:gap-5 md:col-span-2 md:justify-center">
-                 <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 border-[2px] border-[#6b46c1] text-[#6b46c1] rounded-full flex items-center justify-center shadow-md bg-white/40">
-                   <VenetianMask className="w-5 h-5 sm:w-6 sm:h-6" />
+              <li className="flex items-center gap-4 group">
+                 <div className="w-12 h-12 shrink-0 border border-purple-900 text-purple-400 flex items-center justify-center bg-purple-900/10 group-hover:bg-purple-900/30 transition-colors rotate-45">
+                   <VenetianMask className="w-5 h-5 -rotate-45" />
                  </div>
-                 <div className="flex-1 md:flex-none">
-                   <strong className="text-[#6b46c1] uppercase block text-lg sm:text-xl mb-0.5 sm:mb-1">Kitsune (Jester)</strong>
-                   <span className="text-[#3e2723]">Get voted out during the day.</span>
+                 <div className="flex-1">
+                   <strong className="text-purple-300 uppercase block text-lg mb-0.5 tracking-wider">Kitsune (Jester)</strong>
+                   <span className="text-gray-400 text-sm">Trick the village into voting you out.</span>
                  </div>
               </li>
             </ul>
-          </div>
-        </div>
-
-        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-4 sm:gap-6 w-full pt-4 sm:pt-6 relative z-20">
-          <button 
-            onClick={() => setModalMode('host')}
-            className="flex-1 border-2 border-[#4e342e] bg-[rgba(253,251,247,0.8)] text-[#4e342e] py-4 sm:py-5 px-2 font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-widest hover:bg-[#4e342e] hover:text-[#ebdcb5] transition-all shadow-md active:translate-y-1 active:shadow-sm flex items-center justify-center gap-2 sm:gap-3"
-          >
-            <Users className="w-5 h-5 sm:w-7 sm:h-7" />
-            Host Game
-          </button>
-          
-          <button 
-            onClick={() => setModalMode('join')}
-            className="flex-1 bg-[#8b0000] border-2 border-[#8b0000] text-[#ebdcb5] py-4 sm:py-5 px-2 font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-widest hover:bg-red-900 transition-all shadow-md active:translate-y-1 active:shadow-sm flex items-center justify-center gap-2 sm:gap-3"
-          >
-            <UserPlus className="w-5 h-5 sm:w-7 sm:h-7" />
-            Join Game
-          </button>
-
-          <button 
-            onClick={() => setModalMode('bots')}
-            className="flex-1 bg-[#2c1b18] border-2 border-[#2c1b18] text-[#ebdcb5] py-4 sm:py-5 px-2 font-bold text-lg sm:text-xl md:text-2xl uppercase tracking-widest hover:bg-black transition-all shadow-md active:translate-y-1 active:shadow-sm flex items-center justify-center gap-2 sm:gap-3"
-          >
-            <Bot className="w-5 h-5 sm:w-7 sm:h-7" />
-            Play Bots
-          </button>
         </div>
       </div>
 
+      {/* Modal */}
       {modalMode && (
-        <div className="fixed inset-0 z-50 bg-[#0f111a]/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="makimono-paper border-y-[16px] border-[#2c1b18] max-w-lg w-full p-8 sm:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
-            <button className="absolute top-4 sm:top-6 right-4 sm:right-6 text-[#8b0000] hover:text-red-600 transition-colors duration-300" onClick={() => setModalMode(null)}>
-              <X className="w-8 h-8 sm:w-10 sm:h-10" />
+        <div className="fixed inset-0 z-50 bg-[#0a0a0a]/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-[#111] border border-gray-800 max-w-lg w-full p-8 sm:p-12 shadow-2xl relative">
+            <button className="absolute top-4 sm:top-6 right-4 sm:right-6 text-gray-500 hover:text-red-500 transition-colors duration-300" onClick={() => setModalMode(null)}>
+              <X className="w-8 h-8" />
             </button>
             
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8 uppercase border-b-2 border-[#8b0000] pb-4 sm:pb-6 text-[#2c1b18] tracking-widest">
+            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 uppercase text-white tracking-widest">
               {getModalTitle()}
             </h2>
             
-            <p className="text-center text-sm sm:text-lg mb-8 sm:mb-10 font-bold bg-[#fdfbf7]/50 p-3 sm:p-4 border border-[#4e342e]/30 text-[#4e342e] shadow-inner">
+            <p className="text-center text-sm sm:text-base mb-10 text-gray-400 tracking-wider">
               {getModalDescription()}
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 sm:gap-8">
               
-              <div className="flex flex-col gap-2">
-                <label className="font-bold uppercase text-sm tracking-widest text-[#8b0000]">Alias</label>
+              <div className="flex flex-col gap-2 relative">
+                <label className="font-bold uppercase text-xs tracking-widest text-red-500 absolute -top-2 left-4 bg-[#111] px-2 z-10">Alias</label>
                 <input 
                   type="text" 
                   placeholder="ENTER NAME" 
@@ -184,13 +218,13 @@ export default function EdoHome() {
                   onChange={(e) => setPlayerName(e.target.value)}
                   maxLength={15}
                   autoFocus={!playerName}
-                  className="w-full bg-[#fdfbf7] border-2 border-[#4e342e]/50 focus:border-[#4e342e] outline-none text-center text-3xl text-[#2c1b18] placeholder-[#4e342e]/30 py-3 sm:py-4 transition-all shadow-inner font-serif"
+                  className="w-full bg-transparent border border-gray-700 focus:border-red-500 outline-none text-center text-2xl text-white placeholder-gray-800 py-4 transition-colors font-serif uppercase tracking-widest"
                 />
               </div>
 
               {modalMode === 'join' && (
-                <div className="flex flex-col gap-2">
-                  <label className="font-bold uppercase text-sm tracking-widest text-[#8b0000]">Room Code</label>
+                <div className="flex flex-col gap-2 relative mt-4">
+                  <label className="font-bold uppercase text-xs tracking-widest text-red-500 absolute -top-2 left-4 bg-[#111] px-2 z-10">Scroll Code</label>
                   <input 
                     type="text" 
                     placeholder="ENTER CODE" 
@@ -198,7 +232,7 @@ export default function EdoHome() {
                     onChange={(e) => setJoinCode(e.target.value)}
                     maxLength={6}
                     autoFocus={!!playerName}
-                    className="w-full bg-[#fdfbf7] border-2 border-[#4e342e]/50 focus:border-[#4e342e] outline-none text-center text-4xl sm:text-5xl uppercase text-[#2c1b18] placeholder-[#4e342e]/30 py-3 sm:py-4 transition-all shadow-inner tracking-widest font-serif"
+                    className="w-full bg-transparent border border-gray-700 focus:border-red-500 outline-none text-center text-3xl sm:text-4xl uppercase text-white placeholder-gray-800 py-4 transition-colors tracking-[0.3em] font-serif"
                   />
                 </div>
               )}
@@ -206,7 +240,7 @@ export default function EdoHome() {
               <button 
                 type="submit" 
                 disabled={!playerName.trim() || (modalMode === 'join' && !joinCode.trim())}
-                className="mt-2 w-full bg-[#8b0000] text-[#ebdcb5] py-4 sm:py-5 font-bold text-xl sm:text-2xl uppercase tracking-widest hover:bg-red-900 transition-all shadow-md active:translate-y-1 active:shadow-sm disabled:opacity-30 disabled:hover:bg-[#8b0000] disabled:shadow-none disabled:active:translate-y-0"
+                className="mt-6 w-full bg-red-900/80 border border-red-500 text-white py-4 sm:py-5 font-bold text-xl uppercase tracking-widest hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80 disabled:shadow-none"
               >
                 PROCEED
               </button>
@@ -216,15 +250,12 @@ export default function EdoHome() {
       )}
 
       {/* UI Theme Switcher */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-6 z-40">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 z-40 opacity-50 hover:opacity-100 transition-opacity">
         <button 
           onClick={switchTheme}
-          className="px-8 py-4 bg-[#8b0000] text-white font-bold text-xl sm:text-2xl uppercase tracking-widest border-2 border-black shadow-md hover:bg-red-950 transition-all active:shadow-sm active:translate-y-1 cursor-pointer"
+          className="px-6 py-2 bg-transparent text-gray-400 font-bold text-xs uppercase tracking-widest border border-gray-700 hover:border-gray-400 hover:text-white transition-all cursor-pointer"
         >
-          1930's Theme
-        </button>
-        <button className="px-8 py-4 bg-[#2c1b18] text-[#ebdcb5] font-bold text-xl sm:text-2xl uppercase tracking-widest border-2 border-[#1a0f0d] shadow-md hover:bg-black transition-all active:shadow-sm active:translate-y-1 cursor-default">
-          Shadows of Edo
+          Revert to 1930s
         </button>
       </div>
 
