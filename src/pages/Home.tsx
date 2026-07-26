@@ -1,18 +1,21 @@
 
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import { useTheme } from '../contexts/ThemeContext';
 import DesktopHome from './DesktopHome';
 import MobileHome from './mobile/MobileHome';
-import ModernDesktopHome from './modern/ModernDesktopHome';
-import ModernMobileHome from './modern/ModernMobileHome';
+import EdoHome from './edo/EdoHome';
 
 export default function Home() {
   const isMobile = useMediaQuery('(max-width: 767px)');
-  const { theme } = useTheme();
 
-  if (theme === 'modern') {
-    return isMobile ? <ModernMobileHome /> : <ModernDesktopHome />;
+  const theme = localStorage.getItem('mafia_theme') || '1930s';
+
+  if (isMobile) {
+    return <MobileHome />;
   }
 
-  return isMobile ? <MobileHome /> : <DesktopHome />;
+  if (theme === 'edo') {
+    return <EdoHome />;
+  }
+
+  return <DesktopHome />;
 }

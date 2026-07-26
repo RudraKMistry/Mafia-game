@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, UserPlus, X, Flame, Eye, Heart, Search, VenetianMask, Bot, Sun, Moon, Laptop } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Users, UserPlus, X, Flame, Eye, Heart, Search, VenetianMask, Bot } from 'lucide-react';
 
 export default function Home() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
   const [modalMode, setModalMode] = useState<'host' | 'join' | 'bots' | null>(null);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('mafia_playerName') || '');
   const [joinCode, setJoinCode] = useState('');
+  const [showWipError, setShowWipError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -208,19 +207,38 @@ export default function Home() {
 
       {/* UI Theme Switcher */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-6 z-40">
-        <button 
-          onClick={() => setTheme('1930s')}
-          className={`px-8 py-4 font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 ${theme === '1930s' ? 'bg-[#8b0000] text-white cursor-default' : 'bg-zinc-800 text-zinc-300 hover:bg-black hover:text-white'}`}
-        >
+        <button className="px-8 py-4 bg-[#8b0000] text-white font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-red-950 transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 cursor-default">
           1930's Theme
         </button>
         <button 
-          onClick={() => setTheme('modern')}
-          className={`px-8 py-4 font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 ${theme === 'modern' ? 'bg-[#8b0000] text-white cursor-default' : 'bg-zinc-800 text-zinc-300 hover:bg-black hover:text-white'}`}
+          onClick={() => {
+            localStorage.setItem('mafia_theme', 'edo');
+            window.location.reload();
+          }}
+          className="px-8 py-4 bg-zinc-800 text-zinc-300 font-heading font-black text-xl sm:text-2xl uppercase tracking-widest border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:bg-black hover:text-white transition-all active:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1"
         >
-          Modern Theme
+          Shadows of Edo
         </button>
       </div>
+
+      {showWipError && (
+        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in zoom-in-95 duration-300">
+          <div className="paper-texture max-w-md w-full p-8 shadow-[12px_12px_0px_rgba(0,0,0,1)] relative border-4 border-black -rotate-1">
+            <h2 className="font-heading text-3xl font-black text-center mb-6 uppercase border-b-[4px] border-black/20 pb-4 text-[#8b0000]">
+              ACCESS DENIED
+            </h2>
+            <p className="font-typewriter text-center text-lg mb-8 font-bold text-black bg-white/50 p-4 border-2 border-black/10 shadow-inner leading-relaxed">
+              work in progress atle khabar nai pade? it means Aju banyu nathi, kaam chaltu che.
+            </p>
+            <button 
+              onClick={() => setShowWipError(false)}
+              className="w-full border-4 border-black bg-black text-white py-3 font-heading font-black text-2xl uppercase tracking-widest hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_rgba(255,255,255,0.2)] active:shadow-[1px_1px_0px_rgba(255,255,255,0.2)] active:translate-y-1 active:translate-x-1"
+            >
+              UNDERSTOOD
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

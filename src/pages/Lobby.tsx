@@ -1,18 +1,21 @@
 
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import { useTheme } from '../contexts/ThemeContext';
 import DesktopLobby from './DesktopLobby';
 import MobileLobby from './mobile/MobileLobby';
-import ModernDesktopLobby from './modern/ModernDesktopLobby';
-import ModernMobileLobby from './modern/ModernMobileLobby';
+import EdoLobby from './edo/EdoLobby';
 
 export default function Lobby() {
   const isMobile = useMediaQuery('(max-width: 767px)');
-  const { theme } = useTheme();
 
-  if (theme === 'modern') {
-    return isMobile ? <ModernMobileLobby /> : <ModernDesktopLobby />;
+  const theme = localStorage.getItem('mafia_theme') || '1930s';
+
+  if (isMobile) {
+    return <MobileLobby />;
   }
 
-  return isMobile ? <MobileLobby /> : <DesktopLobby />;
+  if (theme === 'edo') {
+    return <EdoLobby />;
+  }
+
+  return <DesktopLobby />;
 }

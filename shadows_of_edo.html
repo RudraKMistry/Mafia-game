@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mafia: Shadows of Edo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        :root {
+            --day-bg: #eaddd3;
+            --day-radial: #fff5e6;
+            --night-bg: #0f111a;
+            --night-radial: #1f2235;
+            --wood: #3e2723;
+            --paper: #fdfbf7;
+            --ink: #1a1a1a;
+            --blood: #8b0000;
+        }
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            overflow: hidden;
+            background-color: var(--day-bg);
+            transition: background-color 2s ease;
+            user-select: none;
+        }
+
+        /* Dynamic Background Gradients */
+        .bg-day {
+            background: radial-gradient(circle at top, var(--day-radial), var(--day-bg));
+        }
+        .bg-night {
+            background: radial-gradient(circle at center, var(--night-radial), var(--night-bg));
+        }
+
+        /* Shoji Screen Texture using CSS Gradients */
+        .shoji-paper {
+            background-color: var(--paper);
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 38px, rgba(62, 39, 35, 0.15) 38px, rgba(62, 39, 35, 0.15) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(62, 39, 35, 0.15) 38px, rgba(62, 39, 35, 0.15) 40px);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+        }
+
+        .shoji-frame {
+            border: 6px solid var(--wood);
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+            border-radius: 2px;
+        }
+
+        .shoji-card {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+        .shoji-card:active {
+            transform: scale(0.95);
+        }
+
+        /* Target Auras */
+        .target-aura-day {
+            box-shadow: 0 0 0 4px #4a5568, 0 0 15px rgba(74, 85, 104, 0.5);
+        }
+        .target-aura-night {
+            box-shadow: 0 0 0 4px #9b2c2c, 0 0 20px rgba(155, 44, 44, 0.8);
+        }
+        .target-aura-heal {
+            box-shadow: 0 0 0 4px #276749, 0 0 20px rgba(39, 103, 73, 0.8);
+        }
+        .target-aura-investigate {
+            box-shadow: 0 0 0 4px #2b6cb0, 0 0 20px rgba(43, 108, 176, 0.8);
+        }
+
+        /* Particle Animations */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Sakura (Cherry Blossoms) */
+        .sakura {
+            background-color: #ffb7c5;
+            border-radius: 100% 0 100% 0;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translate(0, -10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translate(15vw, 110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Fireflies */
+        .firefly {
+            background-color: #eab308;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: drift ease-in-out infinite alternate, glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, -30px); }
+        }
+        @keyframes glow {
+            0% { opacity: 0.2; box-shadow: 0 0 2px #eab308; }
+            100% { opacity: 1; box-shadow: 0 0 10px #eab308, 0 0 20px #eab308; }
+        }
+
+        /* Scroll / Makimono Styling */
+        .makimono-roller {
+            background: linear-gradient(90deg, #2c1b18, #4e342e, #2c1b18);
+            border: 1px solid #1a0f0d;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+        .makimono-paper {
+            background-color: #ebdcb5;
+            background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 100% 24px;
+            box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.2);
+        }
+
+        /* Action Bar Slide-up */
+        .action-bar-enter {
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
+        }
+        .action-bar-active {
+            transform: translateY(0);
+        }
+
+        /* Death Overlay (Ink Slash) */
+        .ink-slash {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: linear-gradient(135deg, transparent 48%, var(--ink) 49%, var(--ink) 51%, transparent 52%);
+            opacity: 0.8;
+            mix-blend-mode: multiply;
+        }
+        .blood-splatter {
+            position: absolute;
+            background: radial-gradient(circle, var(--blood) 10%, transparent 60%);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            opacity: 0.7;
+            mix-blend-mode: multiply;
+            filter: blur(1px);
+        }
+
+        /* Hide scrollbar for chat */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    </style>
+</head>
+<body class="bg-day h-screen w-screen flex flex-col overflow-hidden text-gray-900" id="game-body">
+
+    <!-- Particle Container -->
+    <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+    <!-- Perspective / Debug Bar (Hidden in real game, used for demo) -->
+    <div class="relative z-50 bg-[#1a1a1a] text-[#ebdcb5] text-xs p-2 flex flex-wrap justify-between items-center border-b-2 border-[#4e342e]">
+        <div class="flex items-center space-x-4 mb-2 sm:mb-0">
+            <span class="font-bold">PERSPECTIVE:</span>
+            <select id="roleSelect" class="bg-[#3e2723] border border-[#ebdcb5] px-2 py-1 rounded text-[#ebdcb5] outline-none" onchange="changePerspective()">
+                <option value="Heimin">Heimin (Villager)</option>
+                <option value="Shinobi">Shinobi (Mafia)</option>
+                <option value="Sohei">Sohei (Doctor)</option>
+                <option value="Samurai">Samurai (Detective)</option>
+            </select>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="font-bold">PHASE:</span>
+            <button onclick="togglePhase()" class="bg-[#ebdcb5] text-[#1a1a1a] px-3 py-1 rounded font-bold hover:bg-white transition">
+                Toggle Day/Night
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Game Area -->
+    <div class="flex-1 flex flex-col md:flex-row relative z-10 overflow-hidden">
+        
+        <!-- Left: Game Board -->
+        <div class="flex-1 flex flex-col p-4 md:p-8 relative h-full">
+            
+            <!-- Header Status -->
+            <div class="text-center mb-6 drop-shadow-md transition-colors duration-1000" id="phase-header">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-widest uppercase" id="phase-title">Day 1</h1>
+                <p class="text-lg md:text-xl mt-2 italic" id="phase-subtitle">The Emperor's peace holds. Discuss the traitors among you.</p>
+                <div class="text-2xl font-bold mt-2 font-mono" id="timer">03:00</div>
+            </div>
+
+            <!-- Players Grid -->
+            <div class="flex-1 overflow-y-auto no-scrollbar pb-24 md:pb-0">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 max-w-5xl mx-auto" id="players-grid">
+                    <!-- Players rendered via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right / Bottom: The Scroll (Chat & Logs) -->
+        <!-- Desktop: Right Sidebar. Mobile: Sliding Bottom Sheet -->
+        <div id="scroll-container" class="fixed md:relative bottom-0 left-0 w-full md:w-80 lg:w-96 h-[60vh] md:h-full transform translate-y-[calc(100%-3rem)] md:translate-y-0 transition-transform duration-500 z-40 flex flex-col">
+            
+            <!-- Mobile Handle -->
+            <button onclick="toggleScroll()" class="md:hidden makimono-roller h-12 w-full flex items-center justify-center text-[#ebdcb5] uppercase tracking-widest font-bold z-50 rounded-t-lg">
+                <span id="scroll-toggle-text">▲ Unroll Scroll ▲</span>
+            </button>
+
+            <!-- Top Roller (Desktop) -->
+            <div class="hidden md:block makimono-roller h-6 w-full rounded-t-md z-10"></div>
+            
+            <!-- Scroll Content -->
+            <div class="makimono-paper flex-1 w-full flex flex-col overflow-hidden relative shadow-2xl">
+                <!-- Inner fade effect -->
+                <div class="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-[rgba(139,69,19,0.2)] to-transparent pointer-events-none"></div>
+                
+                <div class="p-3 bg-[#4e342e] text-[#ebdcb5] text-center font-bold tracking-widest text-sm border-b border-[#2c1b18]">
+                    VILLAGE CHRONICLE
+                </div>
+                
+                <div class="flex-1 overflow-y-auto p-4 space-y-3 font-serif text-[#2c1b18] text-sm md:text-base" id="chat-messages">
+                    <!-- Messages rendered via JS -->
+                </div>
+
+                <!-- Chat Input (Only enabled during day) -->
+                <div class="p-3 border-t border-[rgba(139,69,19,0.2)] bg-[rgba(255,255,255,0.3)]">
+                    <form id="chat-form" class="flex" onsubmit="sendChat(event)">
+                        <input type="text" id="chat-input" class="flex-1 bg-transparent border-b-2 border-[#4e342e] px-2 py-1 outline-none text-[#2c1b18] placeholder-[#8b6b61] italic" placeholder="Speak your mind...">
+                        <button type="submit" id="chat-submit" class="ml-2 text-[#4e342e] hover:text-[#8b0000] transition-colors">
+                            <!-- Brush Icon SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.04z"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Roller -->
+            <div class="makimono-roller h-6 w-full rounded-b-md z-10 hidden md:block"></div>
+        </div>
+
+    </div>
+
+    <!-- Action Confirmation Bar (Bottom) -->
+    <div id="action-bar" class="action-bar-enter fixed bottom-0 left-0 w-full md:w-[calc(100%-20rem)] lg:w-[calc(100%-24rem)] bg-[#1a1a1a] border-t-4 border-[#8b0000] text-white p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-30 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <div id="action-icon" class="w-10 h-10 flex items-center justify-center">
+                <!-- SVG injected via JS -->
+            </div>
+            <div>
+                <p class="text-sm text-gray-400 uppercase tracking-widest" id="action-prompt">Confirm Action</p>
+                <p class="text-xl font-bold font-serif" id="action-target-name">Target Name</p>
+            </div>
+        </div>
+        <div class="flex space-x-4">
+            <button onclick="cancelAction()" class="px-4 py-2 text-gray-400 hover:text-white transition">Cancel</button>
+            <button onclick="executeAction()" id="action-btn" class="px-6 py-2 bg-[#8b0000] hover:bg-red-600 font-bold rounded shadow-lg transition">Execute</button>
+        </div>
+    </div>
+
+    <script>
+        // --- GAME STATE ---
+        let isNight = false;
+        let perspectiveRole = 'Heimin';
+        let isMobileScrollOpen = false;
+        let selectedPlayerId = null;
+
+        const players = [
+            { id: 1, name: "Kenshin", role: "Samurai", alive: true, votes: 0 },
+            { id: 2, name: "Nobunaga", role: "Shinobi", alive: true, votes: 0 },
+            { id: 3, name: "Hattori", role: "Heimin", alive: true, votes: 0 },
+            { id: 4, name: "Tomoe", role: "Sohei", alive: true, votes: 0 },
+            { id: 5, name: "Musashi", role: "Heimin", alive: true, votes: 0 },
+            { id: 6, name: "Hanzo", role: "Shinobi", alive: true, votes: 0 },
+            { id: 7, name: "Yasuke", role: "Heimin", alive: false, votes: 0 }, // Dead player example
+            { id: 8, name: "Oichi", role: "Kitsune", alive: true, votes: 0 },
+        ];
+
+        const chatLogs = [
+            { sender: "System", text: "The village awakens. Yasuke was found slain in the night.", type: "system" },
+            { sender: "Kenshin", text: "I saw someone lurking near Yasuke's dwelling.", type: "chat" },
+            { sender: "Nobunaga", text: "Do not cast baseless accusations, Samurai.", type: "chat" }
+        ];
+
+        // --- SVGS ---
+        const svgs = {
+            shuriken: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>`,
+            enso: `<svg viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="10"/></svg>`,
+            heal: `<svg viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M12 4v16m-8-8h16"/></svg>`,
+            eye: `<svg viewBox="0 0 24 24" fill="none" stroke="#2b6cb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+            slash: `<div class="ink-slash"></div><div class="blood-splatter" style="top: 20%; left: 30%"></div><div class="blood-splatter" style="top: 60%; left: 50%; width: 20px; height: 20px;"></div>`
+        };
+
+        // --- RENDER FUNCTIONS ---
+        
+        function renderPlayers() {
+            const grid = document.getElementById('players-grid');
+            grid.innerHTML = '';
+
+            players.forEach(p => {
+                let cardStateClass = '';
+                let overlayHTML = '';
+
+                // Handle Alive/Dead styles
+                if (!p.alive) {
+                    cardStateClass = 'opacity-60 grayscale';
+                    overlayHTML = svgs.slash;
+                } else if (selectedPlayerId === p.id) {
+                    // Highlight selected player based on phase/role
+                    if (!isNight) cardStateClass = 'target-aura-day transform -translate-y-2';
+                    else if (perspectiveRole === 'Shinobi') cardStateClass = 'target-aura-night transform -translate-y-2';
+                    else if (perspectiveRole === 'Sohei') cardStateClass = 'target-aura-heal transform -translate-y-2';
+                    else if (perspectiveRole === 'Samurai') cardStateClass = 'target-aura-investigate transform -translate-y-2';
+                }
+
+                // Show role if Night and looking from Mafia perspective at another Mafia
+                let showRole = '';
+                if (isNight && perspectiveRole === 'Shinobi' && p.role === 'Shinobi' && p.alive) {
+                    showRole = `<div class="absolute top-2 right-2 text-xs font-bold text-red-600 bg-black/50 px-1 rounded">Ally</div>`;
+                }
+
+                const cardHTML = `
+                    <div onclick="handlePlayerClick(${p.id})" 
+                         class="relative aspect-[3/4] cursor-pointer shoji-frame shoji-card ${cardStateClass} flex flex-col group">
+                        
+                        <!-- Shoji Texture -->
+                        <div class="absolute inset-0 shoji-paper z-0"></div>
+                        
+                        <!-- Overlays (Death slash, etc) -->
+                        <div class="absolute inset-0 z-10 pointer-events-none">${overlayHTML}</div>
+                        ${showRole}
+
+                        <!-- Content -->
+                        <div class="relative z-20 flex-1 flex flex-col items-center justify-center p-2 text-center">
+                            <!-- Silhouette Avatar -->
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[rgba(62,39,35,0.8)] border-2 border-[#2c1b18] mb-4 flex items-center justify-center text-[#ebdcb5] drop-shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            </div>
+                            
+                            <h3 class="font-bold text-sm md:text-lg text-[#2c1b18] bg-[rgba(253,251,247,0.7)] px-2 py-1 rounded shadow-sm" style="writing-mode: vertical-rl; text-orientation: upright;">
+                                ${p.name}
+                            </h3>
+
+                            <!-- Vote Indicator (Day Only) -->
+                            ${(!isNight && p.votes > 0 && p.alive) ? `
+                            <div class="absolute bottom-2 right-2 w-6 h-6 text-gray-800 animate-pulse">
+                                ${svgs.shuriken}
+                                <span class="absolute -top-2 -right-2 bg-red-800 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">${p.votes}</span>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        function renderLogs() {
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML = '';
+            
+            chatLogs.forEach(log => {
+                const isSys = log.type === 'system';
+                const logHTML = `
+                    <div class="mb-2 ${isSys ? 'text-red-800 text-center italic font-bold my-4 border-y border-red-800/20 py-1' : ''}">
+                        ${!isSys ? `<span class="font-bold mr-1">[${log.sender}]:</span>` : ''}
+                        <span>${log.text}</span>
+                    </div>
+                `;
+                chatBox.innerHTML += logHTML;
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // --- INTERACTION ---
+
+        function handlePlayerClick(id) {
+            const player = players.find(p => p.id === id);
+            
+            // Can't interact with dead players or if dead yourself (logic simulation)
+            if (!player.alive) return;
+
+            // In Night, Heimin (Villagers) can't target anyone
+            if (isNight && perspectiveRole === 'Heimin') return;
+
+            // Deselect if already selected
+            if (selectedPlayerId === id) {
+                selectedPlayerId = null;
+                hideActionBar();
+                renderPlayers();
+                return;
+            }
+
+            selectedPlayerId = id;
+            renderPlayers();
+            showActionBar(player);
+        }
+
+        function showActionBar(player) {
+            const bar = document.getElementById('action-bar');
+            const icon = document.getElementById('action-icon');
+            const prompt = document.getElementById('action-prompt');
+            const target = document.getElementById('action-target-name');
+            const btn = document.getElementById('action-btn');
+
+            target.innerText = player.name;
+            
+            if (!isNight) {
+                // Day Action: Vote
+                icon.innerHTML = svgs.shuriken;
+                icon.className = "w-10 h-10 text-gray-400";
+                prompt.innerText = "Cast suspicion on";
+                btn.innerText = "Throw Shuriken (Vote)";
+                btn.className = "px-6 py-2 bg-gray-600 hover:bg-gray-500 font-bold rounded shadow-lg transition";
+            } else {
+                // Night Actions based on Role
+                if (perspectiveRole === 'Shinobi') {
+                    icon.innerHTML = svgs.enso;
+                    icon.className = "w-10 h-10";
+                    prompt.innerText = "Mark for assassination";
+                    btn.innerText = "Strike";
+                    btn.className = "px-6 py-2 bg-[#8b0000] hover:bg-red-600 font-bold rounded shadow-lg transition";
+                } else if (perspectiveRole === 'Sohei') {
+                    icon.innerHTML = svgs.heal;
+                    icon.className = "w-10 h-10 text-green-500";
+                    prompt.innerText = "Offer spiritual protection to";
+                    btn.innerText = "Protect";
+                    btn.className = "px-6 py-2 bg-green-700 hover:bg-green-600 font-bold rounded shadow-lg transition text-white";
+                } else if (perspectiveRole === 'Samurai') {
+                    icon.innerHTML = svgs.eye;
+                    icon.className = "w-10 h-10 text-blue-500";
+                    prompt.innerText = "Investigate alignment of";
+                    btn.innerText = "Investigate";
+                    btn.className = "px-6 py-2 bg-blue-700 hover:bg-blue-600 font-bold rounded shadow-lg transition text-white";
+                }
+            }
+
+            bar.classList.remove('action-bar-enter');
+            bar.classList.add('action-bar-active');
+        }
+
+        function hideActionBar() {
+            const bar = document.getElementById('action-bar');
+            bar.classList.remove('action-bar-active');
+            bar.classList.add('action-bar-enter');
+            selectedPlayerId = null;
+        }
+
+        function cancelAction() {
+            hideActionBar();
+            renderPlayers();
+        }
+
+        function executeAction() {
+            const player = players.find(p => p.id === selectedPlayerId);
+            
+            if (!isNight) {
+                // Simulate vote
+                player.votes++;
+                addLog('System', `You cast a vote for ${player.name}.`, 'system');
+            } else {
+                // Simulate Night Action
+                let actionText = '';
+                if (perspectiveRole === 'Shinobi') actionText = `You marked ${player.name} for death.`;
+                if (perspectiveRole === 'Sohei') actionText = `You protected ${player.name}.`;
+                if (perspectiveRole === 'Samurai') actionText = `You investigated ${player.name}.`;
+                addLog('System', actionText, 'system');
+            }
+            
+            hideActionBar();
+            renderPlayers();
+        }
+
+        function addLog(sender, text, type) {
+            chatLogs.push({ sender, text, type });
+            renderLogs();
+        }
+
+        function sendChat(e) {
+            e.preventDefault();
+            if (isNight) return; // No chatting at night
+            
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (text) {
+                addLog(perspectiveRole, text, 'chat');
+                input.value = '';
+            }
+        }
+
+        // --- UI & THEME TOGGLES ---
+
+        function togglePhase() {
+            isNight = !isNight;
+            hideActionBar();
+            updateUI();
+        }
+
+        function changePerspective() {
+            perspectiveRole = document.getElementById('roleSelect').value;
+            hideActionBar();
+            updateUI();
+        }
+
+        function updateUI() {
+            const body = document.getElementById('game-body');
+            const title = document.getElementById('phase-title');
+            const sub = document.getElementById('phase-subtitle');
+            const chatInput = document.getElementById('chat-input');
+            const chatBtn = document.getElementById('chat-submit');
+            const phaseHeader = document.getElementById('phase-header');
+
+            if (isNight) {
+                body.className = "bg-night h-screen w-screen flex flex-col overflow-hidden text-gray-200";
+                title.innerText = "Night 1";
+                title.className = "text-4xl md:text-5xl font-bold tracking-widest uppercase text-[#8b0000]";
+                phaseHeader.className = "text-center mb-6 drop-shadow-[0_0_10px_rgba(139,0,0,0.5)] transition-colors duration-1000";
+                
+                // Role specific subtitles
+                if (perspectiveRole === 'Heimin') sub.innerText = "The shadows deepen. Sleep and pray for morning.";
+                if (perspectiveRole === 'Shinobi') sub.innerText = "The strike approaches. Choose your victim.";
+                if (perspectiveRole === 'Sohei') sub.innerText = "Spirits are restless. Choose who to protect.";
+                if (perspectiveRole === 'Samurai') sub.innerText = "Deception hides in the dark. Uncover the truth.";
+
+                // Disable chat
+                chatInput.disabled = true;
+                chatInput.placeholder = "Silence falls over the village...";
+                chatBtn.disabled = true;
+                chatBtn.classList.add('opacity-50');
+
+                generateParticles('firefly', 15);
+            } else {
+                body.className = "bg-day h-screen w-screen flex flex-col overflow-hidden text-gray-900";
+                title.innerText = "Day 1";
+                title.className = "text-4xl md:text-5xl font-bold tracking-widest uppercase text-[#2c1b18]";
+                phaseHeader.className = "text-center mb-6 drop-shadow-md transition-colors duration-1000";
+                sub.innerText = "The Emperor's peace holds. Discuss the traitors among you.";
+                
+                // Reset votes visually (for demo purposes)
+                players.forEach(p => p.votes = 0);
+
+                // Enable chat
+                chatInput.disabled = false;
+                chatInput.placeholder = "Speak your mind...";
+                chatBtn.disabled = false;
+                chatBtn.classList.remove('opacity-50');
+
+                generateParticles('sakura', 30);
+            }
+
+            renderPlayers();
+            renderLogs();
+        }
+
+        function toggleScroll() {
+            isMobileScrollOpen = !isMobileScrollOpen;
+            const container = document.getElementById('scroll-container');
+            const toggleText = document.getElementById('scroll-toggle-text');
+            
+            if (isMobileScrollOpen) {
+                container.classList.remove('translate-y-[calc(100%-3rem)]');
+                container.classList.add('translate-y-0');
+                toggleText.innerText = "▼ Roll Up Scroll ▼";
+            } else {
+                container.classList.remove('translate-y-0');
+                container.classList.add('translate-y-[calc(100%-3rem)]');
+                toggleText.innerText = "▲ Unroll Scroll ▲";
+            }
+        }
+
+        // --- PARTICLES ENGINE ---
+
+        function generateParticles(type, count) {
+            const container = document.getElementById('particles');
+            container.innerHTML = ''; // clear old particles
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle', type);
+                
+                if (type === 'sakura') {
+                    // Randomize size, start position, animation duration and delay
+                    const size = Math.random() * 10 + 8;
+                    const left = Math.random() * 120 - 10; // -10vw to 110vw
+                    const duration = Math.random() * 5 + 5; // 5s to 10s
+                    const delay = Math.random() * -10; // start at different points in animation
+
+                    p.style.width = `${size}px`;
+                    p.style.height = `${size}px`;
+                    p.style.left = `${left}vw`;
+                    p.style.animationDuration = `${duration}s`;
+                    p.style.animationDelay = `${delay}s`;
+                } else if (type === 'firefly') {
+                    const size = Math.random() * 4 + 2;
+                    const left = Math.random() * 100;
+                    const top = Math.random() * 100;
+                    const delay1 = Math.random() * -5;
+                    const delay2 = Math.random() * -2;
+                    
+                    p.style.width = `${size}px`;
+                    p.style.height = `${size}px`;
+                    p.style.left = `${left}vw`;
+                    p.style.top = `${top}vh`;
+                    p.style.animationDelay = `${delay1}s, ${delay2}s`;
+                }
+
+                container.appendChild(p);
+            }
+        }
+
+        // --- INIT ---
+        updateUI(); // Set initial state (Day)
+
+    </script>
+</body>
+</html>
