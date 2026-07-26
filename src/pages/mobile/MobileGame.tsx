@@ -8,7 +8,7 @@ const ICON_MAP: Record<string, any> = { Flame, Eye, Heart, Search, VenetianMask,
 export default function MobileGame({ gameStateData }: { gameStateData: any }) {
   
   const { 
-    room, playerId, privateReveal, setPrivateReveal, 
+    room, playerId, privateReveal, setPrivateReveal,
     startGame, handleStampAction: doStampAction, continueReport, returnToLobby, skipDiscussion 
   } = gameStateData;
 
@@ -215,7 +215,7 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
 
                 {/* Suspect Grid */}
                 <div className="grid grid-cols-2 gap-2">
-                  {players.map((p: any, index: number) => {
+                  {players.filter(Boolean).map((p: any, index: number) => {
                     const isSelf = p.id === playerId;
                     const isDead = p.isDead;
                     const isMafiaColleague = activePlayer?.role?.id === 'mafia' && p.role?.id === 'mafia';
@@ -398,11 +398,9 @@ export default function MobileGame({ gameStateData }: { gameStateData: any }) {
       {gameState === 'dossier' && renderDossier()}
       {gameState === 'transition' && renderTransition()}
       
-      {/* Popups */}
-      {revealData && renderReveal(revealData, false)}
-      {privateReveal && renderReveal(privateReveal, true)}
-      
-      {gameState !== 'dossier' && gameState !== 'transition' && !revealData && gameState !== 'game_over' && renderGameDesk()}
+      {gameState !== 'dossier' && gameState !== 'transition' && !revealData && !privateReveal && gameState !== 'game_over' && renderGameDesk()}
+      {revealData && gameState !== 'game_over' && renderReveal(revealData, false)}
+      {privateReveal && gameState !== 'game_over' && renderReveal(privateReveal, true)}
       {gameState === 'game_over' && <MobileReveal room={room} returnToLobby={returnToLobby} />}
     </div>
   );
