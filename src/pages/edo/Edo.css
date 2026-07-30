@@ -22,6 +22,18 @@
     color: #e5e7eb;
 }
 
+/* Force hide all system cursors since we use MagneticCursor */
+.edo-theme, 
+.edo-theme *, 
+.edo-theme button, 
+.edo-theme a, 
+.edo-theme input, 
+.edo-theme select, 
+.edo-theme textarea,
+.edo-theme .cursor-pointer {
+    cursor: none !important;
+}
+
 /* Dynamic Background Gradients */
 @keyframes shiftGradient {
     0% { background-position: 0% 50%; }
@@ -29,20 +41,129 @@
     100% { background-position: 0% 50%; }
 }
 .edo-bg-day {
-    background: radial-gradient(circle at top left, var(--day-radial), var(--day-bg), #e0d0c0);
-    background-size: 200% 200%;
-    animation: shiftGradient 20s ease infinite;
+    background-color: #eaddd3;
+    background-image: url('/assets/images/edo_bg_game_day.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    
+    transition: background-image 2s ease, background-color 2s ease;
 }
 .edo-bg-night {
-    background: radial-gradient(circle at center, var(--night-radial), var(--night-bg), #05070a);
-    background-size: 200% 200%;
-    animation: shiftGradient 25s ease infinite alternate;
+    background-color: #05070a;
+    background-image: url('/assets/images/edo_bg_game_night.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    
+    transition: background-image 2s ease, background-color 2s ease;
 }
 
+.edo-home-bg {
+    background-color: #05070a;
+    background-image: url('/assets/images/edo_bg.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    position: relative;
+    
+}
+.edo-home-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(5, 7, 10, 0.95) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+.edo-home-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(5, 7, 10, 0.9) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.edo-lobby-bg {
+    background-color: #05070a;
+    background-image: url('/assets/images/edo_bg_lobby_2.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    
+}
+.edo-lobby-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(5, 7, 10, 0.4) 0%, rgba(5, 7, 10, 0.95) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Giant Enso Sun Background */
+.sun-enso {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    width: 120vh;
+    height: 120vh;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,0,0,0.6) 0%, rgba(139,0,0,0.05) 40%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: pulseSun 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseSun {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.5; }
+}
+
+/* Cinematic Slashing Buttons */
+.cinematic-slash-button {
+    position: relative;
+    overflow: hidden;
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+}
+.cinematic-slash-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: var(--blood);
+    transform: skewX(-30deg);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+.cinematic-slash-button:hover {
+    border-color: var(--blood);
+    box-shadow: 0 0 30px rgba(139,0,0,0.4);
+    transform: translateX(10px);
+}
+.cinematic-slash-button:hover::before {
+    left: -10%;
+}
+.cinematic-slash-button:active {
+    transform: translateX(10px) scale(0.98);
+}
+
+
 .shoji-paper {
-    background-color: rgba(253, 251, 247, 0.7);
-    backdrop-filter: blur(8px) saturate(150%);
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    background-color: rgba(253, 251, 247, 0.85);
+    backdrop-filter: blur(4px);
     box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -63,8 +184,9 @@
 }
 
 .shoji-card {
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
     transform-style: preserve-3d;
+    will-change: transform, box-shadow;
 }
 .shoji-card:hover {
     transform: translateY(-8px) scale(1.03) perspective(1000px) rotateX(2deg) rotateY(-2deg);
@@ -220,27 +342,32 @@
 .firefly {
     background-color: #eab308;
     border-radius: 50%;
-    filter: blur(2px);
+    will-change: transform, opacity;
+    box-shadow: 0 0 5px #eab308; /* static shadow */
     animation: drift ease-in-out infinite alternate, glow 2s ease-in-out infinite alternate;
 }
 @keyframes drift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(30px, -30px); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(30px, -30px, 0); }
 }
 @keyframes glow {
-    0% { opacity: 0.2; box-shadow: 0 0 2px #eab308; }
-    100% { opacity: 1; box-shadow: 0 0 10px #eab308, 0 0 20px #eab308; }
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
 }
 
 /* Scroll / Makimono Styling */
-.makimono-roller {
-    background: linear-gradient(90deg, #2c1b18, #4e342e, #2c1b18);
-    border: 1px solid #1a0f0d;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+.cinematic-glass-panel {
+    background: linear-gradient(145deg, rgba(24, 24, 27, 0.9), rgba(9, 9, 11, 0.95));
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
 }
+
+/* Spotlight effect removed for performance */
 .makimono-paper {
     background-color: #ebdcb5;
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(139, 69, 19, 0.03) 10px, rgba(139, 69, 19, 0.03) 11px);
     box-shadow: inset 0 0 40px rgba(139, 69, 19, 0.15);
 }
 
@@ -275,3 +402,44 @@
 /* Hide scrollbar for chat */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Slot Machine Timer */
+@keyframes slotMachine {
+    0% { transform: translateY(-50%) scale(0.9); opacity: 0; filter: blur(4px); }
+    50% { transform: translateY(10%) scale(1.1); opacity: 1; filter: blur(0px); }
+    100% { transform: translateY(0) scale(1); }
+}
+.slot-machine-timer {
+    display: inline-block;
+    animation: slotMachine 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Shattered Glass Death Effect */
+.shatter-dead {
+    position: relative;
+    overflow: hidden;
+    filter: grayscale(100%) contrast(150%);
+}
+.shatter-dead::before, .shatter-dead::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    pointer-events: none;
+    transition: all 0.5s ease-out;
+}
+.shatter-dead::before {
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 40% 40%, 0 70%);
+    transform: translate(-5px, -5px) rotate(-2deg);
+    box-shadow: inset 0 0 10px black;
+    border-right: 1px solid rgba(255,255,255,0.3);
+}
+.shatter-dead::after {
+    clip-path: polygon(100% 30%, 100% 100%, 0 100%, 0 70%, 40% 40%);
+    transform: translate(5px, 5px) rotate(2deg);
+    box-shadow: inset 0 0 15px black;
+    border-left: 1px solid rgba(255,255,255,0.3);
+}
+.shatter-dead > * {
+    opacity: 0.3;
+}

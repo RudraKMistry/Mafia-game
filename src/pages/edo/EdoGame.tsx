@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toKatakana } from 'wanakana';
+import { useSoundscape } from '../../hooks/useSoundscape';
+import { MagneticCursor } from '../../components/MagneticCursor';
+import { ScrambleText } from '../../components/ScrambleText';
 
 import './Edo.css';
 
@@ -21,7 +24,13 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   const [selectedTarget, setSelectedTarget] = useState<string | number | null>(null);
   const [isMobileScrollOpen, setIsMobileScrollOpen] = useState(false);
+  const [lastGameState, setLastGameState] = useState<string | null>(null);
   const notesEndRef = useRef<HTMLDivElement>(null);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
+  
+  const { playHover, playThud, playSlash, playWhoosh, startHeartbeat, stopHeartbeat, initAudio } = useSoundscape();
+
+  // Mouse tracking removed for performance
 
   useEffect(() => {
     if (notesEndRef.current) {
@@ -34,7 +43,11 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   useEffect(() => {
     setSelectedTarget(null);
-  }, [room?.state]);
+    if (room?.state && room.state !== lastGameState) {
+       playWhoosh();
+       setLastGameState(room.state);
+    }
+  }, [room?.state, lastGameState, playWhoosh]);
 
   const [timeLeftStr, setTimeLeftStr] = useState<string | null>(null);
 
@@ -52,6 +65,12 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         const mins = Math.floor(remaining / 60000);
         const secs = Math.floor((remaining % 60000) / 1000);
         setTimeLeftStr(`${mins}:${secs.toString().padStart(2, '0')}`);
+        
+        if (remaining > 0 && remaining <= 10000) {
+            startHeartbeat();
+        } else {
+            stopHeartbeat();
+        }
       }
     };
 
@@ -76,6 +95,11 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   const handleStampAction = () => {
     if (!selectedTarget) return;
+    
+    if (actionColor === 'red') playSlash();
+    else if (actionColor === 'green' || actionColor === 'blue') playWhoosh();
+    else playThud();
+
     doStampAction(selectedTarget);
     setSelectedTarget(null);
   };
@@ -83,34 +107,39 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
 
   const renderDossier = () => (
     <div className="flex-1 w-full flex items-center justify-center relative z-10 animate-in fade-in duration-1000 p-4">
-      <div className="bg-black/60 backdrop-blur-md border border-gray-800 shadow-2xl max-w-2xl w-full p-8 md:p-12 text-center animate-in zoom-in-95 duration-1000">
-        <div className="border-b border-gray-800 pb-6 mb-8 mt-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-widest mb-2 uppercase drop-shadow-md">The First Dawn</h1>
-          <p className="font-serif text-gray-400 font-bold text-xs tracking-widest uppercase">Secret Role Assignment</p>
+      <div className="cinematic-glass-panel max-w-2xl w-full p-8 md:p-12 text-center animate-in zoom-in-95 duration-1000 rounded-xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--blood)]/5 rounded-full  pointer-events-none"></div>
+        <div className="border-b border-[var(--glass-border)] pb-6 mb-8 mt-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-[0.2em] mb-2 uppercase drop-shadow-md cinzel text-flicker">
+              <ScrambleText text="The First Dawn" />
+          </h1>
+          <p className="text-gray-400 font-bold text-[10px] tracking-widest uppercase">Secret Role Assignment</p>
         </div>
 
-        <div className="space-y-6 font-serif">
-          <div className="bg-[#111] p-6 border border-gray-800 text-center">
-            <h2 className="font-bold text-xs mb-2 text-gray-500 uppercase tracking-widest">YOUR KARMA</h2>
-            <div className="text-5xl md:text-6xl font-black uppercase tracking-widest mb-4" style={{ color: activePlayer?.role?.ink || '#ef4444' }}>
+        <div className="space-y-6">
+          <div className="bg-black/40 p-8 border border-[var(--glass-border)] text-center rounded-lg relative overflow-hidden shadow-inner">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 pointer-events-none"></div>
+            <h2 className="font-bold text-[10px] mb-3 text-gray-500 uppercase tracking-widest relative z-10">Your Fate</h2>
+            <div className="text-5xl md:text-6xl font-black uppercase tracking-[0.1em] mb-4 cinzel relative z-10 drop-shadow-lg" style={{ color: activePlayer?.role?.ink || 'var(--blood)' }}>
               {activePlayer?.role?.name === 'Mafia' ? 'Yakuza' : 
                activePlayer?.role?.name === 'Villager' ? 'Heimin' :
                activePlayer?.role?.name === 'Doctor' ? 'Sohei' :
                activePlayer?.role?.name === 'Detective' ? 'Samurai' :
                activePlayer?.role?.name === 'Jester' ? 'Kitsune' : activePlayer?.role?.name}
             </div>
-            <p className="text-gray-300 text-lg md:text-xl italic max-w-sm mx-auto leading-relaxed">
+            <p className="text-gray-300 text-lg md:text-xl italic max-w-sm mx-auto leading-relaxed relative z-10">
                "{activePlayer?.role?.description || "Your destiny is unwritten."}"
             </p>
           </div>
         </div>
 
         <button 
-          onClick={() => isHost ? startGame() : null}
+          onClick={() => { playThud(); if (isHost) startGame(); }}
+          onMouseEnter={playHover}
           disabled={!isHost}
-          className={`mt-10 w-full py-4 border font-bold text-lg uppercase tracking-widest transition-all ${isHost ? 'bg-red-900/80 border-red-500 text-white hover:bg-red-800 shadow-[0_0_15px_rgba(139,0,0,0.3)]' : 'bg-white/5 border-gray-800 text-gray-500 cursor-not-allowed'}`}
+          className={`mt-10 w-full py-4 rounded-md font-bold text-sm uppercase tracking-[0.2em] transition-all relative z-10 ${isHost ? 'cinematic-button' : 'bg-black/50 border border-[var(--glass-border)] text-gray-500 cursor-not-allowed'}`}
         >
-          {isHost ? 'Embrace Destiny' : 'Awaiting Clan Leader...'}
+          {isHost ? 'Embrace Destiny' : 'Awaiting Commander...'}
         </button>
       </div>
     </div>
@@ -122,11 +151,11 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
       <div className="flex-1 w-full flex items-center justify-center relative z-10 animate-in fade-in duration-1000 p-4">
         <div className="katana-overlay"><div className="katana-blade"></div></div>
         <div className="max-w-3xl text-center animate-in zoom-in-95 duration-1000 delay-500">
-          <h1 className={`text-5xl md:text-7xl font-bold tracking-[0.2em] uppercase mb-8 ${isNightTransition ? 'text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]' : 'text-[#8b0000] drop-shadow-md'}`}>
-              {room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'}
+          <h1 className={`text-5xl md:text-7xl font-bold tracking-[0.3em] cinzel uppercase mb-8 ${isNightTransition ? 'text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] text-flicker' : 'text-[var(--blood)] drop-shadow-md'}`}>
+              <ScrambleText text={room.nextState === 'night' ? 'Night Falls' : room.nextState === 'day_voting' ? 'The Verdict' : 'Dawn Breaks'} />
           </h1>
-          <p className={`font-serif text-xl md:text-2xl italic max-w-xl mx-auto leading-relaxed ${isNightTransition ? 'text-gray-300' : 'text-[#4e342e]'}`}>
-              {transitionText}
+          <p className={`text-xl md:text-2xl italic max-w-xl mx-auto leading-relaxed ${isNightTransition ? 'text-gray-300' : 'text-gray-400'}`}>
+              "{transitionText}"
           </p>
         </div>
       </div>
@@ -134,26 +163,26 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
   };
 
     const renderReveal = (rData: any, isPrivate: boolean) => (
-      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xl transition-all duration-1000 ${!isPrivate ? 'violent-shake' : ''}`}>
-        {!isPrivate && <div className="absolute inset-0 ink-reveal bg-red-900/40 pointer-events-none mix-blend-color-burn"></div>}
-        <div className="bg-[#111]/90 backdrop-blur-2xl border border-gray-700 max-w-md w-full p-8 text-center shadow-[0_30px_60px_rgba(0,0,0,0.8)] animate-in zoom-in-90 duration-500 rounded-sm relative z-10">
+      <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80  transition-all duration-1000 ${!isPrivate ? 'violent-shake' : ''}`}>
+        {!isPrivate && <div className="absolute inset-0 ink-reveal bg-[var(--blood)]/20 pointer-events-none mix-blend-color-burn"></div>}
+        <div className="cinematic-glass-panel max-w-md w-full p-8 text-center shadow-[0_40px_80px_rgba(0,0,0,0.9)] animate-in zoom-in-90 duration-500 rounded-xl relative z-10">
         
-        <h2 className="text-xl font-bold text-red-500 tracking-widest uppercase mb-6 pb-4 border-b border-gray-800">
+        <h2 className="text-xl font-bold text-[var(--blood)] tracking-[0.2em] uppercase mb-6 pb-4 border-b border-[var(--glass-border)] cinzel drop-shadow-sm">
             {isPrivate ? 'Investigation Results' : 'A Body is Found'}
         </h2>
         
         {isPrivate ? (
             <div className="space-y-4">
-                <p className="text-gray-400 font-serif text-lg">Your samurai instincts reveal:</p>
-                <div className="text-xl md:text-2xl font-bold text-white uppercase tracking-widest mt-2">{rData.text}</div>
+                <p className="text-gray-400 text-sm tracking-widest uppercase">Your samurai instincts reveal:</p>
+                <div className="text-2xl md:text-3xl font-bold text-white uppercase tracking-[0.2em] mt-2 cinzel">{rData.text}</div>
             </div>
         ) : (
             <div className="space-y-4">
-               <div className="w-16 h-16 mx-auto text-red-600 mb-4">{SVGS.slash}</div>
-               <p className="text-gray-400 font-serif text-lg">The village mourns the loss of</p>
-               <h3 className="font-serif text-4xl font-bold text-white">{rData.victim?.name || 'No One'}</h3>
+               <div className="w-16 h-16 mx-auto text-[var(--blood)] mb-4">{SVGS.slash}</div>
+               <p className="text-gray-400 text-sm tracking-widest uppercase">The clan mourns the loss of</p>
+               <h3 className="text-4xl font-bold text-white cinzel tracking-widest">{rData.victim?.name || 'No One'}</h3>
                {rData.victim && rData.victim.role && (
-                   <div className="mt-4 text-red-500 font-bold text-xl uppercase tracking-widest border border-red-900/50 bg-red-900/10 px-4 py-2 inline-block">
+                   <div className="mt-4 text-[var(--blood)] font-bold text-xs uppercase tracking-[0.2em] border border-[var(--blood)]/30 bg-[var(--blood)]/10 px-4 py-2 inline-block rounded-sm">
                        {rData.victim.role.name === 'Mafia' ? 'Yakuza' : 
                         rData.victim.role.name === 'Villager' ? 'Heimin' :
                         rData.victim.role.name === 'Doctor' ? 'Sohei' :
@@ -164,11 +193,11 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
             </div>
         )}
         
-        <div className="mt-8 pt-6 border-t border-gray-800">
+        <div className="mt-8 pt-6 border-t border-[var(--glass-border)]">
             {isPrivate ? (
                 <button 
                   onClick={() => setPrivateReveal(null)}
-                  className="w-full border border-gray-600 bg-white/5 text-gray-300 py-3 font-bold text-lg uppercase tracking-widest hover:bg-white/10 transition-all"
+                  className="w-full bg-black/40 border border-[var(--glass-border)] text-gray-300 py-3.5 rounded-md font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
                 >
                   Understood
                 </button>
@@ -176,7 +205,7 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                 isHost && (
                   <button 
                     onClick={continueReport}
-                    className="w-full bg-red-900/80 border border-red-500 text-white py-3 font-bold text-lg uppercase tracking-widest hover:bg-red-800 transition-all"
+                    className="w-full cinematic-button rounded-md py-3.5 font-bold text-xs uppercase tracking-[0.2em]"
                   >
                     Continue
                   </button>
@@ -226,10 +255,19 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
     : (gameState === 'day_voting' ? "The tribunal convenes. Cast your vote." : "The Emperor's peace holds. Discuss the traitors among you.");
 
   return (
-    <div className={`h-[100dvh] w-[100dvw] flex flex-col overflow-hidden edo-theme ${isNight ? 'bg-[#0a0a0c] text-gray-200' : 'bg-[#eaddd3] text-[#2c1b18]'} transition-colors duration-[2000ms] relative`}>
+    <div 
+      ref={gameContainerRef}
+      onClick={initAudio}
+      className={`h-[100dvh] w-[100dvw] flex flex-col overflow-hidden edo-theme ${isNight ? 'edo-bg-night text-gray-200 cursor-none' : 'edo-bg-day text-[#2c1b18] cursor-none'} transition-colors duration-[2000ms] relative`}
+    >
+      <MagneticCursor />
       
       {/* Background & Particles */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay z-0"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none z-0"></div>
+      
+      {/* EXTREME REVENGE: BLOOD MOON */}
+      {isNight && <div className="blood-moon"></div>}
+      
       <div id="particles" className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           {!isNight && [...Array(20)].map((_, i) => (
              <div key={`sakura-${i}`} className="particle sakura" style={{ width: `${Math.random() * 10 + 8}px`, height: `${Math.random() * 10 + 8}px`, left: `${Math.random() * 120 - 10}vw`, animationDuration: `${Math.random() * 5 + 5}s`, animationDelay: `${Math.random() * -10}s` }} />
@@ -251,32 +289,34 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         <div className="flex-1 flex flex-col p-4 md:p-8 relative h-full animate-in fade-in duration-1000">
             
             {/* Header */}
-            <div className={`text-center mb-8 pb-6 border-b border-gray-800 transition-colors duration-1000`}>
-                <h1 className={`text-4xl md:text-5xl font-bold tracking-[0.15em] uppercase transition-colors duration-[2000ms] ${isNight ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-[#8b0000]'}`}>{phaseTitle}</h1>
-                <p className={`text-sm md:text-base tracking-wider uppercase mt-3 transition-colors duration-[2000ms] ${isNight ? 'text-gray-400' : 'text-[#4e342e]'}`}>{phaseSub}</p>
-                {timeLeftStr && <div className={`text-2xl font-bold mt-3 font-serif transition-colors duration-[2000ms] ${isNight ? 'text-white' : 'text-[#2c1b18]'}`}>{timeLeftStr}</div>}
+            <div className={`text-center mb-10 pb-6 border-b border-[var(--glass-border)] transition-colors duration-1000 mt-4`}>
+                <h1 className={`text-4xl md:text-5xl font-bold tracking-[0.2em] uppercase cinzel transition-colors duration-[2000ms] ${isNight ? 'text-[var(--blood)] drop-shadow-[0_0_20px_rgba(220,38,38,0.4)] text-flicker' : 'text-[var(--gold)] drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]'}`}>
+                    <ScrambleText text={phaseTitle} />
+                </h1>
+                <p className={`text-[10px] md:text-xs font-bold tracking-widest uppercase mt-4 transition-colors duration-[2000ms] ${isNight ? 'text-gray-400' : 'text-gray-500'}`}>{phaseSub}</p>
+                {timeLeftStr && <div className={`text-2xl font-bold mt-4 tracking-[0.1em] cinzel transition-colors duration-[2000ms] ${isNight ? 'text-white' : 'text-gray-300'}`}>{timeLeftStr}</div>}
             </div>
 
-            <div className="flex-1 overflow-y-auto no-scrollbar pb-32 md:pb-0">
+            <div className="flex-1 overflow-y-auto custom-scrollbar pb-32 md:pb-0">
                 
 
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto" id="players-grid">
+                <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto" id="players-grid">
                     {players.filter(Boolean).map((p: any) => {
                         const isMe = p.id === playerId;
                         const isDead = p.isDead;
                         const isTargeted = selectedTarget === p.id;
-                        let cardStateClass = 'border-gray-800';
+                        let cardStateClass = 'border-[var(--glass-border)] hover:border-gray-500';
                         
                         if (isDead) {
-                            cardStateClass = 'opacity-40 grayscale border-gray-900';
+                            cardStateClass = 'opacity-50 grayscale border-gray-900 glitch-dead';
                         } else if (isTargeted) {
-                            if (!isNight) cardStateClass = 'border-gray-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] transform -translate-y-1';
-                            else if (roleId === 'mafia') cardStateClass = 'border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)] transform -translate-y-1';
-                            else if (roleId === 'doctor') cardStateClass = 'border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.3)] transform -translate-y-1';
-                            else if (roleId === 'detective') cardStateClass = 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] transform -translate-y-1';
+                            if (!isNight) cardStateClass = 'border-[var(--gold)] shadow-[0_0_20px_rgba(212,175,55,0.3)] transform -translate-y-2';
+                            else if (roleId === 'mafia') cardStateClass = 'border-[var(--blood)] shadow-[0_0_20px_rgba(220,38,38,0.4)] transform -translate-y-2';
+                            else if (roleId === 'doctor') cardStateClass = 'border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.3)] transform -translate-y-2';
+                            else if (roleId === 'detective') cardStateClass = 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] transform -translate-y-2';
                         } else if (!isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting')) {
-                            cardStateClass += ' hover:border-gray-500 hover:bg-white/5';
+                            cardStateClass += ' hover:bg-white/5 hover-slash hover:-translate-y-1';
                         }
 
                         const pRoleName = p.role?.name === 'Mafia' ? 'Yakuza' : 
@@ -286,14 +326,16 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                                           p.role?.name === 'Jester' ? 'Kitsune' : p.role?.name;
 
                         return (
-                            <div key={p.id} onClick={() => !isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting') && setSelectedTarget(p.id)} 
-                                 className={`relative aspect-[3/4] shoji-card shoji-frame shoji-paper flex flex-col items-center justify-center transition-all duration-500 ease-out group ${isDead || (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-default' : 'cursor-pointer'} ${cardStateClass}`}>
+                            <div key={p.id} 
+                                 onClick={() => { if (!isDead && (isNight ? roleId !== 'villager' : gameState === 'day_voting')) { playThud(); setSelectedTarget(p.id); } }} 
+                                 onMouseEnter={playHover}
+                                 className={`spotlight-card relative aspect-[3/4] cinematic-glass-panel rounded-xl flex flex-col items-center justify-center transition-all duration-500 ease-out group ${isDead ? 'opacity-50 grayscale border-gray-900 shatter-dead cursor-none' : (isNight && roleId==='villager') || gameState !== 'day_voting' && !isNight ? 'cursor-none' : 'cursor-none'} ${cardStateClass}`}>
                                 
                                 <div className="absolute inset-0 z-10 pointer-events-none">{isDead && SVGS.slash}</div>
                                 
                                 {gameState !== 'game_over' && (
                                     <div 
-                                      className={`absolute right-2 md:right-3 top-0 bottom-0 py-4 flex items-center justify-center pointer-events-none z-10 text-2xl md:text-4xl font-black tracking-[0.2em] opacity-[0.25] ${isNight ? 'text-white mix-blend-overlay' : 'text-[#8b0000] mix-blend-color-burn'}`}
+                                      className={`absolute right-3 top-0 bottom-0 py-4 flex items-center justify-center pointer-events-none z-10 text-3xl md:text-5xl font-black tracking-[0.2em] opacity-[0.1] text-white cinzel`}
                                       style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}
                                     >
                                         {toKatakana(p.name)}
@@ -301,27 +343,27 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
                                 )}
                                 
                                 {isNight && roleId === 'mafia' && p.role?.id === 'mafia' && !isDead && (
-                                    <div className="absolute top-2 right-2 text-[9px] uppercase tracking-wider font-bold text-red-500 border border-red-900/50 bg-red-900/20 px-1.5 py-0.5 z-20">Ally</div>
+                                    <div className="absolute top-3 right-3 text-[8px] uppercase tracking-widest font-bold text-[var(--blood)] border border-[var(--blood)]/50 bg-[var(--blood)]/20 px-1.5 py-0.5 rounded-sm z-20">Ally</div>
                                 )}
 
-                                <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full group-hover:-translate-y-1 transition-transform duration-500">
-                                    <div className={`w-12 h-12 md:w-16 md:h-16 border flex items-center justify-center mb-3 drop-shadow-xl transition-all duration-1000 ${isNight ? 'bg-[#0a0a0c]/80 backdrop-blur-sm border-gray-600/50 text-gray-300 group-hover:bg-[#1a1a1c]/90' : 'bg-white/80 backdrop-blur-sm border-white text-[#2c1b18] group-hover:bg-white'} rounded-sm`}>
+                                <div className="relative z-20 flex-1 flex flex-col items-center justify-center w-full group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div className={`w-14 h-14 md:w-16 md:h-16 flex items-center justify-center mb-4 shadow-2xl transition-all duration-1000 bg-black/60  border border-[var(--glass-border)] text-gray-300 rounded-full group-hover:text-white group-hover:border-gray-500`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                                     </div>
                                     
-                                    <h3 className={`font-bold text-base md:text-lg tracking-widest uppercase truncate w-full text-center transition-colors duration-1000 drop-shadow-md ${isNight ? 'text-white' : 'text-[#2c1b18]'}`}>
+                                    <h3 className={`font-bold text-sm md:text-base tracking-[0.15em] uppercase truncate w-full text-center transition-colors duration-1000 drop-shadow-md text-white`}>
                                         {p.name}
                                     </h3>
                                     
                                     {(isMe || (p.isDead && room.settings?.revealOnDeath) || (roleId === 'mafia' && p.role?.id === 'mafia') || gameState === 'game_over') && p.role && (
-                                      <div className="mt-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: p.role.ink || '#ef4444' }}>
+                                      <div className="mt-2 text-[9px] font-bold uppercase tracking-widest" style={{ color: p.role.ink || 'var(--blood)' }}>
                                          {pRoleName}
                                       </div>
                                     )}
 
                                     {gameState === 'day_voting' && !room.settings.anonVoting && Object.values(votes).filter(v => v === p.id).length > 0 && (
-                                        <div className="absolute top-2 left-2 flex items-center gap-1 bg-white/10 px-1.5 py-0.5 border border-white/20 text-white text-[10px] font-bold z-30">
-                                            <span className="w-3 h-3 text-white">{SVGS.shuriken}</span>
+                                        <div className="absolute top-3 left-3 flex items-center gap-1 bg-black/80 px-2 py-1 rounded-sm border border-[var(--glass-border)] text-[var(--gold)] text-[10px] font-bold z-30">
+                                            <span className="w-3 h-3">{SVGS.shuriken}</span>
                                             <span>{Object.values(votes).filter(v => v === p.id).length}</span>
                                         </div>
                                     )}
@@ -362,62 +404,65 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
         </div>
 
         {/* Action Modal (Square Box) */}
-        <div className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 aspect-square bg-[#0a0a0c]/95 backdrop-blur-xl border border-gray-700 text-white p-8 shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 flex flex-col items-center justify-center gap-6 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${selectedTarget ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
-          
-          <div className={`w-24 h-24 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]' : actionColor === 'blue' ? 'text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : actionColor === 'red' ? 'text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'text-gray-300 drop-shadow-md'}`}>
-              {actionIcon}
-          </div>
-          
-          <div className="flex flex-col text-center w-full">
-              <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest leading-none mb-3">{actionPrompt}</p>
-              <p className="text-2xl md:text-3xl font-bold uppercase tracking-widest truncate w-full leading-none text-white">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>p.id===selectedTarget)?.name}</p>
-          </div>
-          
-          <div className="flex w-full mt-2 gap-4">
-              <button onClick={() => setSelectedTarget(null)} className="flex-1 py-3 border border-gray-700 hover:bg-white/5 text-gray-300 transition-colors uppercase tracking-widest text-xs md:text-sm font-bold">
-                  Cancel
-              </button>
-              <button onClick={handleStampAction} className={`flex-1 py-3 font-bold transition-all uppercase tracking-widest text-xs md:text-sm border ${actionColor === 'green' ? 'bg-green-900/40 border-green-500 text-green-400 hover:bg-green-900 hover:text-white' : actionColor === 'blue' ? 'bg-blue-900/40 border-blue-500 text-blue-400 hover:bg-blue-900 hover:text-white' : actionColor === 'red' ? 'bg-red-900/40 border-red-500 text-red-400 hover:bg-red-900 hover:text-white' : 'bg-gray-800 border-gray-400 text-white hover:bg-gray-700'}`}>
-                  {actionLabel}
-              </button>
-          </div>
+        {/* Action Modal (Square Box) */}
+        {selectedTarget !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-auto">
+            <div className="w-[90vw] max-w-[400px] aspect-square cinematic-glass-panel p-8 shadow-[0_30px_60px_rgba(0,0,0,0.9)] flex flex-col items-center justify-center gap-6 rounded-xl animate-in zoom-in-95 duration-200">
+              
+              <div className={`w-24 h-24 flex flex-shrink-0 items-center justify-center ${actionColor === 'green' ? 'text-green-500 drop-shadow-[0_0_15px_rgba(34,197,94,0.5)]' : actionColor === 'blue' ? 'text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : actionColor === 'red' ? 'text-[var(--blood)] drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'text-gray-300 drop-shadow-md'}`}>
+                  {actionIcon}
+              </div>
+              
+              <div className="flex flex-col text-center w-full">
+                  <p className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest leading-none mb-3">{actionPrompt}</p>
+                  <p className="text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] truncate w-full leading-none text-white cinzel">{selectedTarget === 'skip' ? 'Skip' : players.find((p:any)=>String(p.id)===String(selectedTarget))?.name}</p>
+              </div>
+              
+              <div className="flex w-full mt-2 gap-4">
+                  <button onClick={() => { playThud(); setSelectedTarget(null); }} className="flex-1 py-3.5 border border-[var(--glass-border)] bg-black/40 hover:bg-white/10 text-gray-300 transition-colors uppercase tracking-[0.2em] text-xs font-bold rounded-md active:scale-95">
+                      Cancel
+                  </button>
+                  <button onClick={handleStampAction} className={`flex-1 py-3.5 font-bold transition-all uppercase tracking-[0.2em] text-xs rounded-md active:scale-95 ${actionColor === 'green' ? 'bg-green-900/40 border border-green-500 text-green-400 hover:bg-green-900 hover:text-white' : actionColor === 'blue' ? 'bg-blue-900/40 border border-blue-500 text-blue-400 hover:bg-blue-900 hover:text-white' : actionColor === 'red' ? 'bg-[var(--blood)]/40 border border-[var(--blood)] text-[var(--blood)] hover:bg-[var(--blood)] hover:text-white' : 'bg-gray-800 border border-gray-400 text-white hover:bg-gray-700'}`}>
+                      {actionLabel}
+                  </button>
+              </div>
+            </div>
         </div>
+        )}
 
         {/* Sidebar Chat Container */}
-        <div className={`fixed md:relative bottom-0 right-0 w-full md:w-80 lg:w-96 h-[50vh] md:h-full transform ${isMobileScrollOpen ? 'translate-y-0' : 'translate-y-[calc(100%-3rem)]'} md:translate-y-0 transition-transform duration-500 z-40 flex flex-col bg-black/60 backdrop-blur-md md:border-l border-t md:border-t-0 border-gray-800 shadow-2xl`}>
+        <div className={`fixed md:relative bottom-0 right-0 w-full md:w-80 lg:w-96 h-[50vh] md:h-full transform ${isMobileScrollOpen ? 'translate-y-0' : 'translate-y-[calc(100%-3rem)]'} md:translate-y-0 transition-transform duration-500 z-40 flex flex-col cinematic-glass md:border-l border-t md:border-t-0 border-[var(--glass-border)] shadow-2xl`}>
             
-            <button onClick={() => setIsMobileScrollOpen(!isMobileScrollOpen)} className="md:hidden h-12 w-full flex items-center justify-center bg-[#111] border-b border-gray-800 text-gray-400 uppercase tracking-widest font-bold text-xs z-50">
-                <span>{isMobileScrollOpen ? '▼ Hide Chronicle ▼' : '▲ Village Chronicle ▲'}</span>
+            <button onClick={() => setIsMobileScrollOpen(!isMobileScrollOpen)} className="md:hidden h-12 w-full flex items-center justify-center bg-black/60 border-b border-[var(--glass-border)] text-gray-400 uppercase tracking-widest font-bold text-[10px] z-50">
+                <span>{isMobileScrollOpen ? '▼ Hide Chronicle ▼' : '▲ Clan Chronicle ▲'}</span>
             </button>
             
             <div className="flex-1 w-full flex flex-col overflow-hidden relative">
-                <div className="p-4 bg-[#111]/80 text-white text-center font-bold tracking-widest text-xs uppercase border-b border-gray-800 hidden md:block">
-                    Village Chronicle
+                <div className="p-4 bg-black/80 text-white text-center font-bold tracking-[0.2em] text-[10px] uppercase border-b border-[var(--glass-border)] hidden md:block">
+                    Clan Chronicle
                 </div>
                 
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 font-serif text-gray-300 text-sm custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 text-gray-300 text-xs custom-scrollbar">
                     {notes.map((note: any, idx: number) => (
-                        <div key={idx} className={`mb-2 ${note.isSystem ? 'text-red-400 text-center italic font-sans font-bold my-4 border-y border-red-900/30 py-2 text-xs uppercase tracking-wider' : 'flex'}`}>
-                            {!note.isSystem && <span className="font-bold text-white mr-2 flex-shrink-0 uppercase font-sans text-[10px] tracking-wider mt-1">{note.sender}</span>}
-                            <span className={!note.isSystem ? 'leading-relaxed' : ''}>{note.text}</span>
+                        <div key={idx} className={`mb-2 ${note.isSystem ? 'text-[var(--blood)] text-center italic font-bold my-4 border-y border-[var(--glass-border)]/50 py-3 text-[10px] uppercase tracking-widest' : 'flex bg-black/40 p-3 rounded-md border border-[var(--glass-border)]/50'}`}>
+                            {!note.isSystem && <span className="font-bold text-[var(--gold)] mr-2 flex-shrink-0 uppercase text-[9px] tracking-widest mt-0.5">{note.sender}</span>}
+                            <span className={!note.isSystem ? 'leading-relaxed text-gray-200' : ''}>{note.text}</span>
                         </div>
                     ))}
-                    {nightActions && Object.values(nightActions).filter((a:any) => a.playerId === playerId).map((a:any, idx:number) => (
-                        <div key={`na-${idx}`} className="text-gray-400 text-center italic font-sans font-bold my-4 border-y border-gray-800 py-2 text-xs uppercase tracking-wider">
-                            {a.action === 'kill' ? `Marked ${players.find((p:any)=>p.id===a.targetId)?.name || 'no one'} for assassination.` :
-                             a.action === 'heal' ? `Protected ${players.find((p:any)=>p.id===a.targetId)?.name || 'no one'}.` :
-                             `Investigated ${players.find((p:any)=>p.id===a.targetId)?.name || 'no one'}.`}
+                    {nightActions && nightActions[playerId] && (
+                        <div className="text-gray-400 text-center italic font-bold my-4 border-y border-[var(--glass-border)]/50 py-3 text-[10px] uppercase tracking-widest">
+                            {roleId === 'mafia' ? `Marked ${players.find((p:any)=>p.id===nightActions[playerId])?.name || 'no one'} for assassination.` :
+                             roleId === 'doctor' ? `Protected ${players.find((p:any)=>p.id===nightActions[playerId])?.name || 'no one'}.` :
+                             roleId === 'detective' ? `Investigated ${players.find((p:any)=>p.id===nightActions[playerId])?.name || 'no one'}.` : ''}
                         </div>
-                    ))}
+                    )}
                     {gameState === 'day_voting' && votes[playerId] && (
-                        <div className="text-gray-400 text-center italic font-sans font-bold my-4 border-y border-gray-800 py-2 text-xs uppercase tracking-wider">
+                        <div className="text-gray-400 text-center italic font-bold my-4 border-y border-[var(--glass-border)]/50 py-3 text-[10px] uppercase tracking-widest">
                             Voted for {votes[playerId] === 'skip' ? 'Skip' : players.find((p:any)=>p.id===votes[playerId])?.name}.
                         </div>
                     )}
                     <div ref={notesEndRef} />
                 </div>
-
-
             </div>
         </div>
         </>
@@ -428,12 +473,12 @@ export default function EdoGame({ gameStateData }: { gameStateData: any }) {
       {privateReveal && renderReveal(privateReveal, true)}
 
       {gameState === 'game_over' && (
-         <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 animate-in fade-in duration-1000">
-            <h1 className="text-5xl md:text-7xl font-bold text-red-500 tracking-[0.2em] mb-4 uppercase text-center drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
+         <div className="fixed inset-0 z-[100] bg-black/95  flex flex-col items-center justify-center p-4 animate-in fade-in duration-1000">
+            <h1 className="text-5xl md:text-7xl font-bold text-[var(--gold)] tracking-[0.3em] mb-4 uppercase text-center drop-shadow-[0_0_30px_rgba(212,175,55,0.4)] cinzel">
                {winner?.team === 'MAFIA' ? 'Yakuza Victory' : winner?.team === 'TOWN' ? 'Heimin Victory' : 'Kitsune Victory'}
             </h1>
-            <p className="text-gray-400 uppercase tracking-widest mb-10 text-sm">{winner?.text || "The conflict has ended."}</p>
-            <button onClick={returnToLobby} className="px-10 py-4 bg-transparent border-2 border-red-900 text-red-500 font-bold uppercase tracking-widest hover:bg-red-900/20 transition-all">
+            <p className="text-gray-300 uppercase tracking-[0.2em] mb-12 text-sm font-bold">{winner?.text || "The conflict has ended."}</p>
+            <button onClick={returnToLobby} className="cinematic-button px-10 py-4 rounded-md font-bold uppercase tracking-[0.2em] text-xs transition-all active:scale-95">
                Return to Clan Gathering
             </button>
          </div>

@@ -7,7 +7,7 @@ import EdoMobileHome from './edo-mobile/EdoMobileHome';
 
 export default function Home() {
   const isMobile = useMediaQuery('(max-width: 767px)');
-  const theme = localStorage.getItem('mafia_theme') || '1930s';
+  const theme = localStorage.getItem('mafia_theme') || 'edo';
 
   if (isMobile) {
     if (theme === 'edo') return <EdoMobileHome />;

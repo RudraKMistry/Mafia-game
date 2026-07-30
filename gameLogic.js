@@ -289,7 +289,8 @@ export const setupGameLogic = (io) => {
              socket.emit('error', 'Game has already started.');
              return;
          }
-         const playerId = room.players.length + 1;
+         const maxId = room.players.reduce((max, p) => Math.max(max, p.id), 0);
+         const playerId = maxId + 1;
          const rot = Math.floor(Math.random() * 12) - 6;
          const newPlayer = {
            id: playerId,
@@ -317,7 +318,8 @@ export const setupGameLogic = (io) => {
     socket.on('add_bot', ({ roomId }) => {
       const room = rooms[roomId];
       if (!room) return;
-      const botId = room.players.length + 1;
+      const maxId = room.players.reduce((max, p) => Math.max(max, p.id), 0);
+      const botId = maxId + 1;
       room.players.push({
          id: botId,
          name: `Bot ${botId}`,
@@ -342,7 +344,8 @@ export const setupGameLogic = (io) => {
       const totalRoles = room.isBotMode ? Math.max(room.players.length, specifiedRoles) : room.players.length;
       if (room.isBotMode) {
           while (room.players.length < totalRoles) {
-             const botId = room.players.length + 1;
+             const maxId = room.players.reduce((max, p) => Math.max(max, p.id), 0);
+             const botId = maxId + 1;
              room.players.push({
                  id: botId,
                  name: `Bot ${botId}`,

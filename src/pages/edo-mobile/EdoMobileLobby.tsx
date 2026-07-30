@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Settings, User, Bot, Play, Check, ArrowLeft } from 'lucide-react';
+import { Settings, Play, Check, ArrowLeft } from 'lucide-react';
 import { socket } from '../../socket';
 import { useGameState } from '../../hooks/useGameState';
+import { useSoundscape } from '../../hooks/useSoundscape';
+import { MagneticCursor } from '../../components/MagneticCursor';
+import { ScrambleText } from '../../components/ScrambleText';
 import '../edo/Edo.css';
 
 export default function EdoMobileLobby() {
@@ -11,6 +14,9 @@ export default function EdoMobileLobby() {
   
   const { room, playerId, errorMsg } = useGameState(id);
   const [activeTab, setActiveTab] = useState<'suspects'|'params'>('suspects');
+  
+  const { playHover, playThud, playSlash, playWhoosh, initAudio } = useSoundscape();
+  const lobbyContainerRef = React.useRef<HTMLDivElement>(null);
 
   if (!room) {
     return (
@@ -37,14 +43,17 @@ export default function EdoMobileLobby() {
   };
 
   const handleStartGame = () => {
+    playSlash();
     socket.emit('start_game', { roomId: id });
   };
 
   const handleAddBot = () => {
+    playWhoosh();
     socket.emit('add_bot', { roomId: id });
   };
 
   const handleToggleReady = () => {
+    playWhoosh();
     socket.emit('toggle_ready', { roomId: id, playerId });
   };
 
@@ -52,19 +61,29 @@ export default function EdoMobileLobby() {
   const currentPlayer = players.find((p: any) => p.id === playerId);
   const allReady = players.length > 0 && players.every((p: any) => p.isReady);
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!lobbyContainerRef.current) return;
+    const rect = lobbyContainerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    lobbyContainerRef.current.style.setProperty('--mouse-x', `${x}px`);
+    lobbyContainerRef.current.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
-    <div className="edo-theme min-h-[100dvh] overflow-x-hidden edo-bg-night text-gray-200 font-serif relative">
-      
+    <div ref={lobbyContainerRef} onMouseMove={handleMouseMove} onClick={initAudio} className="edo-theme min-h-[100dvh] cursor-none overflow-x-hidden edo-lobby-bg text-gray-200 font-serif relative">
+      <MagneticCursor />
       {/* Texture Overlay and Particles */}
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none mix-blend-overlay z-0"></div>
-      <div className="absolute -top-32 -right-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
 
       {errorMsg && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] bg-red-900 text-[#fdfbf7] p-4 text-center font-bold uppercase tracking-widest text-sm border-2 border-[#1a1a1a] shadow-lg animate-in fade-in slide-in-from-top-4">
           {errorMsg}
         </div>
       )}
+
+      {/* Giant Background Enso */}
+      <div className="sun-enso !left-[50%] !top-[40%] !w-[150vw] !h-[150vw]"></div>
 
       <div id="particles" className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           {[...Array(15)].map((_, i) => (
@@ -81,38 +100,27 @@ export default function EdoMobileLobby() {
                 }}
              />
           ))}
-          {[...Array(10)].map((_, i) => (
-             <div 
-                key={`sakura-${i}`} 
-                className="particle sakura" 
-                style={{
-                  width: `${Math.random() * 8 + 6}px`,
-                  height: `${Math.random() * 8 + 6}px`,
-                  left: `${Math.random() * 120 - 10}vw`,
-                  animationDuration: `${Math.random() * 6 + 6}s`,
-                  animationDelay: `${Math.random() * -10}s`,
-                  backgroundColor: '#8b0000',
-                  opacity: 0.6
-                }}
-             />
-          ))}
       </div>
 
       {/* Header */}
-      <header className="w-full top-0 sticky bg-[#3e2723] text-[#fdfbf7] border-b-4 border-[#1a1a1a] shadow-lg z-40">
+      <header className="w-full top-0 sticky cinematic-glass z-40 border-b border-[var(--glass-border)]">
         <div className="flex justify-between items-center px-4 py-3 w-full max-w-md mx-auto">
           <div className="flex items-center gap-2">
             <button 
-              onClick={() => navigate('/')} 
-              className="hover:text-[#ffb7c5] transition-colors flex items-center justify-center p-1"
+              onClick={() => { playThud(); navigate('/'); }} 
+              onMouseEnter={playHover}
+              className="text-gray-400 hover:text-white transition-colors flex items-center justify-center p-1 active:scale-95 cursor-none"
             >
-              <ArrowLeft className="w-6 h-6" />
+              <ArrowLeft className="w-5 h-5" />
             </button>
-            <h1 className="text-xl font-bold uppercase tracking-[0.2em] mt-1">Village: {id}</h1>
+            <div className="flex flex-col ml-2">
+              <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-gray-500 leading-none">Access Code</span>
+              <h1 className="text-white cinzel font-bold tracking-widest text-lg leading-none mt-1">{id}</h1>
+            </div>
           </div>
           <div>
-            <span className="font-bold px-2 py-1 text-xs bg-[#8b0000] text-white border border-[#1a1a1a] shadow-sm">
-              {players.length}
+            <span className="font-bold px-2 py-1 text-[10px] bg-[var(--gold)]/20 text-[var(--gold)] border border-[var(--gold)]/30 rounded-sm">
+              {players.length} / 20
             </span>
           </div>
         </div>
@@ -121,26 +129,28 @@ export default function EdoMobileLobby() {
       <main className="w-full max-w-md mx-auto relative px-4 py-6 pb-40 z-10">
         
         {/* Title */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#8b0000] mb-2 tracking-[0.15em] drop-shadow-sm uppercase">
-            Gathering
+        <div className="text-center mb-6 mt-4">
+          <h1 className="text-3xl font-bold text-white mb-1 tracking-[0.2em] drop-shadow-sm uppercase text-flicker cinzel">
+            <ScrambleText text="The Clan" />
           </h1>
-          <p className="text-lg text-[#5a403c] italic">
-            Wait for the villagers to assemble...
+          <p className="text-[10px] text-gray-500 tracking-widest uppercase font-bold">
+            Awaiting members...
           </p>
         </div>
 
         {/* Tabs */}
-        <nav className="flex w-full mb-6 border-b-2 border-[#3e2723]">
+        <nav className="flex w-full mb-6 border-b border-[var(--glass-border)] pb-1 gap-2">
           <button 
-            onClick={() => setActiveTab('suspects')}
-            className={`flex-1 py-3 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'suspects' ? 'bg-[#3e2723] text-[#fdfbf7] shadow-inner border-t-2 border-l-2 border-r-2 border-[#1a1a1a]' : 'bg-[#eaddd3] text-[#5a403c] hover:bg-[#d8cbb8]'}`}
+            onClick={() => { playThud(); setActiveTab('suspects'); }}
+            onMouseEnter={playHover}
+            className={`flex-1 py-2.5 text-[10px] cursor-none font-bold uppercase tracking-[0.2em] transition-all rounded-md ${activeTab === 'suspects' ? 'bg-[var(--glass-bg)] text-white border border-[var(--glass-border)] shadow-md' : 'text-gray-500 hover:text-gray-300'}`}
           >
-            Villagers
+            Gathering
           </button>
           <button 
-            onClick={() => setActiveTab('params')}
-            className={`flex-1 py-3 text-sm font-bold uppercase tracking-widest transition-colors ${activeTab === 'params' ? 'bg-[#3e2723] text-[#fdfbf7] shadow-inner border-t-2 border-l-2 border-r-2 border-[#1a1a1a]' : 'bg-[#eaddd3] text-[#5a403c] hover:bg-[#d8cbb8]'}`}
+            onClick={() => { playThud(); setActiveTab('params'); }}
+            onMouseEnter={playHover}
+            className={`flex-1 py-2.5 text-[10px] cursor-none font-bold uppercase tracking-[0.2em] transition-all rounded-md ${activeTab === 'params' ? 'bg-[var(--glass-bg)] text-white border border-[var(--glass-border)] shadow-md' : 'text-gray-500 hover:text-gray-300'}`}
           >
             Decrees
           </button>
@@ -152,17 +162,17 @@ export default function EdoMobileLobby() {
             <div className="animate-in fade-in duration-300">
               <div className="grid grid-cols-2 gap-4">
                 {players.filter(Boolean).map((p: any, idx: number) => (
-                  <div key={idx} className="shoji-card shoji-frame shoji-paper rounded-sm h-28 relative flex flex-col items-center justify-center p-2">
+                  <div key={idx} className="cinematic-glass-panel spotlight-card rounded-md h-28 relative flex flex-col items-center justify-center p-2 hover-slash overflow-hidden transition-all">
                     {idx === 0 && (
-                      <div className="absolute -top-3 -right-3 w-8 h-8 bg-[#8b0000] rounded-full flex items-center justify-center shadow-md border-2 border-[#fdfbf7] z-20">
-                        <Settings className="text-[#fdfbf7] w-4 h-4" />
+                      <div className="absolute -top-3 -right-3 w-8 h-8 bg-black/80 rounded-full flex items-center justify-center border border-[var(--gold)]/50 z-20">
+                        <Settings className="text-[var(--gold)] w-3.5 h-3.5" />
                       </div>
                     )}
-                    <div className="w-10 h-10 rounded-full border-2 border-[#3e2723] overflow-hidden mb-2 bg-[#1a1a1a] flex items-center justify-center">
-                      <User className="text-[#fdfbf7] w-5 h-5" />
+                    <div className="w-10 h-10 rounded-sm border border-[var(--glass-border)] overflow-hidden mb-2 bg-black/60 flex items-center justify-center z-10 cinzel font-bold text-gray-300 text-lg">
+                      {p.name.charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-bold text-sm text-[#1a1a1a] truncate w-full text-center">{p.name} {p.id === playerId ? '(You)' : ''}</span>
-                    <span className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${p.isReady ? 'text-[#2e8b57]' : 'text-[#5a403c]'}`}>
+                    <span className="font-semibold text-xs text-gray-200 truncate w-full text-center">{p.name} {p.id === playerId ? '(You)' : ''}</span>
+                    <span className={`text-[9px] font-bold uppercase tracking-[0.1em] mt-1 ${p.isReady ? 'text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded-sm' : 'text-gray-500'}`}>
                       {p.isReady ? 'Prepared' : 'Waiting'}
                     </span>
                   </div>
@@ -171,9 +181,9 @@ export default function EdoMobileLobby() {
                 {isHost && new URLSearchParams(window.location.search).get('mode') === 'bots' && (
                   <div 
                     onClick={handleAddBot}
-                    className="shoji-frame bg-[#eaddd3] rounded-sm h-28 relative flex items-center justify-center p-2 opacity-50 border-dashed border-[#5a403c] border-2 cursor-pointer hover:opacity-100"
+                    className="bg-black/20 rounded-md h-28 relative flex items-center justify-center p-2 opacity-60 border-dashed border-[var(--glass-border)] border cursor-pointer hover:opacity-100 hover:bg-black/40 transition-all"
                   >
-                     <span className="text-xs text-[#5a403c] uppercase tracking-widest font-bold">+ ADD AI SUBJECT</span>
+                     <span className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">+ ADD AI SUBJECT</span>
                   </div>
                 )}
               </div>
@@ -182,44 +192,46 @@ export default function EdoMobileLobby() {
 
           {activeTab === 'params' && (
             <div className="animate-in fade-in duration-300 space-y-4">
-              <div className="bg-[#fdfbf7] border-4 border-[#3e2723] p-4 shadow-md">
-                <h3 className="font-bold uppercase tracking-widest text-[#8b0000] border-b-2 border-[#3e2723] pb-2 mb-4">Village Decrees</h3>
+              <div className="cinematic-glass-panel p-5 rounded-md border border-[var(--glass-border)] shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--blood)]/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                <h3 className="font-bold uppercase tracking-widest text-gray-300 border-b border-[var(--glass-border)] pb-2 mb-4 text-xs">Village Decrees</h3>
                 
                 <div className="space-y-4">
                   
-                  <div className="border-b border-[#3e2723]/30 pb-4 mb-4">
-                     <div className="font-bold text-sm uppercase mb-3 text-[#8b0000]">Role Distribution</div>
-                     <div className="grid grid-cols-1 gap-3">
-                        <div className="flex justify-between items-center bg-[#eaddd3] p-2 border border-[#3e2723]/20">
-                           <span className="text-xs font-bold uppercase">Yakuza (Mafia)</span>
+                  <div className="border-b border-[var(--glass-border)] pb-4 mb-4">
+                     <div className="font-bold text-xs uppercase mb-3 text-[var(--gold)] tracking-widest">Role Distribution</div>
+                     <div className="grid grid-cols-1 gap-2">
+                        <div className="flex justify-between items-center bg-black/40 p-2.5 rounded-sm border border-[var(--glass-border)]">
+                           <span className="text-xs font-bold uppercase text-gray-300">Yakuza (Mafia)</span>
                            <div className="flex items-center gap-2">
-                             <button disabled={!isHost} onClick={() => updateSetting('mafia', Math.max(1, (settings.mafia||1) - 1))} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">-</button>
-                             <span className="font-bold w-6 text-center text-sm">{settings.mafia || 1}</span>
-                             <button disabled={!isHost} onClick={() => updateSetting('mafia', (settings.mafia||1) + 1)} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">+</button>
+                             <button disabled={!isHost} onClick={() => updateSetting('mafia', Math.max(1, (settings.mafia||1) - 1))} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">-</button>
+                             <span className="font-bold w-6 text-center text-sm text-[var(--gold)] cinzel">{settings.mafia || 1}</span>
+                             <button disabled={!isHost} onClick={() => updateSetting('mafia', (settings.mafia||1) + 1)} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">+</button>
                            </div>
                         </div>
-                        <div className="flex justify-between items-center bg-[#eaddd3] p-2 border border-[#3e2723]/20">
-                           <span className="text-xs font-bold uppercase">Sohei (Doctor)</span>
+                        <div className="flex justify-between items-center bg-black/40 p-2.5 rounded-sm border border-[var(--glass-border)]">
+                           <span className="text-xs font-bold uppercase text-gray-300">Sohei (Doctor)</span>
                            <div className="flex items-center gap-2">
-                             <button disabled={!isHost} onClick={() => updateSetting('doctor', Math.max(0, (settings.doctor||0) - 1))} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">-</button>
-                             <span className="font-bold w-6 text-center text-sm">{settings.doctor || 0}</span>
-                             <button disabled={!isHost} onClick={() => updateSetting('doctor', (settings.doctor||0) + 1)} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">+</button>
+                             <button disabled={!isHost} onClick={() => updateSetting('doctor', Math.max(0, (settings.doctor||0) - 1))} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">-</button>
+                             <span className="font-bold w-6 text-center text-sm text-[var(--gold)] cinzel">{settings.doctor || 0}</span>
+                             <button disabled={!isHost} onClick={() => updateSetting('doctor', (settings.doctor||0) + 1)} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">+</button>
                            </div>
                         </div>
-                        <div className="flex justify-between items-center bg-[#eaddd3] p-2 border border-[#3e2723]/20">
-                           <span className="text-xs font-bold uppercase">Samurai (Detective)</span>
+                        <div className="flex justify-between items-center bg-black/40 p-2.5 rounded-sm border border-[var(--glass-border)]">
+                           <span className="text-xs font-bold uppercase text-gray-300">Samurai (Detective)</span>
                            <div className="flex items-center gap-2">
-                             <button disabled={!isHost} onClick={() => updateSetting('detective', Math.max(0, (settings.detective||0) - 1))} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">-</button>
-                             <span className="font-bold w-6 text-center text-sm">{settings.detective || 0}</span>
-                             <button disabled={!isHost} onClick={() => updateSetting('detective', (settings.detective||0) + 1)} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">+</button>
+                             <button disabled={!isHost} onClick={() => updateSetting('detective', Math.max(0, (settings.detective||0) - 1))} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">-</button>
+                             <span className="font-bold w-6 text-center text-sm text-[var(--gold)] cinzel">{settings.detective || 0}</span>
+                             <button disabled={!isHost} onClick={() => updateSetting('detective', (settings.detective||0) + 1)} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">+</button>
                            </div>
                         </div>
-                        <div className="flex justify-between items-center bg-[#eaddd3] p-2 border border-[#3e2723]/20">
-                           <span className="text-xs font-bold uppercase">Kitsune (Jester)</span>
+                        <div className="flex justify-between items-center bg-black/40 p-2.5 rounded-sm border border-[var(--glass-border)]">
+                           <span className="text-xs font-bold uppercase text-gray-300">Kitsune (Jester)</span>
                            <div className="flex items-center gap-2">
-                             <button disabled={!isHost} onClick={() => updateSetting('jester', Math.max(0, (settings.jester||0) - 1))} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">-</button>
-                             <span className="font-bold w-6 text-center text-sm">{settings.jester || 0}</span>
-                             <button disabled={!isHost} onClick={() => updateSetting('jester', Math.min(1, (settings.jester||0) + 1))} className="w-7 h-7 bg-[#3e2723] text-[#fdfbf7] flex items-center justify-center disabled:opacity-50">+</button>
+                             <button disabled={!isHost} onClick={() => updateSetting('jester', Math.max(0, (settings.jester||0) - 1))} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">-</button>
+                             <span className="font-bold w-6 text-center text-sm text-[var(--gold)] cinzel">{settings.jester || 0}</span>
+                             <button disabled={!isHost} onClick={() => updateSetting('jester', Math.min(1, (settings.jester||0) + 1))} className="w-8 h-8 bg-black/60 border border-[var(--glass-border)] text-gray-300 flex items-center justify-center rounded-sm disabled:opacity-30 text-lg">+</button>
                            </div>
                         </div>
                      </div>
@@ -234,14 +246,14 @@ export default function EdoMobileLobby() {
                     { key: 'tieVote', label: 'Tied Votes', desc: 'How ties are resolved', options: [{v:'nothing',l:'No Elimination'},{v:'random',l:'Random'}] },
                     { key: 'jesterWin', label: 'Kitsune Win Rule', desc: 'If jester is voted out', options: [{v:'end',l:'Game Ends'},{v:'continue',l:'Game Continues'}] }
                   ].map((s) => (
-                    <div key={s.key} className="flex justify-between items-center">
+                    <div key={s.key} className="flex justify-between items-center bg-black/40 p-2.5 rounded-sm border border-[var(--glass-border)]">
                       <div className="pr-2">
-                        <div className="font-bold text-sm uppercase">{s.label}</div>
-                        <div className="text-[10px] text-[#5a403c] italic leading-tight">{s.desc}</div>
+                        <div className="font-bold text-xs uppercase text-gray-300">{s.label}</div>
+                        <div className="text-[10px] text-gray-500 italic leading-tight mt-0.5">{s.desc}</div>
                       </div>
                       <select 
                         disabled={!isHost}
-                        className="bg-[#eaddd3] border-2 border-[#3e2723] text-xs p-2 outline-none disabled:opacity-50 font-bold max-w-[140px]"
+                        className="bg-black/60 border border-[var(--glass-border)] rounded-sm text-xs text-gray-300 p-1.5 outline-none disabled:opacity-30 font-bold max-w-[120px] focus:border-[var(--gold)]"
                         value={settings[s.key] || s.options[0].v}
                         onChange={(e) => updateSetting(s.key, e.target.value)}
                       >
@@ -251,21 +263,21 @@ export default function EdoMobileLobby() {
                   ))}
 
                   {/* TOGGLES */}
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#3e2723]/30">
+                  <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[var(--glass-border)]">
                     {[
-                      { key: 'revealOnDeath', label: 'Reveal True Role on Death' },
-                      { key: 'doctorSelfHeal', label: 'Sohei Can Self-Protect' },
+                      { key: 'revealOnDeath', label: 'Reveal True Role' },
+                      { key: 'doctorSelfHeal', label: 'Sohei Self-Protect' },
                       { key: 'anonVoting', label: 'Anonymous Voting' },
                       { key: 'skipVote', label: 'Allow Skipping Vote' }
                     ].map(t => (
-                      <div key={t.key} className="flex flex-col items-center text-center gap-2">
-                        <span className="font-bold text-[10px] uppercase leading-tight h-6">{t.label}</span>
+                      <div key={t.key} className="flex flex-col items-center text-center gap-1.5 bg-black/40 p-2 rounded-sm border border-[var(--glass-border)]">
+                        <span className="font-bold text-[10px] uppercase leading-tight h-6 text-gray-400">{t.label}</span>
                         <button 
                           disabled={!isHost}
                           onClick={() => updateSetting(t.key, !settings[t.key])}
-                          className={`w-12 h-6 border-2 border-[#3e2723] rounded-full relative transition-colors disabled:opacity-50 ${settings[t.key] ? 'bg-[#8b0000]' : 'bg-[#eaddd3]'}`}
+                          className={`w-10 h-5 border border-[var(--glass-border)] rounded-full relative transition-colors disabled:opacity-30 ${settings[t.key] ? 'bg-[var(--gold)]/30 border-[var(--gold)]' : 'bg-black/60'}`}
                         >
-                          <div className={`w-4 h-4 bg-[#fdfbf7] border border-[#3e2723] rounded-full absolute top-[1px] transition-transform ${settings[t.key] ? 'translate-x-[22px]' : 'translate-x-1'}`}></div>
+                          <div className={`w-3 h-3 rounded-full absolute top-[3px] transition-transform ${settings[t.key] ? 'translate-x-[22px] bg-[var(--gold)]' : 'translate-x-[3px] bg-gray-500'}`}></div>
                         </button>
                       </div>
                     ))}
@@ -279,41 +291,36 @@ export default function EdoMobileLobby() {
       </main>
 
       {/* Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-[#0a0a0c] border-t-4 border-[#8b0000] p-4 z-50 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
+      <div className="fixed bottom-0 left-0 w-full cinematic-glass border-t border-[var(--glass-border)] p-4 z-50">
         <div className="max-w-md mx-auto w-full flex flex-col gap-3">
           
-          <div className="flex gap-3">
-            {isHost && (
-              <button 
-                onClick={handleAddBot}
-                className="flex-1 py-3 px-2 bg-transparent border border-gray-600 text-gray-300 font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
-              >
-                <Bot className="w-4 h-4" />
-                Add AI
-              </button>
-            )}
-
+          <div className="flex gap-2">
             <button 
               onClick={handleToggleReady}
-              className={`flex-[2] py-3 px-2 font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${
+              onMouseEnter={playHover}
+              className={`flex-1 py-4 font-bold text-[11px] rounded-none uppercase tracking-[0.1em] flex items-center justify-center gap-2 transition-all active:scale-95 ${
                 currentPlayer?.isReady 
-                  ? 'bg-green-900/50 border border-green-500 text-white hover:bg-green-800/80 shadow-[0_0_10px_rgba(34,197,94,0.3)]' 
-                  : 'bg-white/5 border border-gray-600 text-gray-300 hover:bg-white/10'
+                  ? 'bg-green-900/40 border border-green-500 text-green-400 shadow-[0_0_15px_rgba(34,197,94,0.3)]' 
+                  : 'bg-black/60 border border-[var(--glass-border)] text-gray-400'
               }`}
             >
-              <Check className="w-4 h-4" />
-              {currentPlayer?.isReady ? 'Prepared' : 'Declare Ready'}
+              <Check className="w-5 h-5" />
+              {currentPlayer?.isReady ? 'Prepared' : 'Set Ready'}
             </button>
           </div>
 
           {isHost && (
             <button 
               onClick={handleStartGame}
-              disabled={!allReady || players.length < 3}
-              className="w-full py-4 px-2 bg-red-900/80 border border-red-500 text-white font-bold text-sm uppercase tracking-[0.1em] flex items-center justify-center gap-2 hover:bg-red-800 transition-all shadow-[0_0_15px_rgba(139,0,0,0.3)] disabled:opacity-30 disabled:hover:bg-red-900/80 animate-pulse"
+              onMouseEnter={playHover}
+              disabled={!allReady || players.length < 4}
+              className="w-full cinematic-slash-button py-4 font-bold text-sm uppercase tracking-widest flex items-center justify-between px-6 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]"
             >
-              <Play className="w-5 h-5" />
-              {players.length < 3 ? 'Need more players' : !allReady ? 'Waiting for villagers' : 'Begin Ritual'}
+              <span className="flex items-center gap-3 relative z-10 text-white">
+                <Play className="w-5 h-5 text-[var(--gold)]" />
+                {players.length < 4 ? 'Need more members' : !allReady ? 'Waiting for clan' : 'Commence Operation'}
+              </span>
+              <span className="text-red-900 opacity-50 text-2xl font-black group-hover:opacity-100 transition-opacity">/</span>
             </button>
           )}
 

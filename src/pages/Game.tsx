@@ -11,7 +11,7 @@ export default function Game() {
   const isMobile = useMediaQuery('(max-width: 767px)');
   const gameStateData = useGameState(id);
 
-  const theme = localStorage.getItem('mafia_theme') || '1930s';
+  const theme = localStorage.getItem('mafia_theme') || 'edo';
 
   if (isMobile) {
     if (theme === 'edo') return <EdoMobileGame gameStateData={gameStateData} />;
