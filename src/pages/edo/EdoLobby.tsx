@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Settings, Play, Users, Copy, CheckSquare, Square, ArrowLeft, UserPlus, X } from 'lucide-react';
 import { socket } from '../../socket';

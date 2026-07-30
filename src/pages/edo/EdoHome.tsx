@@ -12,7 +12,7 @@ export default function EdoHome() {
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('mafia_playerName') || '');
   const [joinCode, setJoinCode] = useState('');
   
-  const { playHover, playThud, playSlash, playWhoosh, initAudio } = useSoundscape();
+  const { playHover, playSlash, playWhoosh, initAudio } = useSoundscape();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
